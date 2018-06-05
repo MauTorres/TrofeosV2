@@ -14,9 +14,9 @@ class UsuarioBusiness
 	}
 
 	public function login($user){
-		$result = $this->usuarioDAO->getUserByUserName($user->getUser());
-		
-		return $result == null && $result->getPasswd() == $user->getPasswd();
+		$result = $this->usuarioDAO->getUserByUserName($user->usuario);
+
+		return $result->equals($user);
 	}
 
 	public function saveUser($user){
@@ -24,7 +24,7 @@ class UsuarioBusiness
 	}
 
 	public function getUsersGrid($params){
-		return $this->
+		#return $this->
 	}
 }
 ?>

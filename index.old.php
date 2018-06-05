@@ -11,6 +11,7 @@ foreach ($catalogo as $elemento) {
 print_r(json_encode($catalogo));*/
 
 $usuarioDAO = new UsuarioDAO();
-$usuario = new Usuario(null, 'mrTona', 'root', 'yahuitl.trejo@gmil.com');
-$usuarioDAO->saveUser($usuario);
+/*$usuario = new Usuario(null, 'mrTona', 'root', 'yahuitl.trejo@gmil.com');
+$usuarioDAO->saveUser($usuario);*/
+print_r($usuarioDAO->getUserByUserName('mrTona'));
 ?>
