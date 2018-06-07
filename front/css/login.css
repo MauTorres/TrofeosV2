@@ -9,3 +9,9 @@
 .floatbox {
 	margin-top: 35vh;
 }
+
+#login-buton{
+	background-color: #2D2D2D;
+	color: white;
+	border-color: #BBBBBB;
+}

@@ -14,15 +14,23 @@ function logginPOST(){
 		data: usuario,
 		success: function(data){
 			console.log(data);
+			try{
+				var responce = jQuery.parseJSON(data);
+				if(responce.success){
+					window.location.replace("./front/views/main.php");
+				}else{
+					alert("El usuario o contraseña no son correctos");
+					return;
+				}
+			}catch(err){
+				alert("Ha ocurrido un error en el servidor");
+				return;
+			}
 			//Despliegue de información en la vista
 			
-			/*if(data == "failure"){
-				alert("El usuario o contraseña no son correctos");
-				return;
-			}else if(data == "succes")
-				window.location.replace("./gui/volumetrias.php");
-			else
-				alert("Ocurrió un error en el servidor");*/
+			
+				
+				
 		},
 		//En caso de error se informa al usuario
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
