@@ -1,15 +1,16 @@
-function Usuario(nombre, passwd){
-	return {usuario:nombre, passwd:passwd};
+function Usuario(nombre, passwd, method){
+	this.usuario = nombre;
+	this.passwd = passwd;
+	this.method = method;
 }
 
 function logginPOST(){
 	var uName = $('#user').val();
 	var uPasswd = $('#passwd').val();
-	var usuario = Usuario(uName, uPasswd);
-	usuario.method = 'login';
+	var usuario = new Usuario(uName, uPasswd, 'login');
 	
 	$.ajax({
-		type:'POST',
+		type:'GET',
 		url: './src/controller/UsuarioController.php',
 		data: usuario,
 		success: function(data){

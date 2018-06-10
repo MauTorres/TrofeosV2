@@ -18,5 +18,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			break;
 	}
 }
+if($_SERVER['REQUEST_METHOD'] == 'GET'){
+	switch ($_GET['method']) {
+		case 'getUsersGrid':
+			$usuarioBusiness->getUsersGrid(null);
+			break;
+		default:
+			
+			break;
+	}
+}
 
 ?>

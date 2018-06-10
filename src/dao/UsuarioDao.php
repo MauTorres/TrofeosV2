@@ -4,6 +4,7 @@
 */
 require_once __DIR__."/DAO.php";
 require_once __DIR__."/entities/Usuario.php";
+require_once dirname(__DIR__)."/utils/Loger.php";
 
 class UsuarioDao extends DAO
 {
@@ -15,16 +16,37 @@ class UsuarioDao extends DAO
 
 	public function getUserByUserName($userName){
 		$result = $this->query("SELECT * FROM usuarios WHERE usuario = ?", array($userName));
-		if(count($result) <= 0)
+		//Loger::log(print_r($result, true), null);
+		$responceLength = count($result->getResultSet());
+
+		if($responceLength <= 0)
 			throw new Exception("Usuario no encontrado");
-		if(count($result) > 1)
+		if($responceLength > 1)
 			throw new Exception("Hay más de un usuario con el mismo nombre");
-		$row = $result[0];
+
+		$row = $result->getResultSet()[0];
 		return new Usuario($row['id'], $row['usuario'], $row['passwd'], $row['email']);
 	}
 
 	public function saveUser($usuario){
-		return $this->execute("INSERT INTO usuarios VALUES(null, ?, ?, ?)", array(array($usuario->usuario, $usuario->passwd, $usuario->email)));
+		try{
+			$this->execute("INSERT INTO usuarios VALUES(null, ?, ?, ?)", array(array($usuario->usuario, $usuario->passwd, $usuario->email)));
+		}catch(Exception $e){
+			throw $e;
+		}
+		
+	}
+
+	public function getUsersGrid($params){
+		return $this->query(
+			"SELECT 
+				id,
+				usuario,
+				email  
+			FROM usuarios 
+			WHERE 
+				estatus = 1", 
+			null);
 	}
 }
 ?>

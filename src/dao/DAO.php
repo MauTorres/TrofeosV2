@@ -3,6 +3,7 @@
 * 
 */
 require_once dirname(__DIR__)."/utils/Connection.php";
+require_once __DIR__."/utilities/DBResponce.php";
 
 class DAO
 {
@@ -15,13 +16,12 @@ class DAO
 
 	public function query($query, $variablesArr){
 		try{
-
 			$statement = $this->connection->getConnection()->prepare($query);
 			if($variablesArr == null)
 				$statement->execute();
 			else
 				$statement->execute($variablesArr);
-			return $statement->fetchAll();
+			return new DBResponce($statement);
 		}catch(Exception $exception){
 			throw $exception;
 		}
@@ -34,7 +34,7 @@ class DAO
 			$results = array();
 			foreach ($variablesArr as $vars){
 				$statement->execute($vars);
-				array_push($results, $statement->fetchAll());
+				array_push($results, new DBResponce($statement));
 			}
 			return $results;
 		}catch(Exception $exception){

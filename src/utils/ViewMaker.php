@@ -7,7 +7,7 @@ require_once __DIR__."/Loger.php";
 class ViewMaker{
 	public static function getNavBarElements($array, $currPage){
 		$elements = "";
-		Loger::log(print_r($array, true), null);
+		//Loger::log(print_r($array, true), null);
 		foreach($array as $element){
 			if($element == $currPage)
 				$elements .= "<a class='nav-item nav-link active' href='#'>".ucfirst($element)."</a>";

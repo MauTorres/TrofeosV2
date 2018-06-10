@@ -2,39 +2,56 @@
 /**
 * 
 */
-require_once dirname(__DIR__)."/utils/Loger.php";
+require_once __DIR__."/Business.php";
 require_once dirname(__DIR__)."/dao/UsuarioDao.php";
-require_once dirname(__DIR__)."/utils/Responce.php";
 
-class UsuarioBusiness
+class UsuarioBusiness extends Business
 {
 	private $usuarioDAO;
+	private $responce;
 
 	function __construct()
 	{
+		parent::__construct();
 		$this->usuarioDAO = new UsuarioDao();
 	}
 
 	public function login($user){
-		$responce = new Responce();
+		$this->responce = new Responce();
 		$result = $this->usuarioDAO->getUserByUserName($user->usuario);
-		$responce->success = $result->equals($user);
+		$this->responce->success = $result->equals($user);
 
-		Loger::log("Try login: \n".print_r($responce, true), null);
-		if($responce->success)
+		if($this->responce->success){
 			session_start();
+			$result->passwd = null;
+			$_SESSION['user'] = $result;
+		}
 
-		$_SESSION['modules'] = array("Usuarios", "Trofeos", "Materiales");
-
-		echo json_encode($responce);
+		echo json_encode($this->responce);
 	}
 
 	public function saveUser($user){
-		return $this->usuarioDAO->saveUser($user); 
+		$this->responce = new Responce();
+		try{
+			$this->usuarioDAO->saveUser($user);
+			$this->responce->success = true;
+			$this->responce->message = "El usuario se insertó correctamente";
+		}catch(Exception $e){
+			$this->responce->success = false;
+			$this->responce->message = "Error al agregar al usuario ".$user->usuario;
+		}
+		echo json_encode($this->responce);
+		
 	}
 
 	public function getUsersGrid($params){
-		#return $this->
+		$this->responce = new Responce();
+		$result = $this->usuarioDAO->getUsersGrid($params);
+		Loger::log(print_r($result, true), null);
+		$this->responce->success = true;
+		$this->responce->data = $result;
+
+		echo json_encode($this->responce); 
 	}
 }
 ?>
