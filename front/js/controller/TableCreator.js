@@ -1,6 +1,11 @@
 TableCreator = {
+	header: '<thead></thead>',
+	body:'<tbody></tbody>',
 	createHeaders: function(data, table){
-		var trHeader = table.find('thead').find('tr');
+		table.append(TableCreator.header);		
+		var trHeader = table.find('thead');
+		trHeader.append('<tr></tr>');
+		trHeader = trHeader.find('tr');
 		for(var headsCount = 0; headsCount < data.columns.length; headsCount++){
 			trHeader.append('<th scope="col">' + data.columns[headsCount] + '</th>');
 		}
@@ -8,9 +13,10 @@ TableCreator = {
 			trHeader.append('<th scope="col">Acciones</th>');
 	},
 	fillUserTable: function(data, table){
-		var userTable = table;
-		var tableBody = userTable.find('tbody');
-		TableCreator.createHeaders(data, userTable);
+		TableCreator.cleanTable(table);
+		TableCreator.createHeaders(data, table);
+		table.append(TableCreator.body);
+		var tableBody = table.find('tbody');
 		for(var rowsCount = 0; rowsCount < data.resultSet.length; rowsCount++){
 			tableBody.append('<tr></tr>');
 			var tableRow = tableBody.find('tr');
@@ -35,5 +41,8 @@ TableCreator = {
 			buttons += button.mold;
 		}
 		tableRow.append('<td>' + buttons + '</td>');
+	},
+	cleanTable: function(table){
+		table.html('');
 	}
 };

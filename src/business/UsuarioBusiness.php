@@ -20,7 +20,6 @@ class UsuarioBusiness extends Business
 		$this->responce = new Responce();
 		$result = $this->usuarioDAO->getUserByUserName($user->usuario);
 		$this->responce->success = $result->equals($user);
-
 		if($this->responce->success){
 			session_start();
 			$result->passwd = null;
@@ -47,11 +46,23 @@ class UsuarioBusiness extends Business
 	public function getUsersGrid($params){
 		$this->responce = new Responce();
 		$result = $this->usuarioDAO->getUsersGrid($params);
-		Loger::log(print_r($result, true), null);
 		$this->responce->success = true;
 		$this->responce->data = $result;
 
 		echo json_encode($this->responce); 
+	}
+
+	public function deleteUser($usuario){
+		$this->responce = new Responce();
+		try{
+			$this->usuarioDAO->deleteUser($usuario);
+			$this->responce->success = true;
+			$this->responce->message = "El usuario se eliminó correctamente";
+		}catch(Exception $e){
+			$this->responce->success = false;
+			$this->responce->message = "Error al eliminar al usuario ".$user->usuario;
+		}
+		echo json_encode($this->responce);
 	}
 }
 ?>

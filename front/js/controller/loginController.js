@@ -10,7 +10,7 @@ function logginPOST(){
 	var usuario = new Usuario(uName, uPasswd, 'login');
 	
 	$.ajax({
-		type:'GET',
+		type:'POST',
 		url: './src/controller/UsuarioController.php',
 		data: usuario,
 		success: function(data){

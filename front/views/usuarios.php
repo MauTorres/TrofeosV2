@@ -36,12 +36,6 @@ session_start();
 	<div class="container">
 		<div class="row">
 			<table class="table" id="user-table">
-				<thead>
-					<tr>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
 			</table>
 		</div>
 	</div>

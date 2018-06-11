@@ -16,7 +16,6 @@ class UsuarioDao extends DAO
 
 	public function getUserByUserName($userName){
 		$result = $this->query("SELECT * FROM usuarios WHERE usuario = ?", array($userName));
-		//Loger::log(print_r($result, true), null);
 		$responceLength = count($result->getResultSet());
 
 		if($responceLength <= 0)
@@ -30,7 +29,7 @@ class UsuarioDao extends DAO
 
 	public function saveUser($usuario){
 		try{
-			$this->execute("INSERT INTO usuarios VALUES(null, ?, ?, ?)", array(array($usuario->usuario, $usuario->passwd, $usuario->email)));
+			$this->execute("INSERT INTO usuarios(usuario, passwd, email) VALUES(?, ?, ?)", array(array($usuario->usuario, $usuario->passwd, $usuario->email)));
 		}catch(Exception $e){
 			throw $e;
 		}
@@ -47,6 +46,14 @@ class UsuarioDao extends DAO
 			WHERE 
 				estatus = 1", 
 			null);
+	}
+
+	public function deleteUser($usuario){
+		try{
+			$this->execute("UPDATE usuarios SET estatus = 0 WHERE id = ?", array(array($usuario->id)));
+		}catch(Exception $e){
+			throw $e;
+		}
 	}
 }
 ?>

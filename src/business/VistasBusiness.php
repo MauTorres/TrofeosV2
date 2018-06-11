@@ -22,7 +22,6 @@ class VistasBusiness extends Business
 
 		$this->responce->success = true;
 		$this->responce->data = $result->getResultSet();
-		Loger::log(print_r($result, true), null);
 		echo json_encode($this->responce);
 	}
 }
