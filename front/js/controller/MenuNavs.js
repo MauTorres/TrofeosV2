@@ -1,4 +1,4 @@
-MenuVars = {
+MenuNavs = {
 	setMenuNavs: function (navsNameArray, currentPage){
 		var navVar = $(".navbar-nav");
 		var navItem;
@@ -16,11 +16,10 @@ MenuVars = {
 			url: '../../src/controller/VistasController.php',
 			data: {method: 'getVistasAll'},
 			success: function(data){
-				console.log(data);
 				try{
 					var responce = jQuery.parseJSON(data);
 					if(responce.success){
-						MenuVars.setMenuNavs(responce.data, currentPage);
+						MenuNavs.setMenuNavs(responce.data, currentPage);
 					}else{
 						alert("Ha ocurrido un error en el servidor");
 						return;
@@ -37,4 +36,4 @@ MenuVars = {
 			}
 		});
 	}
-}
+};

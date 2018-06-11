@@ -1,6 +1,3 @@
-$.getScript('../js/controller/MenuVars.js', function()
-{
-    $(document).ready(function(){
-		MenuVars.getMenuNavs('main');
-	});
+$(document).ready(function(){
+	MenuNavs.getMenuNavs('main');
 });

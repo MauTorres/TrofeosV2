@@ -7,8 +7,10 @@ UsersView = {
 			success: function(data){
 				try{
 					var responce = jQuery.parseJSON(data);
+					responce.data.actions = UsersView.actions;
+					var table = $('#user-table');
 					if(responce.success){
-						UsersView.fillUserTable(responce.data);
+						TableCreator.fillUserTable(responce.data, table);
 					}
 				}catch(err){
 					alert("Ha ocurrido un error en el servidor");
@@ -22,33 +24,14 @@ UsersView = {
 			}
 		});
 	},
-	fillUserTable: function(data){
-		var userTable = $('#user-table');
-		var tableBody = userTable.find('tbody');
-		this.createHeaders(data.columns, userTable);
-		for(var rowsCount = 0; rowsCount < data.resultSet.length; rowsCount++){
-			tableBody.append('<tr></tr>');
-			var tableRow = tableBody.find('tr');
-			var columns = Object.values(data.resultSet[rowsCount]);
-			for(var columnCount = 0; columnCount < columns.length; columnCount++){
-				$(tableRow[rowsCount]).append('<td>' + columns[columnCount] + '</td>');
-			}
-		}
-	},
-	createHeaders: function(headsArray, table){
-		var trHeader = table.find('thead').find('tr');
-		for(var headsCount = 0; headsCount < headsArray.length; headsCount++){
-			trHeader.append('<th scope="col">' + headsArray[headsCount] + '</th>')
-		}
-	}
+	actions: [
+		{type:'light', label:'', icon:'fa fa-edit', _class:'btn-edit-usr', size:''},
+		{type:'danger', label:'', icon:'fa fa-close', _class:'btn-delete-usr', size:''}]
 };
-
-
-
-$.getScript('../js/controller/MenuVars.js', function()
-{
-    $(document).ready(function(){
-		MenuVars.getMenuNavs('usuarios');
-		UsersView.getUsersGrid();
-	});
+function editUser(row){
+	
+}
+$(document).ready(function(){
+	MenuNavs.getMenuNavs('usuarios');
+	UsersView.getUsersGrid();
 });
