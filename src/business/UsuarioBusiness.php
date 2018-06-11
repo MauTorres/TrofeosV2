@@ -64,5 +64,18 @@ class UsuarioBusiness extends Business
 		}
 		echo json_encode($this->responce);
 	}
+
+	public function updateUser($usuario){
+		$this->responce = new Responce();
+		try{
+			$this->usuarioDAO->updateUser($usuario);
+			$this->responce->success = true;
+			$this->responce->message = "El usuario se actualizó correctamente";
+		}catch(Exception $e){
+			$this->responce->success = false;
+			$this->responce->message = "Error al actualizar al usuario ".$user->usuario;
+		}
+		echo json_encode($this->responce);
+	}
 }
 ?>

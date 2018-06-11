@@ -17,6 +17,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$usuario = new Usuario($_POST['id'], $_POST['usuario'], null, $_POST['email']);
 			$usuarioBusiness->deleteUser($usuario);
 			break;
+		case 'updateUser':
+			$usuario = new Usuario($_POST['id'], $_POST['usuario'], null, $_POST['email']);
+			$usuarioBusiness->updateUser($usuario);
+			break;
 		default:
 			
 			break;

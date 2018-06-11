@@ -39,5 +39,36 @@ session_start();
 			</table>
 		</div>
 	</div>
+	<div class="modal fade" id="update-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="form-update-user">
+						<div class="form-group">
+							<label for="usuario">Nombre de usuario</label>
+							<input type="text" class="form-control" id="usuario" placeholder="Nombre de usuario">
+							<label for="email">Email</label>
+							<input type="email" class="form-control" id="email" placeholder="email">
+							<label for="passwd">Contraseña</label>
+							<input type="password" class="form-control" id="passwd" placeholder="Contraseña">
+							<label for="passwdValidate">Valide la contraseña</label>
+							<input type="password" class="form-control" id="passwdValidate" placeholder="Valide la contraseña">
+							<input type="hidden" class="form-control" id="row-index">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="btn-update-user-cancel" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="btn-update-user">Actualizar</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
