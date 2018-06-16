@@ -17,13 +17,24 @@ class UsuarioBusiness extends Business
 	}
 
 	public function login($user){
-		$this->responce = new Responce();
-		$result = $this->usuarioDAO->getUserByUserName($user->usuario);
-		$this->responce->success = $result->equals($user);
-		if($this->responce->success){
+		try{
+			$this->responce = new Responce();
+			$result = $this->usuarioDAO->getUserByUserName($user->usuario);	
+			$usersCount = count($result);
+
+			if($usersCount <= 0)
+				throw new Exception("Usuario no encontrado");
+			if($usersCount > 1)
+				throw new Exception("Hay más de un usuario con el mismo nombre");
+
+			$this->responce->success = true;
 			session_start();
-			$result->passwd = null;
-			$_SESSION['user'] = $result;
+			$result[0]->passwd = null;
+			$_SESSION['user'] = $result[0];
+
+		}catch(Exception $e){
+			$this->responce->success = false;
+			$this->responce->message = $e->getMessage();
 		}
 
 		echo json_encode($this->responce);
@@ -65,16 +76,26 @@ class UsuarioBusiness extends Business
 		echo json_encode($this->responce);
 	}
 
-	public function updateUser($usuario){
+	public function createOrUpdateUser($usuario){
 		$this->responce = new Responce();
+		
 		try{
-			$this->usuarioDAO->updateUser($usuario);
+			$result = $this->usuarioDAO->getUserByUserName($usuario->usuario);
+
+			$usersCount = count($result);
+			
+			if($usersCount > 0)
+				throw new Exception("Ya hay un usuario con el mismo nombre");
+
+			$this->usuarioDAO->createOrUpdateUser($usuario);
 			$this->responce->success = true;
-			$this->responce->message = "El usuario se actualizó correctamente";
+			$this->responce->message = "El usuario se guardó correctamente";
 		}catch(Exception $e){
+			Loger::log("Error al actualizar al usuario ".$usuario->usuario."\n".$e->getMessage(), null);
 			$this->responce->success = false;
-			$this->responce->message = "Error al actualizar al usuario ".$user->usuario;
+			$this->responce->message = $e->getMessage();
 		}
+
 		echo json_encode($this->responce);
 	}
 }

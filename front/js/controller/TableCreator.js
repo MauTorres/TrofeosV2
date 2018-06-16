@@ -37,7 +37,8 @@ TableCreator = {
 				actions[actionsCount].label, 
 				actions[actionsCount].icon, 
 				actions[actionsCount]._class,
-				actions[actionsCount].size);
+				actions[actionsCount].size,
+				actions[actionsCount].functionECute);
 			buttons += button.mold;
 		}
 		tableRow.append('<td>' + buttons + '</td>');
