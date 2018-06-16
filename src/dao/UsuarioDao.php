@@ -24,12 +24,6 @@ class UsuarioDao extends DAO
 		}
 
 		return $usuarios;
-		$responceLength = count($result->getResultSet());
-
-		if($responceLength <= 0)
-			throw new Exception("Usuario no encontrado");
-		if($responceLength > 1)
-			throw new Exception("Hay más de un usuario con el mismo nombre");
 	}
 
 	public function saveUser($usuario){
