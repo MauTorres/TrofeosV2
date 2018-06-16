@@ -35,6 +35,14 @@ session_start();
 	</nav>
 	<div class="container">
 		<div class="row">
+			<div class="col-sm-8">
+				<h2>Usuarios</h2>
+			</div>
+			<div class="col-sm-4">
+				<button type="button" class="btn btn-success" onclick="openUpdateModal(null)"><span class="fa fa-user-plus" aria-hidden="true"></span></button>
+			</div>
+		</div>
+		<div class="row">
 			<table class="table" id="user-table">
 			</table>
 		</div>
@@ -43,7 +51,7 @@ session_start();
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 					</button>
@@ -64,8 +72,8 @@ session_start();
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" id="btn-update-user-cancel" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="btn-update-user">Actualizar</button>
+					<button type="button" class="btn btn-secondary" onclick="cleanUserForm();" id="btn-update-user-cancel">Cerrar</button>
+					<button type="button" class="btn btn-primary" onclick="createOrUpdateUser();" id="btn-update-user">Guardar</button>
 				</div>
 			</div>
 		</div>

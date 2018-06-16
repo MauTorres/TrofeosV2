@@ -15,16 +15,21 @@ class UsuarioDao extends DAO
 	}
 
 	public function getUserByUserName($userName){
+		$usuarios = array();
 		$result = $this->query("SELECT * FROM usuarios WHERE usuario = ?", array($userName));
+		$result = $result->getResultSet();
+
+		foreach ($result as $usuario) {
+			array_push($usuarios, new Usuario($usuario['id'], $usuario['usuario'], $usuario['passwd'], $usuario['email']));
+		}
+
+		return $usuarios;
 		$responceLength = count($result->getResultSet());
 
 		if($responceLength <= 0)
 			throw new Exception("Usuario no encontrado");
 		if($responceLength > 1)
 			throw new Exception("Hay más de un usuario con el mismo nombre");
-
-		$row = $result->getResultSet()[0];
-		return new Usuario($row['id'], $row['usuario'], $row['passwd'], $row['email']);
 	}
 
 	public function saveUser($usuario){
@@ -63,8 +68,13 @@ class UsuarioDao extends DAO
 		return new Usuario($row['id'], $row['usuario'], $row['passwd'], $row['email']);
 	}
 
-	public function updateUser($usuario){
+	public function createOrUpdateUser($usuario){
 		try{
+			if($usuario->id == null){
+				$this->saveUser($usuario);
+				return;
+			}
+
 			$usuarioNew = $this->getUserByID($usuario);
 			if($usuario->usuario != null && $usuario->usuario != '')
 				$usuarioNew->usuario = $usuario->usuario;

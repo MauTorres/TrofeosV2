@@ -27,11 +27,7 @@ function logginPOST(){
 				alert("Ha ocurrido un error en el servidor");
 				return;
 			}
-			//Despliegue de información en la vista
-			
-			
-				
-				
+			//Despliegue de información en la vista				
 		},
 		//En caso de error se informa al usuario
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
