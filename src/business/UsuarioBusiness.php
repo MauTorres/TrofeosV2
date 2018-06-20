@@ -54,8 +54,18 @@ class UsuarioBusiness extends Business
 		
 	}
 
-	public function getUsersGrid($params){
+	public function getUsersGrid($usuario){
 		$this->responce = new Responce();
+		$params = "";
+		if($usuario != null){
+			if($usuario->id != null)
+				$params .= "AND id = ".$usuario->id;
+			if($usuario->usuario != null)
+				$params .= "AND usuario like '%".$usuario->usuario."%'";
+			if($usuario->email != null)
+				$params .= "AND email = '".$usuario->email."'";	
+		}
+
 		$result = $this->usuarioDAO->getUsersGrid($params);
 		$this->responce->success = true;
 		$this->responce->data = $result;
