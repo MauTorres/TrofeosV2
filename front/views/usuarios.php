@@ -13,6 +13,7 @@ session_start();
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="../js/controller/Usuario.js"></script>
 	<script src="../js/controller/ActionButton.js"></script>
 	<script src="../js/controller/TableCreator.js"></script>
 	<script src="../js/controller/MenuNavs.js"></script>
@@ -21,6 +22,7 @@ session_start();
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../css/main.css">
+	<link rel="stylesheet" href="../css/usuarios.css">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -40,10 +42,47 @@ session_start();
 			</div>
 			<div class="col-sm-4">
 				<button type="button" class="btn btn-success" onclick="openUpdateModal(null)"><span class="fa fa-user-plus" aria-hidden="true"></span></button>
+				<button class="btn btn-secondary" id="btn-collapse-search" type="button" data-toggle="collapse" data-target="#search-collapse" aria-expanded="true" aria-controls="search-collapse" onclick="toggleCollapse($(this));">
+					<span class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+				</button>
 			</div>
 		</div>
 		<div class="row">
-			<table class="table" id="user-table">
+			<div class="col-sm-12 accordion" id="search-user">
+				<div class="card">
+					<div id="search-collapse" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+						<div class="card-body">
+							<form id="form-search-user">
+								<div class="row">
+									<div class="col">
+										<input type="text" id="id-usuario" class="form-control" placeholder="ID usuario">
+									</div>
+									<div class="col">
+										<input type="text" id="nombre-usuario" class="form-control" placeholder="Nombre de usuario">
+									</div>
+									<div class="col">
+										<input type="text" id="mail-usuario" class="form-control" placeholder="e-mail">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+									</div>
+									<div class="col-sm-4">
+									</div>
+									<div class="col-sm-4">
+										<button class="btn btn-dark search-btn" type="button" id="btn-search-user" onclick="searchUser();">
+											Buscar
+										</button>
+									</div>	
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		<div class="row">
+			<table class="table table-striped table-hover" id="user-table">
 			</table>
 		</div>
 	</div>

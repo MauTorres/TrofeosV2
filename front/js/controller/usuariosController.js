@@ -1,11 +1,12 @@
 var usuarios = {};
+var isCollapseUp = true;
 
 UsersView = {
-	getUsersGrid: function (){
+	getUsersGrid: function (filters){
 		$.ajax({
 			type:'GET',
 			url: '../../src/controller/UsuarioController.php',
-			data: {method: 'getUsersGrid'},
+			data: {method: 'getUsersGrid', filters: filters},
 			success: function(data){
 				try{
 					var responce = jQuery.parseJSON(data);
@@ -43,7 +44,7 @@ function deleteUser(row){
 			try{
 				var responce = jQuery.parseJSON(data);
 				if(responce.success){
-					UsersView.getUsersGrid();
+					UsersView.getUsersGrid(null);
 					alert(responce.message);
 				}
 			}catch(err){
@@ -85,7 +86,7 @@ function createOrUpdateUser(){
 			try{
 				var responce = jQuery.parseJSON(data);
 				if(responce.success){
-					UsersView.getUsersGrid();
+					UsersView.getUsersGrid(null);
 					$('#update-user-modal').modal('hide');
 				}
 				alert(responce.message);
@@ -100,6 +101,17 @@ function createOrUpdateUser(){
 	});
 
 	userUpdate.method = undefined;
+}
+
+function searchUser(){
+	var usuario = new Usuario(
+		$('#id-usuario').val(),
+		$('#nombre-usuario').val(),
+		null,
+		$('#mail-usuario').val(),
+		null
+		);
+	UsersView.getUsersGrid(usuario);
 }
 
 function openUpdateModal(row){
@@ -121,7 +133,20 @@ function cleanUserForm(){
 	$('#update-user-modal').modal('hide');
 }
 
+function toggleCollapse(element){
+	if(isCollapseUp){
+		element.children().removeClass('fa fa-caret-square-o-down');
+		element.children().addClass('fa fa-caret-square-o-up');
+		isCollapseUp = false;
+	}else{
+		element.children().removeClass('fa fa-caret-square-o-up');
+		element.children().addClass('fa fa-caret-square-o-down');
+		isCollapseUp = true;
+	}
+
+}
+
 $(document).ready(function(){
 	MenuNavs.getMenuNavs('usuarios');
-	UsersView.getUsersGrid();
+	UsersView.getUsersGrid(null);
 });

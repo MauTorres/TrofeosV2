@@ -29,7 +29,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
 	switch ($_GET['method']) {
 		case 'getUsersGrid':
-			$usuarioBusiness->getUsersGrid(null);
+			$usuario = null;
+			if(isset($_GET['filters']) && $_GET['filters'] != null)
+				$usuario = new Usuario($_GET['filters']['id'], $_GET['filters']['usuario'], null, $_GET['filters']['email']);
+			$usuarioBusiness->getUsersGrid($usuario);
 			break;
 		default:
 			

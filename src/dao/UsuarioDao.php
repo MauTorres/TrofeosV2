@@ -36,15 +36,16 @@ class UsuarioDao extends DAO
 	}
 
 	public function getUsersGrid($params){
-		return $this->query(
-			"SELECT 
+		$query = sprintf("SELECT 
 				id,
 				usuario,
 				email  
 			FROM usuarios 
-			WHERE 
-				estatus = 1", 
-			null);
+			WHERE
+				estatus = 1
+				%s", $params);
+		Loger::log($query, null);
+		return $this->query($query, null);
 	}
 
 	public function deleteUser($usuario){
