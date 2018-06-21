@@ -3,77 +3,64 @@
 * 
 */
 require_once __DIR__."/Business.php";
-require_once dirname(__DIR__)."/dao/UsuarioDao.php";
+require_once dirname(__DIR__)."/dao/ElementoDao.php";
 
-class MaterialBusiness extends Business
+class ElementoBusiness extends Business
 {
-	private $usuarioDAO;
+	private $elementoDAO;
 	private $responce;
 
 	function __construct()
 	{
 		parent::__construct();
-		$this->usuarioDAO = new UsuarioDao();
+		$this->elementoDAO = new ElementoDao();
 	}
 
-	public function login($user){
-		$this->responce = new Responce();
-		$result = $this->usuarioDAO->getUserByUserName($user->usuario);
-		$this->responce->success = $result->equals($user);
-		if($this->responce->success){
-			session_start();
-			$result->passwd = null;
-			$_SESSION['user'] = $result;
-		}
-
-		echo json_encode($this->responce);
-	}
-
-	public function saveUser($user){
+	public function saveElemento($elemento){
 		$this->responce = new Responce();
 		try{
-			$this->usuarioDAO->saveUser($user);
+			$this->lelementoDAO->saveElemento($elemento);
 			$this->responce->success = true;
-			$this->responce->message = "El usuario se insertó correctamente";
+			$this->responce->message = "El material se guardó correctamente";
 		}catch(Exception $e){
 			$this->responce->success = false;
-			$this->responce->message = "Error al agregar al usuario ".$user->usuario;
+			$this->responce->message = "Error al agregar el nuevo material ".$elemento->nombre;
 		}
 		echo json_encode($this->responce);
 		
 	}
 
-	public function getUsersGrid($params){
+	public function getElementsGrid($params){
 		$this->responce = new Responce();
-		$result = $this->usuarioDAO->getUsersGrid($params);
+		$result = $this->elementoDAO->getUElementsGrid($params);
 		$this->responce->success = true;
 		$this->responce->data = $result;
 
 		echo json_encode($this->responce); 
 	}
 
-	public function deleteUser($usuario){
+	public function deleteElements($elemento){
 		$this->responce = new Responce();
 		try{
-			$this->usuarioDAO->deleteUser($usuario);
+			$this->elementoDAO->deleteElements($elemento);
 			$this->responce->success = true;
-			$this->responce->message = "El usuario se eliminó correctamente";
+			$this->responce->message = "El material se eliminó correctamente";
 		}catch(Exception $e){
 			$this->responce->success = false;
-			$this->responce->message = "Error al eliminar al usuario ".$user->usuario;
+			$this->responce->message = "Error al eliminar el material ".$elemento->nombre;
 		}
 		echo json_encode($this->responce);
 	}
 
-	public function updateUser($usuario){
+	public function updateElement($elemento){
 		$this->responce = new Responce();
 		try{
-			$this->usuarioDAO->updateUser($usuario);
+			$this->elementoDAO->updateUser($elemento);
 			$this->responce->success = true;
-			$this->responce->message = "El usuario se actualizó correctamente";
+			$this->responce->message = "El material se actualizó correctamente";
 		}catch(Exception $e){
 			$this->responce->success = false;
-			$this->responce->message = "Error al actualizar al usuario ".$user->usuario;
+			$this->responce->message = "Error al actualizar el material ".$elemento->nombre;
 		}
 		echo json_encode($this->responce);
 	}
