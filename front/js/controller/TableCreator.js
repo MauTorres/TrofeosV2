@@ -29,6 +29,23 @@ TableCreator = {
 				TableCreator.createActions(data.actions, row);
 		}
 	},
+	fillElementTable: function(data, table){
+		TableCreator.cleanTable(table);
+		TableCreator.createHeaders(data, table);
+		table.append(TableCreator.body);
+		var tableBody = table.find('tbody');
+		for(var rowsCount = 0; rowsCount < data.resultSet.length; rowsCount++){
+			tableBody.append('<tr></tr>');
+			var tableRow = tableBody.find('tr');
+			var columns = Object.values(data.resultSet[rowsCount]);
+			var row = $(tableRow[rowsCount]);
+			for(var columnCount = 0; columnCount < columns.length; columnCount++){
+				row.append('<td>' + columns[columnCount] + '</td>');
+			}
+			if(data.actions != undefined)
+				TableCreator.createActions(data.actions, row);
+		}
+	},
 	createActions: function(actions, tableRow){
 		var buttons = '';
 		for(var actionsCount = 0; actionsCount < actions.length; actionsCount++){

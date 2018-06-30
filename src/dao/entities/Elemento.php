@@ -25,9 +25,9 @@ class Elemento extends Entity
 
 		return $material != null && 
 				($material instanceof Material) && 
-				$this->nombre == $nombre->nombre &&
-				$this->descripcion == $descripcion
-				->descripcion;
+				$this->nombre == $material->nombre &&
+				$this->descripcion == $material->descripcion &&
+				$this->precio == $material->precio;
 	}
 }
 ?>
