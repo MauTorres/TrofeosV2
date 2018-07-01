@@ -16,13 +16,14 @@ class ElementoBusiness extends Business
 		$this->elementoDAO = new ElementoDao();
 	}
 
-	public function saveElemento($elemento){
+	public function saveElement($elemento){
 		$this->responce = new Responce();
 		try{
-			$this->lelementoDAO->saveElemento($elemento);
+			$this->elementoDAO->saveElement($elemento);
 			$this->responce->success = true;
 			$this->responce->message = "El material se guardó correctamente";
-		}catch(Exception $e){
+		}catch(Exception $e){	
+			Loger::log("Error al guardar el elemento ".$elemento->nombre."\n".$e->getMessage(), null);
 			$this->responce->success = false;
 			$this->responce->message = "Error al agregar el nuevo material ".$elemento->nombre;
 		}
@@ -30,38 +31,58 @@ class ElementoBusiness extends Business
 		
 	}
 
-	public function getElementsGrid($params){
+	public function getElementsGrid($elemento){
 		$this->responce = new Responce();
-		$result = $this->elementoDAO->getUElementsGrid($params);
+		$params = "";
+		if($elemento != null){
+			if($elemento->id != null)
+				$params .= "AND id = ".$elemento->id;
+			if($elemento->nombre != null)
+				$params .= "AND nombre like '%".$elemento->nombre."%'";
+			if($elemento->descripcion != null)
+				$params .= "AND descripcion like '%".$elemento->descripcion."%'";	
+		}
+		$result = $this->elementoDAO->getElementsGrid($params);
 		$this->responce->success = true;
 		$this->responce->data = $result;
 
 		echo json_encode($this->responce); 
 	}
 
-	public function deleteElements($elemento){
+	public function deleteElement($elemento){
 		$this->responce = new Responce();
 		try{
-			$this->elementoDAO->deleteElements($elemento);
+			$this->elementoDAO->deleteElement($elemento);
 			$this->responce->success = true;
 			$this->responce->message = "El material se eliminó correctamente";
 		}catch(Exception $e){
+			Loger::log("Error, no se pudo eliminar el elemento ".$elemento->nombre."\n".$e->getMessage(), null);
 			$this->responce->success = false;
 			$this->responce->message = "Error al eliminar el material ".$elemento->nombre;
 		}
 		echo json_encode($this->responce);
 	}
 
-	public function updateElement($elemento){
+	public function createOrUpdateElement($elemento){
 		$this->responce = new Responce();
+		
 		try{
-			$this->elementoDAO->updateUser($elemento);
+
+			if($elemento->id == null){
+				$this->saveElement($elemento);
+				return;
+			}
+			$result = $this->elementoDAO->getElementByID($elemento);
+
+			$this->elementoDAO->createOrUpdateElement($elemento);
 			$this->responce->success = true;
-			$this->responce->message = "El material se actualizó correctamente";
+			$this->responce->message = "El elemento se guardó correctamente";
 		}catch(Exception $e){
+			Loger::log("Error al actualizar el elemento ".$elemento->nombre."\n".$e->getMessage(), null);
 			$this->responce->success = false;
-			$this->responce->message = "Error al actualizar el material ".$elemento->nombre;
+			$this->responce->message = $e->getMessage();
 		}
+
 		echo json_encode($this->responce);
 	}
 }

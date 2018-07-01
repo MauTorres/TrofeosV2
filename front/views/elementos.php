@@ -21,7 +21,7 @@ if (session_status() == PHP_SESSION_NONE){
 	<script src="../js/controller/ActionButton.js"></script>
 	<script src="../js/controller/TableCreator.js"></script>
 	<script src="../js/controller/MenuNavs.js"></script>
-	<script src="../js/controller/ElementoController.js"></script>
+	<script src="../js/controller/elementosController.js"></script>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -42,10 +42,10 @@ if (session_status() == PHP_SESSION_NONE){
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-8">
-				<h2>Usuarios</h2>
+				<h2>Elementos</h2>
 			</div>
 			<div class="col-sm-4">
-				<button type="button" class="btn btn-success" onclick="openUpdateModal(null)"><span class="fa fa-user-plus" aria-hidden="true"></span></button>
+				<button type="button" class="btn btn-success" onclick="openUpdateModal(null)"><span class="fa fa-plus-square" aria-hidden="true"></span></button>
 				<button class="btn btn-secondary" id="btn-collapse-search" type="button" data-toggle="collapse" data-target="#search-collapse" aria-expanded="true" aria-controls="search-collapse" onclick="toggleCollapse($(this));">
 					<span class="fa fa-caret-square-o-down" aria-hidden="true"></span>
 				</button>
@@ -77,7 +77,7 @@ if (session_status() == PHP_SESSION_NONE){
 									<div class="col-sm-4">
 									</div>
 									<div class="col-sm-4">
-										<button class="btn btn-dark search-btn" type="button" id="btn-search-user" onclick="searchElement();">
+										<button class="btn btn-dark search-btn" type="button" id="btn-search-element" onclick="searchElement();">
 											Buscar
 										</button>
 									</div>	
@@ -106,18 +106,18 @@ if (session_status() == PHP_SESSION_NONE){
 					<form id="form-update-element">
 						<div class="form-group">
 							<label for="elemento">Nombre del elemento</label>
-							<input type="text" class="form-control" id="elemento" placeholder="Nombre del elemento">
+							<input type="text" class="form-control" id="nombre" placeholder="Nombre del elemento">
 							<label for="precio">Precio</label>
-							<input type="text" class="form-control" id="precio-elemento" placeholder="precio del material">
+							<input type="text" class="form-control" id="precio" placeholder="precio del material">
 							<label for="descriptionElement">Escriba la descripción</label>
-							<input type="text" class="form-control" id="descriptionElement" placeholder="Escriba la descripción">
+							<input type="text" class="form-control" id="descripcion" placeholder="Escriba la descripción">
 							<input type="hidden" class="form-control" id="row-index">
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" onclick="cleanElementForm();" id="btn-update-user-cancel">Cerrar</button>
-					<button type="button" class="btn btn-primary" onclick="createOrUpdateElement();" id="btn-update-user">Guardar</button>
+					<button type="button" class="btn btn-secondary" onclick="cleanElementForm();" id="btn-update-element-cancel">Cerrar</button>
+					<button type="button" class="btn btn-primary" onclick="createOrUpdateElement();" id="btn-update-element">Guardar</button>
 				</div>
 			</div>
 		</div>
