@@ -1,5 +1,9 @@
 <?php
+require_once dirname(dirname(__DIR__))."/src/utils/Constants.php";
 session_start();
+if (session_status() == PHP_SESSION_NONE){
+	header( "Location: ../../".LOGIN_PAGE);
+}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

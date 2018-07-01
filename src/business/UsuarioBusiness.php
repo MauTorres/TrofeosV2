@@ -22,6 +22,8 @@ class UsuarioBusiness extends Business
 			$result = $this->usuarioDAO->getUserByUserName($user->usuario);	
 			$usersCount = count($result);
 
+			if($result[0]->passwd != $user->passwd)
+				throw new Exception("La contraseña no es correcta");
 			if($usersCount <= 0)
 				throw new Exception("Usuario no encontrado");
 			if($usersCount > 1)
