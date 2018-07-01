@@ -21,6 +21,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$usuario = new Usuario($_POST['id'], $_POST['usuario'], null, $_POST['email']);
 			$usuarioBusiness->createOrUpdateUser($usuario);
 			break;
+		case 'endSession':
+			$usuarioBusiness->endSession();
+			break;
 		default:
 			
 			break;

@@ -32,7 +32,7 @@ class UsuarioBusiness extends Business
 			$this->responce->success = true;
 			session_start();
 			$result[0]->passwd = null;
-			$_SESSION['user'] = $result[0];
+			$_SESSION['user'] = $result[0]->usuario;
 
 		}catch(Exception $e){
 			$this->responce->success = false;
@@ -108,6 +108,16 @@ class UsuarioBusiness extends Business
 			$this->responce->message = $e->getMessage();
 		}
 
+		echo json_encode($this->responce);
+	}
+
+	public function endSession(){
+		session_start();
+		if(session_status() != PHP_SESSION_NONE)
+			session_destroy();
+		$this->responce = new Responce();
+		$this->responce->success = true;
+		$this->responce->message = "Se ha cerrado la sesión";
 		echo json_encode($this->responce);
 	}
 }
