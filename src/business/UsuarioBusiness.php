@@ -110,15 +110,5 @@ class UsuarioBusiness extends Business
 
 		echo json_encode($this->responce);
 	}
-
-	public function endSession(){
-		session_start();
-		if(session_status() != PHP_SESSION_NONE)
-			session_destroy();
-		$this->responce = new Responce();
-		$this->responce->success = true;
-		$this->responce->message = "Se ha cerrado la sesión";
-		echo json_encode($this->responce);
-	}
 }
 ?>

@@ -1,11 +1,3 @@
-<?php
-require_once dirname(dirname(__DIR__))."/src/utils/Constants.php";
-session_start();
-if (session_status() == PHP_SESSION_NONE || !isset($_SESSION['user'])){
-	header( "Location: ../../".LOGIN_PAGE);
-}
-?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -26,7 +18,7 @@ if (session_status() == PHP_SESSION_NONE || !isset($_SESSION['user'])){
 	<link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="main-nav">
 		<a class="navbar-brand" href="#">Trofeos Lobo</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -35,11 +27,6 @@ if (session_status() == PHP_SESSION_NONE || !isset($_SESSION['user'])){
 			<div class="navbar-nav">
 			</div>
 		</div>
-		<span class="navbar-text">
-			<span class="fa fa-user-o"></span>
-			<?php echo $_SESSION['user']; ?>
-			<button type="button" class="btn btn-danger" onclick="endSession()"><span class="fa fa-sign-out" aria-hidden="true"></span></button>
-	    </span>
 	</nav>
 	<div class="container-fluid">
 		dasdadasdas
