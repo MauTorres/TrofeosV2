@@ -1,5 +1,6 @@
 var usuarios = {};
 var isCollapseUp = true;
+var sessionController = new SessionController();
 
 UsersView = {
 	getUsersGrid: function (filters){

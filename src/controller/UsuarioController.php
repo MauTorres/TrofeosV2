@@ -9,10 +9,6 @@ $usuarioBusiness = new UsuarioBusiness();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
-		case 'login':
-			$usuario = new Usuario(null, $_POST['usuario'], $_POST['passwd'], null);
-			$usuarioBusiness->login($usuario);
-			break;
 		case 'deleteUser':
 			$usuario = new Usuario($_POST['id'], $_POST['usuario'], null, $_POST['email']);
 			$usuarioBusiness->deleteUser($usuario);

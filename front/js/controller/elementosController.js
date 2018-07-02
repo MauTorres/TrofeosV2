@@ -1,5 +1,6 @@
 var elementos = {};
 var isCollapseUp = true;
+var sessionController = new SessionController();
 
 ElementsView = {
 	getElementsGrid: function (filters){

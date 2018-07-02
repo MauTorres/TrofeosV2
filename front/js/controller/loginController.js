@@ -11,14 +11,14 @@ function logginPOST(){
 	
 	$.ajax({
 		type:'POST',
-		url: './src/controller/UsuarioController.php',
+		url: './src/controller/SessionController.php',
 		data: usuario,
 		success: function(data){
 			console.log(data);
 			try{
 				var responce = jQuery.parseJSON(data);
 				if(responce.success){
-					window.location.replace("./front/views/main.php");
+					window.location.replace("./front/views/main.html");
 				}else{
 					alert("El usuario o contraseña no son correctos");
 					return;
