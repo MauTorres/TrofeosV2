@@ -26,18 +26,6 @@ class ElementoDao extends DAO
 		return $usuarios;
 	}
 
-	/*public function getElementByElementName($ElementName){
-		$result = $this->query("SELECT * FROM elementos WHERE nombre = ?", array($ElementName));
-		$responceLength = count($result->getResultSet());
-		if($responceLength <= 0)
-			throw new Exception("Material no encontrado");
-		if($responceLength > 1)
-			throw new Exception("Hay más de un material con el mismo nombre y descripción");
-
-		$row = $result->getResultSet()[0];
-		return new Element($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $row['idColor'], $row['idDeporte'], $row['idMaterial']);
-	}*/
-
 	public function saveElement($elemento){
 		try{
 			$this->execute("INSERT INTO elementos(nombre, descripcion, precio, idColor, idDeporte, idMaterial) VALUES(?, ?, ?, ?, ?, ?)", array(array($elemento->nombre, $elemento->descripcion, $elemento->precio, $elemento->idColor, $elemento->idDeporte, $elemento->idMaterial)));
@@ -77,7 +65,10 @@ class ElementoDao extends DAO
 		if ($row == null) {
 			return null;
 		}
-		return new Elemento($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $row['idColor'], $row['idDeporte'], $row['idMaterial']);
+		$color = getColorByID($idColor);
+		$deporte = getSportByID($idDeporte);
+		$material = getMaterialByID($idMaterial);
+		return new Elemento($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $row['color'], $row['deporte'], $row['material']);
 	}
 
 	public function createOrUpdateElement($elemento){
