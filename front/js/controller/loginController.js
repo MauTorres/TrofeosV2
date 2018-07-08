@@ -1,7 +1,7 @@
-var encrypt = new JSEncrypt({default_key_size: 2048});
+/*var encrypt = new JSEncrypt({default_key_size: 2048});
 var publicKey = 
 "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzPNd/emKzu00M1ZPkmXDvXakc14/fS9P/2hQiCdDjKvy56qhjE3DgpA1b7PKK/cZ1pv3SN2Zg2XoBmOzTJPRsjfSNe0LofEzdkSDysZmILUpLoiXls8XM7UpTwfgk41SUr6QtuwVuOK2UJXu4pB5Kc4AzkgGmFgSdvLr4mjmF5L9O7qsiLe7Dj3HLyxxPIBbxsQGPJdzI/aEDzKqSCK8FKZioRXLiMT0V3ZEVV3iDgpNIxcuSi9lKiSvZYMBGMcxPkZYODarIwdCf6lzrQA4IlRw6LOeymo0uuCTRqM6izVmGcvHetHJUxhGKGA4rVofzY0/ctymCdhU2W9YhTDHqQIDAQAB-----END PUBLIC KEY-----";
-encrypt.setPublicKey(publicKey);
+encrypt.setPublicKey(publicKey);*/
 
 function Usuario(nombre, passwd, method){
 	this.usuario = nombre;
@@ -42,11 +42,6 @@ function logginPOST(){
 }
 
 $(document).ready(function(){
-	
-	var pk = $("#pubkey").val();
-	
-	 var encrypted = encrypt.encrypt("Holo :v");
-	 console.log(encrypted);
 	$('form').submit(function(event){
 		//if($(this).isValid()){
 			event.preventDefault();

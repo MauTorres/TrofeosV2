@@ -1,6 +1,5 @@
 var elementos = {};
 var isCollapseUp = true;
-var sessionController = new SessionController();
 
 ElementsView = {
 	getElementsGrid: function (filters){
@@ -157,6 +156,6 @@ function toggleCollapse(element){
 }
 
 $(document).ready(function(){
-	MenuNavs.getMenuNavs('elementos');
+	SessionController.checkSession('elementos');
 	ElementsView.getElementsGrid(null);
 });
