@@ -3,15 +3,24 @@
 * 
 */
 require_once __DIR__."/DAO.php";
+require_once __DIR__."/ColorDao.php";
+require_once __DIR__."/CategoriaDao.php";
+require_once __DIR__."/MaterialDao.php";
 require_once __DIR__."/entities/Elemento.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
 
 class ElementoDao extends DAO
 {
+	private $colorDao;
+	private $categoriaDao;
+	private $materialDao;
 
 	function __construct()
 	{
 		parent::__construct();
+		$this->colorDao = new ColorDao();
+		$this->deporteDao = new CategoriaDao();
+		$this->materialDao = new MaterialDao();
 	}
 
 	public function getElementByElementName($ElementName){
@@ -20,7 +29,7 @@ class ElementoDao extends DAO
 		$result = $result->getResultSet();
 
 		foreach ($result as $elementos) {
-			array_push($elementos, new Elemento($elemento['id'], $usuario['usuario'], $usuario['passwd'], $usuario['email']));
+			array_push($elementos, new Elemento($elemento['id'], $elemento['nombre'], $elemento['descripcion'], $elemento['precio'], $elemento['idColor'], $elemento['idCategoria'], $elemento['idMaterial']));
 		}
 
 		return $usuarios;
@@ -28,7 +37,7 @@ class ElementoDao extends DAO
 
 	public function saveElement($elemento){
 		try{
-			$this->execute("INSERT INTO elementos(nombre, descripcion, precio, idColor, idDeporte, idMaterial) VALUES(?, ?, ?, ?, ?, ?)", array(array($elemento->nombre, $elemento->descripcion, $elemento->precio, $elemento->idColor, $elemento->idDeporte, $elemento->idMaterial)));
+			$this->execute("INSERT INTO elementos(nombre, descripcion, precio, idColor, idCategoria, idMaterial) VALUES(?, ?, ?, ?, ?, ?)", array(array($elemento->nombre, $elemento->descripcion, $elemento->precio, $elemento->idColor, $elemento->idCategoria, $elemento->idMaterial)));
 		}catch(Exception $e){
 			throw $e;
 		}
@@ -36,19 +45,27 @@ class ElementoDao extends DAO
 	}
 
 	public function getElementsGrid($params){
-		return $this->query(
-			"SELECT 
-				id,
-				nombre,
-				descripcion,
-				precio,
-				idColor,
-				idDeporte,
-				idMaterial 
-			FROM elementos 
+		$query = sprintf("
+			SELECT 
+			E.id,
+   			E.nombre,
+		    E.descripcion,
+		    E.precio,
+		    C.descripcion AS color,
+		    M.descripcion AS material,
+		    Cat.descripcion AS categoria
+			FROM elementos E
+			LEFT JOIN colores C
+				ON E.idColor = C.id
+			LEFT JOIN materiales M
+				ON E.idMaterial = M.id
+			LEFT JOIN categorias Cat
+				ON E.idCategoria = Cat.id
 			WHERE 
-				estatus = 1", 
-			null);
+				E.estatus = 1
+				%s", $params);
+		Loger::log($query, null);
+		return $this->query($query, null);
 	}
 
 	public function deleteElement($elemento){
@@ -65,10 +82,10 @@ class ElementoDao extends DAO
 		if ($row == null) {
 			return null;
 		}
-		$color = getColorByID($idColor);
-		$deporte = getSportByID($idDeporte);
-		$material = getMaterialByID($idMaterial);
-		return new Elemento($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $row['color'], $row['deporte'], $row['material']);
+		$color = $this->colorDao->getColorByID($row['idColor']);
+		$category = $this->categoriaDao->getCategoryByID($row['idCategory']);
+		$material = $this->materialDao->getMaterialByID($row['idMaterial']);
+		return new Elemento($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $color, $category, $material);
 	}
 
 	public function createOrUpdateElement($elemento){
@@ -85,15 +102,24 @@ class ElementoDao extends DAO
 				$elementoNew->descripcion = $elemento->descripcion;
 			if($elemento->precio != null && $elemento->precio != '')
 				$elementoNew->precio = $elemento->precio;
+			if($elemento->idColor != null && $elemento->idColor != '')
+				$elementoNew->idColor = $elemento->idColor;
+			if($elemento->idCategoria != null && $elemento->idCategoria != '')
+				$elementoNew->idCategoria = $elemento->idCategoria;
+			if($elemento->idMaterial != null && $elemento->idMaterial != '')
+				$elementoNew->idMaterial = $elemento->idMaterial;
 
 			$this->execute(
 				"UPDATE elementos 
 				SET 
 					nombre = ?,
 					descripcion = ?,
-					precio = ?
+					precio = ?,
+					idColor = ?,
+					idCategoria = ?,
+					idMaterial = ?
 				WHERE id = ?", 
-				array(array($elementoNew->nombre, $elementoNew->descripcion, $elementoNew->precio, $elementoNew->id)));
+				array(array($elementoNew->nombre, $elementoNew->descripcion, $elementoNew->precio, $elementoNew->idColor,  $elementoNew->idCategoria,  $elementoNew->idMaterial, $elementoNew->id)));
 		}catch(Exception $e){
 			Loger::log($e->getMessage(),null);
 			throw $e;

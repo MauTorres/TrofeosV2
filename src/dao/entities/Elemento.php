@@ -10,24 +10,30 @@ class Elemento extends Entity
 	public $descripcion;
 	public $precio;
 	public $idColor;
-	public $idDeporte;
+	public $idCategoria;
 	public $idMaterial;
 
-	function __construct($id, $nombre, $descripcion, $precio, $idColor, $idDeporte, $idMaterial)
+	function __construct($id, $nombre, $descripcion, $precio, $idColor, $idCategoria, $idMaterial)
 	{
 		parent::__construct($id);
 		$this->nombre = $nombre;
 		$this->descripcion = $descripcion;
 		$this->precio = $precio;
+		$this->color = $idColor;
+		$this->categoria = $idCategoria;
+		$this->material = $idMaterial;
 	}
 
-	function equals($material){
+	function equals($elemento){
 
-		return $material != null && 
-				($material instanceof Material) && 
-				$this->nombre == $material->nombre &&
-				$this->descripcion == $material->descripcion &&
-				$this->precio == $material->precio;
+		return $elemento != null && 
+				($elemento instanceof Elemento) && 
+				$this->nombre == $elemento->nombre &&
+				$this->descripcion == $elemento->descripcion &&
+				$this->precio == $elemento->precio &&
+				$this->color == $idColor &&
+				$this->categoria == $idCategoria &&
+				$this->material == $idMaterial;
 	}
 }
 ?>

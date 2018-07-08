@@ -4,9 +4,10 @@
 */
 require_once __DIR__."/DAO.php";
 require_once __DIR__."/entities/Color.php";
+require_once __DIR__."/entities/Elemento.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
 
-class UsuarioDao extends DAO
+class ColorDao extends DAO
 {
 
 	function __construct()

@@ -62,10 +62,6 @@ function deleteElement(row){
 	elementDelete.method = undefined;
 }
 
-function testFunction(element){
-	console.log(element);
-}
-
 function createOrUpdateElement(){
 	var elementUpdate = {};
 	if($('#row-index').val() != null && $('#row-index').val() != ''){
@@ -78,9 +74,9 @@ function createOrUpdateElement(){
 	elementUpdate.nombre = $('#nombre').val();
 	elementUpdate.descripcion = $('#descripcion').val();
 	elementUpdate.precio = $('#precio').val();
-	/*elementUpdate.color = $('#color').val();
-	elementUpdate.deporte = $('#deporte').val();
-	elementUpdate.material = $('#material').val();*/
+	elementUpdate.idColor = $('#idColor').val();
+	elementUpdate.idCategoria = $('#idCategoria').val();
+	elementUpdate.idMaterial = $('#idMaterial').val();
 
 	$.ajax({
 		type:'POST',
@@ -124,9 +120,9 @@ function openUpdateModal(row){
 		$('#nombre').val(elementUpdate.nombre);
 		$('#descripcion').val(elementUpdate.descripcion);
 		$('#precio').val(elementUpdate.precio);
-		/*$('#color').val(elementUpdate.color);
-		$('#deporte').val(elementUpdate.deporte);
-		$('#material').val(elementUpdate.material);*/
+		$('#idColor').val(elementUpdate.idColor);
+		$('#idCategoria').val(elementUpdate.idCategoria);
+		$('#idMaterial').val(elementUpdate.idMaterial);
 		$('#row-index').val(row.index());
 	}
 	$('#update-element-modal').modal('show');
@@ -136,9 +132,9 @@ function cleanElementForm(){
 	$('#nombre').val('');
 	$('#descripcion').val('');
 	$('#precio').val('');
-	/*$('#color').val('');
-	$('#deporte').val('');
-	$('#material').val('');*/
+	$('#idColor').val('');
+	$('#idCategoria').val('');
+	$('#idMaterial').val('');
 	$('#row-index').val('');
 	$('#update-element-modal').modal('hide');
 }

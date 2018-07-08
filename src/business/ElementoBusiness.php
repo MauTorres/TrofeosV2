@@ -36,12 +36,19 @@ class ElementoBusiness extends Business
 		$params = "";
 		if($elemento != null){
 			if($elemento->id != null)
-				$params .= "AND id = ".$elemento->id;
+				$params .= "AND E.id = ".$elemento->id;
 			if($elemento->nombre != null)
-				$params .= "AND nombre like '%".$elemento->nombre."%'";
+				$params .= "AND E.nombre like '%".$elemento->nombre."%'";
 			if($elemento->descripcion != null)
-				$params .= "AND descripcion like '%".$elemento->descripcion."%'";	
+				$params .= "AND E.descripcion like '%".$elemento->descripcion."%'";
+			if($elemento->idColor != null)
+				$params .= "AND C.descripcion like '%".$elemento->idColor."%'";
+			if($elemento->idCategoria != null)
+				$params .= "AND Cat.descripcion like '%".$elemento->idCategoria."%'";
+			if($elemento->idMaterial != null)
+				$params .= "AND M.descripcion like '%".$elemento->idMaterial."%'";
 		}
+		Loger::log(print_r($params,true), null);
 		$result = $this->elementoDAO->getElementsGrid($params);
 		$this->responce->success = true;
 		$this->responce->data = $result;
