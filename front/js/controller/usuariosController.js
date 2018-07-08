@@ -1,6 +1,5 @@
 var usuarios = {};
 var isCollapseUp = true;
-var sessionController = new SessionController();
 
 UsersView = {
 	getUsersGrid: function (filters){
@@ -148,6 +147,6 @@ function toggleCollapse(element){
 }
 
 $(document).ready(function(){
-	MenuNavs.getMenuNavs('usuarios');
+	SessionController.checkSession('usuarios');
 	UsersView.getUsersGrid(null);
 });

@@ -21,6 +21,9 @@ class UsuarioBusiness extends Business
 			$this->responce = new Responce();
 			$result = $this->usuarioDAO->getUserByUserName($user->usuario);	
 			$usersCount = count($result);
+			/*$usuarioPlain;
+			openssl_private_decrypt($user->usuario, $usuarioPlain, );
+			echo $usuarioPlain;*/
 
 			if($result[0]->passwd != $user->passwd)
 				throw new Exception("La contraseña no es correcta");
