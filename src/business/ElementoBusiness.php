@@ -27,7 +27,7 @@ class ElementoBusiness extends Business
 			$this->responce->success = false;
 			$this->responce->message = "Error al agregar el nuevo material ".$elemento->nombre;
 		}
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 		
 	}
 
@@ -53,7 +53,7 @@ class ElementoBusiness extends Business
 		$this->responce->success = true;
 		$this->responce->data = $result;
 
-		echo json_encode($this->responce); 
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
 	}
 
 	public function deleteElement($elemento){
@@ -67,7 +67,7 @@ class ElementoBusiness extends Business
 			$this->responce->success = false;
 			$this->responce->message = "Error al eliminar el material ".$elemento->nombre;
 		}
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 
 	public function createOrUpdateElement($elemento){
@@ -90,7 +90,7 @@ class ElementoBusiness extends Business
 			$this->responce->message = $e->getMessage();
 		}
 
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 }
 ?>

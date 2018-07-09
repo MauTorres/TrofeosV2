@@ -42,7 +42,7 @@ class UsuarioBusiness extends Business
 			$this->responce->message = $e->getMessage();
 		}
 
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 
 	public function saveUser($user){
@@ -55,7 +55,7 @@ class UsuarioBusiness extends Business
 			$this->responce->success = false;
 			$this->responce->message = "Error al agregar al usuario ".$user->usuario;
 		}
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 		
 	}
 
@@ -75,7 +75,7 @@ class UsuarioBusiness extends Business
 		$this->responce->success = true;
 		$this->responce->data = $result;
 
-		echo json_encode($this->responce); 
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
 	}
 
 	public function deleteUser($usuario){
@@ -88,7 +88,7 @@ class UsuarioBusiness extends Business
 			$this->responce->success = false;
 			$this->responce->message = "Error al eliminar al usuario ".$user->usuario;
 		}
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 
 	public function createOrUpdateUser($usuario){
@@ -111,7 +111,7 @@ class UsuarioBusiness extends Business
 			$this->responce->message = $e->getMessage();
 		}
 
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 }
 ?>

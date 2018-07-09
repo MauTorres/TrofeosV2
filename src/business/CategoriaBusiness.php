@@ -27,7 +27,7 @@ class CategoryBusiness extends Business
 			$this->responce->success = false;
 			$this->responce->message = "Error al agregar una nueva categoria ".$categoria->descripcion;
 		}
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 		
 	}
 
@@ -45,7 +45,7 @@ class CategoryBusiness extends Business
 		$this->responce->success = true;
 		$this->responce->data = $result;
 
-		echo json_encode($this->responce); 
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
 	}
 
 	public function deleteCategory($categoria){
@@ -59,7 +59,7 @@ class CategoryBusiness extends Business
 			$this->responce->success = false;
 			$this->responce->message = "Error al eliminar la categoria ".$categoria->descripcion;
 		}
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 
 	public function createOrUpdateCategory($categoria){
@@ -82,7 +82,7 @@ class CategoryBusiness extends Business
 			$this->responce->message = $e->getMessage();
 		}
 
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 }
 ?>

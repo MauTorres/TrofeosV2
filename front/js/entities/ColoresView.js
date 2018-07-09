@@ -1,10 +1,11 @@
 var colores = {};
+var rootURL = '../../src/controller/ColorController.php';
 
 ColoresView = {
 	getColoresGrid: function (filters){
 		$.ajax({
 			type:'GET',
-			url: '../../src/controller/ColorController.php',
+			url: rootURL,
 			data: {method: 'getColorsGrid', filters: filters},
 			success: function(data){
 				try{
@@ -29,5 +30,5 @@ ColoresView = {
 	},
 	actions: [
 		{type:'light', label:'', icon:'fa fa-edit', _class:'btn-edit-usr', size:'', functionECute:'openUpdateModal($(this).parent().parent());'},
-		{type:'danger', label:'', icon:'fa fa-close', _class:'btn-delete-usr', size:'', functionECute:'deleteUser($(this).parent().parent());'}]
+		{type:'danger', label:'', icon:'fa fa-close', _class:'btn-delete-usr', size:'', functionECute:'deleteColor($(this).parent().parent());'}]
 };

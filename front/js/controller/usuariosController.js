@@ -61,10 +61,6 @@ function deleteUser(row){
 	userDelete.method = undefined;
 }
 
-function testFunction(element){
-	console.log(element);
-}
-
 function createOrUpdateUser(){
 	var userUpdate = {};
 	if($('#row-index').val() != null && $('#row-index').val() != ''){

@@ -27,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			$color = null;
 			if(isset($_GET['filters']) && $_GET['filters'] != null)
 				$color = new Color($_GET['filters']['id'], $_GET['filters']['descripcion']);
-			$colorBusiness->getColorGrid($color);
+			$colorBusiness->getColorsGrid($color);
 			break;
 		default:
 			

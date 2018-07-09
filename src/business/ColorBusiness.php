@@ -27,7 +27,7 @@ class ColorBusiness extends Business
 			$this->responce->success = false;
 			$this->responce->message = "Error al agregar el nuevo color ".$color->descripcion;
 		}
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 		
 	}
 
@@ -36,16 +36,16 @@ class ColorBusiness extends Business
 		$params = "";
 		if($color != null){
 			if($color->id != null)
-				$params .= "AND C.id = ".$color->id;
-			if($color->nombre != null)
-				$params .= "AND C.descripcion like '%".$color->descripcion."%'";
+				$params .= "AND id = ".$color->id;
+			if($color->descripcion != null)
+				$params .= "AND descripcion like '%".$color->descripcion."%'";
 		}
-		Loger::log(print_r($params,true), null);
 		$result = $this->colorDAO->getColorsGrid($params);
 		$this->responce->success = true;
 		$this->responce->data = $result;
+		//Loger::log(print_r($this->responce, 1), null);
 
-		echo json_encode($this->responce); 
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
 	}
 
 	public function deleteColor($color){
@@ -59,7 +59,7 @@ class ColorBusiness extends Business
 			$this->responce->success = false;
 			$this->responce->message = "Error al eliminar el color ".$color->descripcion;
 		}
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 
 	public function createOrUpdateColor($color){
@@ -71,8 +71,7 @@ class ColorBusiness extends Business
 				$this->saveColor($color);
 				return;
 			}
-			$result = $this->colorDAO->getColorByID($color);
-
+			//Loger::log(print_r($color, 1), null);
 			$this->colorDAO->createOrUpdateColor($color);
 			$this->responce->success = true;
 			$this->responce->message = "El color se guardó correctamente";
@@ -82,7 +81,7 @@ class ColorBusiness extends Business
 			$this->responce->message = $e->getMessage();
 		}
 
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 }
 ?>

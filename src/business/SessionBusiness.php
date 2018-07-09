@@ -30,7 +30,7 @@ class SessionBusiness extends Business
 		}else{
 			$this->responce->success = true;
 			$this->responce->data = $_SESSION['user'];
-			echo json_encode($this->responce);
+			echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 		}
 	}
 
@@ -41,7 +41,7 @@ class SessionBusiness extends Business
 		$this->responce = new Responce();
 		$this->responce->success = true;
 		$this->responce->message = "Se ha cerrado la sesión";
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 }
 ?>

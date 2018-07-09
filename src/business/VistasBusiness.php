@@ -22,7 +22,7 @@ class VistasBusiness extends Business
 
 		$this->responce->success = true;
 		$this->responce->data = $result->getResultSet();
-		echo json_encode($this->responce);
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 }
 ?>
