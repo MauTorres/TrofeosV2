@@ -38,7 +38,7 @@ function CatalogosController(){
 	};
 
 	this.deleteElement = function(row){
-		var elementDelete = colores[row.index()];
+		var elementDelete = CatalogosView.elements[row.index()];
 		elementDelete.method = 'deleteElement';
 		$.ajax({
 			type:'POST',

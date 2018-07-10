@@ -11,10 +11,13 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="../js/controller/SessionController.js"></script>
 	<script src="../js/controller/Usuario.js"></script>
+	<script src="../js/entities/CatalogElement.js"></script>
+	<script src="../js/entities/CatalogosView.js"></script>
 	<script src="../js/controller/ActionButton.js"></script>
 	<script src="../js/controller/TableCreator.js"></script>
 	<script src="../js/controller/MenuNavs.js"></script>
 	<script src="../js/controller/CatalogosController.js"></script>
+	<script src="../js/controller/MaterialesController.js"></script>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -38,8 +41,8 @@
 				<h2>Materiales</h2>
 			</div>
 			<div class="col-sm-4">
-				<button type="button" class="btn btn-success" onclick="openUpdateModal(null)"><span class="fa fa-plus-square" aria-hidden="true"></span></button>
-				<button class="btn btn-secondary" id="btn-collapse-search" type="button" data-toggle="collapse" data-target="#search-collapse" aria-expanded="true" aria-controls="search-collapse" onclick="toggleCollapse($(this));">
+				<button type="button" class="btn btn-success" onclick="catalogosController.openUpdateModal(null)"><span class="fa fa-plus-square" aria-hidden="true"></span></button>
+				<button class="btn btn-secondary" id="btn-collapse-search" type="button" data-toggle="collapse" data-target="#search-collapse" aria-expanded="true" aria-controls="search-collapse" onclick="catalogosController.toggleCollapse($(this));">
 					<span class="fa fa-caret-square-o-down" aria-hidden="true"></span>
 				</button>
 			</div>
@@ -52,32 +55,17 @@
 							<form id="form-search-user">
 								<div class="row">
 									<div class="col">
-										<input type="text" id="id-usuario" class="form-control" placeholder="ID usuario">
+										<input type="text" id="id-catalogo" class="form-control" placeholder="ID usuario">
 									</div>
 									<div class="col">
-										<input type="text" id="nombre-usuario" class="form-control" placeholder="Nombre de usuario">
-									</div>
-									<div class="col">
-										<input type="text" id="mail-usuario" class="form-control" placeholder="e-mail">
+										<input type="text" id="descripcion" class="form-control" placeholder="Nombre de usuario">
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-sm-4">
-										<div class="dropdown">
-											<button class="btn btn-secondary dropdown-toggle" type="button" id="catalogoDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											Seleccione un Catálogo
-											</button>
-											<div class="dropdown-menu" aria-labelledby="catalogoDropDown">
-												<a class="dropdown-item" href="#">Deporte</a>
-												<a class="dropdown-item" href="#">Color</a>
-												<a class="dropdown-item" href="#">Material</a>
-											</div>
-										</div>
+									<div class="col-sm-6">
 									</div>
-									<div class="col-sm-4">
-									</div>
-									<div class="col-sm-4">
-										<button class="btn btn-dark search-btn" type="button" id="btn-search-user" onclick="searchUser();">
+									<div class="col-sm-6">
+										<button class="btn btn-dark search-btn" type="button" id="btn-search-catalogo" onclick="catalogosController.searchElement();">
 											Buscar
 										</button>
 									</div>	
@@ -93,33 +81,27 @@
 			</table>
 		</div>
 	</div>
-	<div class="modal fade" id="update-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="update-element-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Material</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="form-update-user">
-						<div class="form-group">
-							<label for="usuario">Nombre de usuario</label>
-							<input type="text" class="form-control" id="usuario" placeholder="Nombre de usuario">
-							<label for="email">Email</label>
-							<input type="email" class="form-control" id="email" placeholder="email">
-							<label for="passwd">Contraseña</label>
-							<input type="password" class="form-control" id="passwd" placeholder="Contraseña">
-							<label for="passwdValidate">Valide la contraseña</label>
-							<input type="password" class="form-control" id="passwdValidate" placeholder="Valide la contraseña">
+					<form id="form-update-element">
+						<div class="form-group">	
+							<label for="usuario">Material</label>
+							<input type="text" class="form-control" id="element-descripcion" placeholder="Material">
 							<input type="hidden" class="form-control" id="row-index">
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" onclick="cleanUserForm();" id="btn-update-user-cancel">Cerrar</button>
-					<button type="button" class="btn btn-primary" onclick="createOrUpdateUser();" id="btn-update-user">Guardar</button>
+					<button type="button" class="btn btn-secondary" onclick="catalogosController.cleanForm();" id="btn-update-element-cancel">Cerrar</button>
+					<button type="button" class="btn btn-primary" onclick="catalogosController.createOrUpdateElement();" id="btn-update-element">Guardar</button>
 				</div>
 			</div>
 		</div>

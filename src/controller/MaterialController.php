@@ -8,11 +8,11 @@ require_once dirname(__DIR__)."/business/MaterialBusiness.php";
 $materialBusiness = new MaterialBusiness();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
-		case 'deleteMaterial':
+		case 'deleteElement':
 			$material = new Material($_POST['id'], $_POST['descripcion']);
 			$materialBusiness->deleteMaterial($material);
 			break;
-		case 'createOrUpdateMaterial':
+		case 'createOrUpdateElement':
 			$material = new Material($_POST['id'], $_POST['descripcion']);
 			$materialBusiness->createOrUpdateMaterial($material);
 			break;
@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
 	switch ($_GET['method']) {
-		case 'getMaterialsGrid':
+		case 'getElementsGrid':
 			$material = null;
 			if(isset($_GET['filters']) && $_GET['filters'] != null)
 				$material = new Material($_GET['filters']['id'], $_GET['filters']['descripcion']);
