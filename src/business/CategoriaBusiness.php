@@ -3,9 +3,9 @@
 * 
 */
 require_once __DIR__."/Business.php";
-require_once dirname(__DIR__)."/dao/CategoryDao.php";
+require_once dirname(__DIR__)."/dao/CategoriaDao.php";
 
-class CategoryBusiness extends Business
+class CategoriaBusiness extends Business
 {
 	private $categoriaDAO;
 	private $responce;
@@ -13,7 +13,7 @@ class CategoryBusiness extends Business
 	function __construct()
 	{
 		parent::__construct();
-		$this->categoriaDAO = new CategoryDao();
+		$this->categoriaDAO = new CategoriaDao();
 	}
 
 	public function saveCategory($categoria){

@@ -14,7 +14,7 @@ UsersView = {
 					responce.data.actions = UsersView.actions;
 					var table = $('#user-table');
 					if(responce.success){
-						TableCreator.fillUserTable(responce.data, table);
+						TableCreator.fillTable(responce.data, table);
 					}
 				}catch(err){
 					alert("Ha ocurrido un error en el servidor");

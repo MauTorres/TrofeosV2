@@ -12,7 +12,7 @@ TableCreator = {
 		if(data.actions != undefined)
 			trHeader.append('<th scope="col">Acciones</th>');
 	},
-	fillUserTable: function(data, table){
+	fillTable: function(data, table){
 		TableCreator.cleanTable(table);
 		TableCreator.createHeaders(data, table);
 		table.append(TableCreator.body);

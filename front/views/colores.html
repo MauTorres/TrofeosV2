@@ -11,11 +11,12 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="../js/controller/SessionController.js"></script>
 	<script src="../js/controller/Usuario.js"></script>
-	<script src="../js/entities/Color.js"></script>
-	<script src="../js/entities/ColoresView.js"></script>
+	<script src="../js/entities/CatalogElement.js"></script>
+	<script src="../js/entities/CatalogosView.js"></script>
 	<script src="../js/controller/ActionButton.js"></script>
 	<script src="../js/controller/TableCreator.js"></script>
 	<script src="../js/controller/MenuNavs.js"></script>
+	<script src="../js/controller/CatalogosController.js"></script>
 	<script src="../js/controller/ColoresController.js"></script>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -40,8 +41,8 @@
 				<h2>Colores</h2>
 			</div>
 			<div class="col-sm-4">
-				<button type="button" class="btn btn-success" onclick="openUpdateModal(null)"><span class="fa fa-plus-square" aria-hidden="true"></span></button>
-				<button class="btn btn-secondary" id="btn-collapse-search" type="button" data-toggle="collapse" data-target="#search-collapse" aria-expanded="true" aria-controls="search-collapse" onclick="toggleCollapse($(this));">
+				<button type="button" class="btn btn-success" onclick="catalogosController.openUpdateModal(null)"><span class="fa fa-plus-square" aria-hidden="true"></span></button>
+				<button class="btn btn-secondary" id="btn-collapse-search" type="button" data-toggle="collapse" data-target="#search-collapse" aria-expanded="true" aria-controls="search-collapse" onclick="catalogosController.toggleCollapse($(this));">
 					<span class="fa fa-caret-square-o-down" aria-hidden="true"></span>
 				</button>
 			</div>
@@ -64,7 +65,7 @@
 									<div class="col-sm-6">
 									</div>
 									<div class="col-sm-6">
-										<button class="btn btn-dark search-btn" type="button" id="btn-search-catalogo" onclick="searchColor();">
+										<button class="btn btn-dark search-btn" type="button" id="btn-search-catalogo" onclick="catalogosController.searchElement();">
 											Buscar
 										</button>
 									</div>	
@@ -80,7 +81,7 @@
 			</table>
 		</div>
 	</div>
-	<div class="modal fade" id="update-color-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="update-element-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -90,17 +91,17 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="form-update-color">
+					<form id="form-update-element">
 						<div class="form-group">	
 							<label for="usuario">Color</label>
-							<input type="text" class="form-control" id="color-descripcion" placeholder="Color">
+							<input type="text" class="form-control" id="element-descripcion" placeholder="Color">
 							<input type="hidden" class="form-control" id="row-index">
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" onclick="cleanUserForm();" id="btn-update-color-cancel">Cerrar</button>
-					<button type="button" class="btn btn-primary" onclick="createOrUpdateColor();" id="btn-update-color">Guardar</button>
+					<button type="button" class="btn btn-secondary" onclick="catalogosController.cleanForm();" id="btn-update-element-cancel">Cerrar</button>
+					<button type="button" class="btn btn-primary" onclick="catalogosController.createOrUpdateElement();" id="btn-update-element">Guardar</button>
 				</div>
 			</div>
 		</div>
