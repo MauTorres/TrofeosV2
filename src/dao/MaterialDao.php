@@ -36,15 +36,19 @@ class MaterialDao extends DAO
 	}
 
 	public function getMaterialsGrid($params){
-		$query = sprintf("SELECT 
-				M.id,
-				M.descripcion as material
-			FROM materiales M
-			WHERE
-				estatus = 1
-				%s", $params);
-		Loger::log($query, null);
-		return $this->query($query, null);
+		try{
+			$query = sprintf("SELECT 
+					M.id,
+					M.descripcion
+				FROM materiales M
+				WHERE
+					estatus = 1
+					%s", $params);
+			
+			return $this->query($query, null);
+		}catch(Exception $e){
+			Loger::log($e->getMessage(), null);	
+		}
 	}
 
 	public function deleteMaterial($material){
@@ -76,7 +80,7 @@ class MaterialDao extends DAO
 			$this->execute(
 				"UPDATE materiales 
 				SET 
-					descripcion = ?,
+					descripcion = ?
 				WHERE id = ?", 
 				array(array($materialNew->descripcion, $materialNew->id)));
 		}catch(Exception $e){

@@ -10,7 +10,7 @@ $categoryBusiness = new CategoriaBusiness();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
 		case 'deleteElement':
-			$category = new Categoria($_POST['id'], $_POST['descripcion']);
+			$category = new Categoria($_POST['id'], null);
 			$categoryBusiness->deleteCategory($category);
 			break;
 		case 'createOrUpdateElement':

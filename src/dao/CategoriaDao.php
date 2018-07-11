@@ -20,7 +20,7 @@ class CategoriaDao extends DAO
 		$result = $result->getResultSet();
 
 		foreach ($result as $category) {
-			array_push($category, new Category($category['id'], $category['descripcion']));
+			array_push($category, new Categoria($result['id'], $result['descripcion']));
 		}
 
 		return $category;
@@ -30,27 +30,34 @@ class CategoriaDao extends DAO
 		try{
 			$this->execute("INSERT INTO categorias(descripcion) VALUES(?)", array(array($category->descripcion)));
 		}catch(Exception $e){
+			Loger::log($e->getMessage(), null);
 			throw $e;
 		}
 		
 	}
 
 	public function getCategoriesGrid($params){
-		$query = sprintf("SELECT 
-				Cat.id,
-				Cat.descripcion AS categoria
-			FROM categorias Cat
-			WHERE
-				estatus = 1
-				%s", $params);
-		Loger::log($query, null);
-		return $this->query($query, null);
+		try{
+			$query = sprintf("SELECT 
+					Cat.id,
+					Cat.descripcion
+				FROM categorias Cat
+				WHERE
+					estatus = 1
+					%s", $params);
+			return $this->query($query, null);
+		}catch(Exception $e){
+			Loger::log($e->getMessage(), null);
+			throw $e;
+		}
+		
 	}
 
 	public function deleteCategory($category){
 		try{
 			$this->execute("UPDATE categorias SET estatus = 0 WHERE id = ?", array(array($category->id)));
 		}catch(Exception $e){
+			Loger::log($e->getMessage(), null);
 			throw $e;
 		}
 	}
@@ -59,16 +66,11 @@ class CategoriaDao extends DAO
 		$result = $this->query("SELECT * FROM categorias WHERE id = ?", array($category->id));
 		$row = $result->getResultSet()[0];
 
-		return new Category($row['id'], $row['descripcion']);
+		return new Categoria($row['id'], $row['descripcion']);
 	}
 
 	public function createOrUpdateCategory($category){
 		try{
-			if($category->id == null){
-				$this->saveCategory($category);
-				return;
-			}
-
 			$categoryNew = $this->getCategoryByID($category);
 			if($category->descripcion != null && $category->descripcion != '')
 				$categoryNew->descripcion = $category->descripcion;
@@ -76,10 +78,11 @@ class CategoriaDao extends DAO
 			$this->execute(
 				"UPDATE categorias 
 				SET 
-					descripcion = ?,
+					descripcion = ?
 				WHERE id = ?", 
 				array(array($categoryNew->descripcion, $categoryNew->id)));
 		}catch(Exception $e){
+			Loger::log($e->getMessage(), null);
 			throw $e;
 		}	
 	}

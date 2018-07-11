@@ -71,7 +71,6 @@ class CategoriaBusiness extends Business
 				$this->saveCategory($categoria);
 				return;
 			}
-			$result = $this->categoriaDAO->getCategoryByID($categoria);
 
 			$this->categoriaDAO->createOrUpdateCategory($categoria);
 			$this->responce->success = true;

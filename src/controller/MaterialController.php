@@ -10,7 +10,7 @@ $materialBusiness = new MaterialBusiness();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
 		case 'deleteElement':
-			$material = new Material($_POST['id'], $_POST['descripcion']);
+			$material = new Material($_POST['id'], null);
 			$materialBusiness->deleteMaterial($material);
 			break;
 		case 'createOrUpdateElement':
