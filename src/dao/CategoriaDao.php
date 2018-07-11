@@ -14,7 +14,7 @@ class CategoriaDao extends DAO
 		parent::__construct();
 	}
 
-	public function getCategoryByCategoryName($categoryName){
+	public function getCategoryByCategoryDescription($categoryName){
 		$category = array();
 		$result = $this->query("SELECT * FROM categorias WHERE descripcion = ?", array($categoryName));
 		$result = $result->getResultSet();
@@ -28,18 +28,18 @@ class CategoriaDao extends DAO
 
 	public function saveCategory($category){
 		try{
-			$this->execute("INSERT INTO categorias(descripcion,) VALUES(?)", array(array($category->descripcion)));
+			$this->execute("INSERT INTO categorias(descripcion) VALUES(?)", array(array($category->descripcion)));
 		}catch(Exception $e){
 			throw $e;
 		}
 		
 	}
 
-	public function getCategorysGrid($params){
+	public function getCategoriesGrid($params){
 		$query = sprintf("SELECT 
-				id,
-				descripcion
-			FROM categorias 
+				Cat.id,
+				Cat.descripcion AS categoria
+			FROM categorias Cat
 			WHERE
 				estatus = 1
 				%s", $params);

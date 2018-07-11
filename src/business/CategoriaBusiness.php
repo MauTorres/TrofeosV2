@@ -37,7 +37,7 @@ class CategoriaBusiness extends Business
 		if($categoria != null){
 			if($categoria->id != null)
 				$params .= "AND Cat.id = ".$categoria->id;
-			if($categoria->nombre != null)
+			if($categoria->descripcion != null)
 				$params .= "AND Cat.descripcion like '%".$categoria->descripcion."%'";
 		}
 		Loger::log(print_r($params,true), null);

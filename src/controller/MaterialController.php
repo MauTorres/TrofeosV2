@@ -3,6 +3,7 @@
 * 
 */
 require_once dirname(__DIR__)."/business/MaterialBusiness.php";
+require_once dirname(__DIR__)."/utils/Loger.php";
 
 
 $materialBusiness = new MaterialBusiness();

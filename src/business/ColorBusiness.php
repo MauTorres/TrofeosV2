@@ -36,9 +36,9 @@ class ColorBusiness extends Business
 		$params = "";
 		if($color != null){
 			if($color->id != null)
-				$params .= "AND id = ".$color->id;
+				$params .= "AND C.id = ".$color->id;
 			if($color->descripcion != null)
-				$params .= "AND descripcion like '%".$color->descripcion."%'";
+				$params .= "AND C.descripcion like '%".$color->descripcion."%'";
 		}
 		$result = $this->colorDAO->getColorsGrid($params);
 		$this->responce->success = true;

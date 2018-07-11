@@ -37,7 +37,7 @@ class MaterialBusiness extends Business
 		if($material != null){
 			if($material->id != null)
 				$params .= "AND M.id = ".$material->id;
-			if($material->nombre != null)
+			if($material->descripcion != null)
 				$params .= "AND M.descripcion like '%".$material->descripcion."%'";
 		}
 		Loger::log(print_r($params,true), null);

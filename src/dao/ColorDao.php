@@ -4,7 +4,6 @@
 */
 require_once __DIR__."/DAO.php";
 require_once __DIR__."/entities/Color.php";
-require_once __DIR__."/entities/Elemento.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
 
 class ColorDao extends DAO
@@ -15,11 +14,10 @@ class ColorDao extends DAO
 		parent::__construct();
 	}
 
-	public function getColorByColorName($colorName){
+	public function getColorByColorDescription($colorName){
 		$color = array();
 		$result = $this->query("SELECT * FROM colores WHERE descripcion = ?", array($colorName));
 		$result = $result->getResultSet();
-
 		foreach ($result as $color) {
 			array_push($color, new Color($color['id'], $color['descripcion']));
 		}
@@ -39,9 +37,9 @@ class ColorDao extends DAO
 
 	public function getColorsGrid($params){
 		$query = sprintf("SELECT 
-				id,
-				descripcion
-			FROM colores 
+				C.id,
+				C.descripcion AS color
+			FROM colores C 
 			WHERE
 				estatus = 1
 				%s", $params);

@@ -14,7 +14,7 @@ class MaterialDao extends DAO
 		parent::__construct();
 	}
 
-	public function getMaterialByMaterialName($materialName){
+	public function getMaterialByMaterialDescription($materialName){
 		$material = array();
 		$result = $this->query("SELECT * FROM materiales WHERE descripcion = ?", array($materialName));
 		$result = $result->getResultSet();
@@ -28,7 +28,7 @@ class MaterialDao extends DAO
 
 	public function saveMaterial($material){
 		try{
-			$this->execute("INSERT INTO materiales(descripcion,) VALUES(?)", array(array($material->descripcion)));
+			$this->execute("INSERT INTO materiales(descripcion) VALUES(?)", array(array($material->descripcion)));
 		}catch(Exception $e){
 			throw $e;
 		}
@@ -37,9 +37,9 @@ class MaterialDao extends DAO
 
 	public function getMaterialsGrid($params){
 		$query = sprintf("SELECT 
-				id,
-				descripcion
-			FROM materiales 
+				M.id,
+				M.descripcion as material
+			FROM materiales M
 			WHERE
 				estatus = 1
 				%s", $params);

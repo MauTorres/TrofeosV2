@@ -1,6 +1,10 @@
 <?php
-require_once dirname(dirname(__DIR__))."/src/dao/ElementoDao.php";
-	$elementoDao = new ElementoDao();
-	$elemento = new Elemento(null, "Madera", "madera azul de cedro", 250, 1, null, 1); 
-	$elementoDao->saveElement($elemento);
+require_once dirname(dirname(__DIR__))."/src/dao/MaterialDao.php";
+require_once dirname(dirname(__DIR__))."/src/utils/Loger.php";
+
+	$materialDao = new MaterialDao();
+	$material = new CatalogElement("Maderas"); 
+	$materialDao->saveMaterial($material);
+	print_r($materialDao);
+
 ?>

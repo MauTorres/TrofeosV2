@@ -3,6 +3,7 @@
 * 
 */
 require_once dirname(__DIR__)."/business/CategoriaBusiness.php";
+require_once dirname(__DIR__)."/utils/Loger.php";
 
 
 $categoryBusiness = new CategoriaBusiness();
@@ -27,7 +28,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			$category = null;
 			if(isset($_GET['filters']) && $_GET['filters'] != null)
 				$category = new Categoria($_GET['filters']['id'], $_GET['filters']['descripcion']);
-			$categoryBusiness->getCategorysGrid($category);
+			$categoryBusiness->getCategoriesGrid($category);
 			break;
 		default:
 			

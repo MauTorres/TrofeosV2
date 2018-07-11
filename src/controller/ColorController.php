@@ -3,6 +3,7 @@
 * 
 */
 require_once dirname(__DIR__)."/business/ColorBusiness.php";
+require_once dirname(__DIR__)."/utils/Loger.php";
 
 
 $colorBusiness = new ColorBusiness();
