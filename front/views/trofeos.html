@@ -9,18 +9,24 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="../js/entities/Action.js"></script>
+	<script src="../js/controller/HttpFunctions.js"></script>
 	<script src="../js/controller/MenuNavs.js"></script>
 	<script src="../js/controller/SessionController.js"></script>
 	<script src="../js/controller/Usuario.js"></script>
 	<script src="../js/controller/ActionButton.js"></script>
 	<script src="../js/controller/TableCreator.js"></script>
 	<script src="../js/entities/GridView.js"></script>
+	<script src="../js/entities/Trofeo.js"></script>
 	<script src="../js/controller/TrofeosController.js"></script>
+	<script src="../js/controller/CatalogCreator.js"></script>
+	<script src="../js/controller/SearchElementoModalController.js"></script>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../css/main.css">
 	<link rel="stylesheet" href="../css/usuarios.css">
+	<link rel="stylesheet" href="../css/trofeos.css">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="main-nav">
@@ -84,36 +90,15 @@
 			</table>
 		</div>
 	</div>
-	<div class="modal fade" id="update-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form id="form-update-user">
-						<div class="form-group">
-							<label for="usuario">Nombre de usuario</label>
-							<input type="text" class="form-control" id="usuario" placeholder="Nombre de usuario">
-							<label for="email">Email</label>
-							<input type="email" class="form-control" id="email" placeholder="email">
-							<label for="passwd">Contraseña</label>
-							<input type="password" class="form-control" id="passwd" placeholder="Contraseña">
-							<label for="passwdValidate">Valide la contraseña</label>
-							<input type="password" class="form-control" id="passwdValidate" placeholder="Valide la contraseña">
-							<input type="hidden" class="form-control" id="row-index">
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" onclick="cleanUserForm();" id="btn-update-user-cancel">Cerrar</button>
-					<button type="button" class="btn btn-primary" onclick="createOrUpdateUser();" id="btn-update-user">Guardar</button>
-				</div>
-			</div>
-		</div>
+	<div class="modal fade" id="update-trophy-modal" tabindex="-1" role="dialog" aria-labelledby="trofeos-label-modal" aria-hidden="true">
+		<script type="text/javascript">
+			$('#update-trophy-modal').load("modals/updateCreateModalTrofeo.html" );
+		</script>
+	</div>
+	<div class="modal fade bd-example-modal-lg" id="search-element-modal" tabindex="-1" role="dialog" aria-labelledby="elementos-label-modal" aria-hidden="true">
+		<script type="text/javascript">
+			$('#search-element-modal').load("modals/searchElementoModal.html" );
+		</script>
 	</div>
 </body>
 </html>

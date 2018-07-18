@@ -38,7 +38,7 @@ class ColorDao extends DAO
 	public function getColorsGrid($params){
 		$query = sprintf("SELECT 
 				C.id,
-				C.descripcion AS color
+				C.descripcion
 			FROM colores C 
 			WHERE
 				estatus = 1

@@ -48,8 +48,33 @@ class ElementoBusiness extends Business
 			if($elemento->idMaterial != null)
 				$params .= "AND M.descripcion like '%".$elemento->idMaterial."%'";
 		}
-		Loger::log(print_r($params,true), null);
+		
 		$result = $this->elementoDAO->getElementsGrid($params);
+		$this->responce->success = true;
+		$this->responce->data = $result;
+
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
+	}
+
+	public function getElementosTrofeos($elemento){
+		$this->responce = new Responce();
+		$params = "";
+		if($elemento != null){
+			if($elemento->id != null)
+				$params .= "AND E.id = ".$elemento->id;
+			if($elemento->nombre != null)
+				$params .= "AND E.nombre like '%".$elemento->nombre."%'";
+			if($elemento->descripcion != null)
+				$params .= "AND E.descripcion like '%".$elemento->descripcion."%'";
+			if($elemento->idColor != null)
+				$params .= "AND C.descripcion like '%".$elemento->idColor."%'";
+			if($elemento->idCategoria != null)
+				$params .= "AND Cat.descripcion like '%".$elemento->idCategoria."%'";
+			if($elemento->idMaterial != null)
+				$params .= "AND M.descripcion like '%".$elemento->idMaterial."%'";
+		}
+		
+		$result = $this->elementoDAO->getElementosTrofeos($params);
 		$this->responce->success = true;
 		$this->responce->data = $result;
 

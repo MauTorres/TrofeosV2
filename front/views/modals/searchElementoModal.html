@@ -1,0 +1,37 @@
+<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="elementos-label-modal">Buscar elementos</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<form id="form-update-user">
+				<div class="form-group">
+					<label for="id-elemento">ID Elemento</label>
+					<input type="text" class="form-control" id="id-elemento" placeholder="ID del elemento">
+					<label for="nombre">Nombre</label>
+					<input type="text" class="form-control" id="nombre" placeholder="Nombre del elemeto">
+					<label for="color">Color</label>
+					<select class="form-control" id="color">
+						<option>Seleccione color</option>
+					</select>
+					<label for="material">Material</label>
+					<select class="form-control" id="material">
+						<option>Seleccione material</option>
+					</select>
+					<label for="categoria">Categoría</label>
+					<select class="form-control" id="categoria">
+						<option>Seleccione categoria</option>
+					</select>
+					<input type="hidden" class="form-control" id="row-index">
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" onclick="cleanUserForm();" id="btn-update-user-cancel">Cerrar</button>
+			<button type="button" class="btn btn-primary" onclick="createOrUpdateUser();" id="btn-update-user">Buscar</button>
+		</div>
+	</div>
+</div>

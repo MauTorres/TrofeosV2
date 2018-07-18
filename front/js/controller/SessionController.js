@@ -31,7 +31,7 @@ var SessionController = {
 		return $.ajax({
 			type:'GET',
 			url: '../../src/controller/SessionController.php',
-			data: {method:'getSession'},
+			data: {method:'getSession'}
 		});
 	},
 	sessionFailed: function(message){
