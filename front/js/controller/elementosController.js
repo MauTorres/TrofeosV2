@@ -14,7 +14,7 @@ ElementsView = {
 					responce.data.actions = ElementsView.actions;
 					var table = $('#element-table');
 					if(responce.success){
-						TableCreator.fillElementTable(responce.data, table);
+						TableCreator.fillTable(responce.data, table);
 					}
 				}catch(err){
 					alert("Ha ocurrido un error en el servidor");

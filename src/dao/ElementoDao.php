@@ -19,7 +19,7 @@ class ElementoDao extends DAO
 	{
 		parent::__construct();
 		$this->colorDao = new ColorDao();
-		$this->deporteDao = new CategoriaDao();
+		$this->categoriaDao = new CategoriaDao();
 		$this->materialDao = new MaterialDao();
 	}
 
@@ -29,7 +29,7 @@ class ElementoDao extends DAO
 		$result = $result->getResultSet();
 
 		foreach ($result as $elementos) {
-			array_push($elementos, new Elemento($elemento['id'], $elemento['nombre'], $elemento['descripcion'], $elemento['precio'], $elemento['idColor'], $elemento['idCategoria'], $elemento['idMaterial']));
+			array_push($elementos, new Elemento($result['id'], $result['nombre'], $result['descripcion'], $result['precio'], $result['idColor'], $result['idCategoria'], $result['idMaterial']));
 		}
 
 		return $usuarios;
@@ -83,18 +83,13 @@ class ElementoDao extends DAO
 			return null;
 		}
 		$color = $this->colorDao->getColorByID($row['idColor']);
-		$category = $this->categoriaDao->getCategoryByID($row['idCategory']);
+		$categoria = $this->categoriaDao->getCategoryByID($row['idCategoria']);
 		$material = $this->materialDao->getMaterialByID($row['idMaterial']);
-		return new Elemento($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $color, $category, $material);
+		return new Elemento($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $color, $categoria, $material);
 	}
 
 	public function createOrUpdateElement($elemento){
 		try{
-			if($elemento->id == null){
-				$this->saveElement($elemento);
-				return;
-			}
-
 			$elementoNew = $this->getElementByID($elemento);
 			if($elemento->nombre != null && $elemento->nombre != '')
 				$elementoNew->nombre = $elemento->nombre;

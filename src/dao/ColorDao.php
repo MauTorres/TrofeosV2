@@ -38,7 +38,7 @@ class ColorDao extends DAO
 	public function getColorsGrid($params){
 		$query = sprintf("SELECT 
 				C.id,
-				C.descripcion AS color
+				C.descripcion
 			FROM colores C 
 			WHERE
 				estatus = 1
@@ -57,7 +57,7 @@ class ColorDao extends DAO
 
 	public function getColorByID($color){
 		$result = $this->query("SELECT * FROM colores WHERE id = ?", array($color->id));
-		$row = $result->getResultSet()[0];
+		$row = $result->getResultSet();
 
 		return new Color($row['id'], $row['descripcion']);
 	}
