@@ -64,7 +64,34 @@ class ElementoDao extends DAO
 			WHERE 
 				E.estatus = 1
 				%s", $params);
-		Loger::log($query, null);
+		
+		return $this->query($query, null);
+	}
+
+	public function getElementosTrofeos($params){
+		$query = sprintf(
+			"SELECT 
+				E.id,
+	   			E.nombre,
+			    IF(C.descripcion is null, '', C.descripcion) AS color,
+			    IF(M.descripcion is null, '', M.descripcion) AS material,
+			    IF(Cat.descripcion is null, '', Cat.descripcion) AS categoria,
+			    (SELECT 
+			    	GROUP_CONCAT(Meds.medida SEPARATOR '|')
+			   	FROM medidas Meds
+			   	WHERE Meds.idElemento = E.id
+			   	GROUP BY Meds.idElemento) AS medidas
+			FROM elementos E
+			LEFT JOIN colores C
+				ON E.idColor = C.id
+			LEFT JOIN materiales M
+				ON E.idMaterial = M.id
+			LEFT JOIN categorias Cat
+				ON E.idCategoria = Cat.id
+			WHERE 
+				E.estatus = 1
+				%s", $params);
+
 		return $this->query($query, null);
 	}
 
@@ -72,6 +99,7 @@ class ElementoDao extends DAO
 		try{
 			$this->execute("UPDATE elementos SET estatus = 0 WHERE id = ?", array(array($elemento->id)));
 		}catch(Exception $e){
+			Loger::log($e->getMessage(),null);
 			throw $e;
 		}
 	}

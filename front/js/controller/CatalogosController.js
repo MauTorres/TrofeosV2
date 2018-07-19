@@ -100,4 +100,8 @@ function CatalogosController(){
 			isCollapseUp = true;
 		}
 	};
+
+	this.getCatalogSelector = function(catalogName){
+
+	}
 }

@@ -40,7 +40,7 @@ class CategoriaBusiness extends Business
 			if($categoria->descripcion != null)
 				$params .= "AND Cat.descripcion like '%".$categoria->descripcion."%'";
 		}
-		Loger::log(print_r($params,true), null);
+
 		$result = $this->categoriaDAO->getCategoriesGrid($params);
 		$this->responce->success = true;
 		$this->responce->data = $result;
