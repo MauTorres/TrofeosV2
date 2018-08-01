@@ -2,18 +2,31 @@
 
 require_once dirname(__DIR__)."/business/TrofeoBusiness.php";
 
-
 $trofeoBusiness = new TrofeoBusiness();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
 		case 'deleteUser':
-			$usuario = new Usuario($_POST['id'], $_POST['usuario'], null, $_POST['email']);
+			$trofeo = new Usuario($_POST['id'], $_POST['usuario'], null, $_POST['email']);
 			$trofeoBusiness->deleteUser($usuario);
 			break;
 		case 'createOrUpdateUser':
-			$usuario = new Usuario($_POST['id'], $_POST['usuario'], null, $_POST['email']);
+			$trofeo = new Usuario($_POST['id'], $_POST['usuario'], null, $_POST['email']);
 			$trofeoBusiness->createOrUpdateUser($usuario);
+			break;
+		case 'setElement':
+			$trofeo = new Trofeo($_POST['idTrofeo'], null, null, null, null);
+			$elemento = new Elemento($_POST['idTrofeo'], null, null, null, null, null, null);
+			$trofeoBusiness->setElement($trofeo, $elemento);
+			break;
+		case 'setElements':
+			$trofeo = new Trofeo($_POST['currentTrophy']['id'], null, null, null, null);
+			$elementos = array();
+			//Loger::log(print_r($trofeo, 1), null);
+			foreach($_POST['currentTrophy']['elementos'] as $elemento){
+				array_push($elementos, new Elemento($elemento['id'], null, null, null, null, null, null));
+			}
+			$trofeoBusiness->setElements($trofeo, $elementos);
 			break;
 		default:
 			

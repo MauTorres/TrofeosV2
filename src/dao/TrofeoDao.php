@@ -4,6 +4,7 @@
  */
 require_once __DIR__."/DAO.php";
 require_once __DIR__."/entities/Trofeo.php";
+require_once __DIR__."/entities/Elemento.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
 
 class TrofeoDao extends DAO
@@ -18,6 +19,7 @@ class TrofeoDao extends DAO
 		try {
 			$query = sprintf(
 				"SELECT
+					T.id,
 					T.nombre as nombre,
 					T.descripcion as descripcion,
 					T.precio as precio
@@ -29,6 +31,15 @@ class TrofeoDao extends DAO
 			return $this->query($query, null);
 		} catch (Exception $e) {
 			Loger::log($e->getMessage(), null);
+		}
+	}
+
+	public function setElement($trofeo, $elemento){
+		try {
+			$this->execute('INSERT INTO trofeoselementos(idTrofeo, idElemento) VALUES(?, ?)', array(array($trofeo->id, $elemento->id)));
+		} catch (Exception $e) {
+			Loger::log($e->getMessage(), null);
+			throw $e;
 		}
 	}
 }

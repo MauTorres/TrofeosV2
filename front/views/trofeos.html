@@ -11,16 +11,16 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="../js/entities/Action.js"></script>
 	<script src="../js/controller/HttpFunctions.js"></script>
+	<script src="../js/controller/CatalogCreator.js"></script>
 	<script src="../js/controller/MenuNavs.js"></script>
-	<script src="../js/controller/SessionController.js"></script>
-	<script src="../js/controller/Usuario.js"></script>
+	<script src="../js/controller/session/SessionController.js"></script>
+	<script src="../js/entities/Usuario.js"></script>
 	<script src="../js/controller/ActionButton.js"></script>
+	<script src="../js/controller/ActionCheck.js"></script>
 	<script src="../js/controller/TableCreator.js"></script>
 	<script src="../js/entities/GridView.js"></script>
 	<script src="../js/entities/Trofeo.js"></script>
-	<script src="../js/controller/TrofeosController.js"></script>
-	<script src="../js/controller/CatalogCreator.js"></script>
-	<script src="../js/controller/SearchElementoModalController.js"></script>
+	<script src="../js/controller/trofeos/TrofeosController.js"></script>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -98,6 +98,11 @@
 	<div class="modal fade bd-example-modal-lg" id="search-element-modal" tabindex="-1" role="dialog" aria-labelledby="elementos-label-modal" aria-hidden="true">
 		<script type="text/javascript">
 			$('#search-element-modal').load("modals/searchElementoModal.html" );
+		</script>
+	</div>
+	<div class="modal fade bd-example-modal-lg" id="add-element-modal" tabindex="-1" role="dialog" aria-labelledby="elementos-label-modal" aria-hidden="true">
+		<script type="text/javascript">
+			$('#add-element-modal').load("modals/addElementsModal.html" );
 		</script>
 	</div>
 </body>

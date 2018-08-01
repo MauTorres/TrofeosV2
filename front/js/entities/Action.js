@@ -1,10 +1,11 @@
-function Action(type, label, icon, _class, size, functionECute){
+function Action(type, label, icon, _class, size, functionECute, component){
 	this.type = type;
 	this.label = label;
 	this.icon = icon;
 	this._class = _class;
 	this.size = size;
 	this.functionECute = functionECute;
+	this.component = 'button';
 }
 
 function ActionEdit(label, _class, size){

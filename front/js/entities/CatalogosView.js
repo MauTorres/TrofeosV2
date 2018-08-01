@@ -14,7 +14,7 @@ CatalogosView = {
 					responce.data.actions = CatalogosView.actions;
 					var table = $('#catalogo-table');
 					if(responce.success){
-						TableCreator.fillTable(responce.data, table);
+						TableCreator.fillTable(responce.data, table, [0, 1]);
 					}
 				}catch(err){
 					alert("Ha ocurrido un error en el servidor");
@@ -29,6 +29,6 @@ CatalogosView = {
 		});
 	},
 	actions: [
-		{type:'light', label:'', icon:'fa fa-edit', _class:'btn-edit-usr', size:'', functionECute:'catalogosController.openUpdateModal($(this).parent().parent());'},
-		{type:'danger', label:'', icon:'fa fa-close', _class:'btn-delete-usr', size:'', functionECute:'catalogosController.deleteElement($(this).parent().parent());'}]
+		{type:'light', label:'', icon:'fa fa-edit', _class:'btn-edit-usr', size:'', functionECute:'catalogosController.openUpdateModal($(this).parent().parent());', component:'button'},
+		{type:'danger', label:'', icon:'fa fa-close', _class:'btn-delete-usr', size:'', functionECute:'catalogosController.deleteElement($(this).parent().parent());', component:'button'}]
 };

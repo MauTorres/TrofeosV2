@@ -52,8 +52,11 @@ class ElementoDao extends DAO
 		    E.descripcion,
 		    E.precio,
 		    C.descripcion AS color,
+		    C.id idColor,
 		    M.descripcion AS material,
-		    Cat.descripcion AS categoria
+		    M.id idMaterial,
+		    Cat.descripcion AS categoria,
+		    Cat.id idCategoria
 			FROM elementos E
 			LEFT JOIN colores C
 				ON E.idColor = C.id
