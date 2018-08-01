@@ -64,7 +64,7 @@ class CategoriaDao extends DAO
 
 	public function getCategoryByID($category){
 		$result = $this->query("SELECT * FROM categorias WHERE id = ?", array($category->id));
-		$row = $result->getResultSet()[0];
+		$row = $result->getResultSet();
 
 		return new Categoria($row['id'], $row['descripcion']);
 	}

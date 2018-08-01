@@ -1,0 +1,38 @@
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="trofeos-label-modal">Elemento</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<form id="form-update-user">
+				<div class="form-group">
+					<label for="nm-elemento">Nombre del elemento</label>
+					<input type="text" class="form-control" id="nm-elemento" placeholder="Nombre del elemento">
+					<label for="precio">Precio</label>
+					<input type="text" class="form-control" id="precio" placeholder="Precio del elemento">
+					<label for="descripcion">Descripcion</label>
+					<input type="text" class="form-control" id="descripcion" placeholder="Descripcion del elemento">
+					<label for="color">Color</label>
+					<select class="form-control" id="color">
+						<option>Seleccione el color</option>
+					</select>
+					<label for="material">Material</label>
+					<select class="form-control" id="material">
+						<option>Seleccione material</option>
+					</select>
+					<label for="categoria">Categoría</label>
+					<select class="form-control" id="categoria">
+						<option>Seleccione categoria</option>
+					</select>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" onclick="cleanUserForm();" id="btn-update-user-cancel">Cerrar</button>
+			<button type="button" class="btn btn-primary" onclick="createOrUpdateUser();" id="btn-update-user">Guardar</button>
+		</div>
+	</div>
+</div>

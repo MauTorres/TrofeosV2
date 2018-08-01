@@ -19,9 +19,9 @@ class Elemento extends Entity
 		$this->nombre = $nombre;
 		$this->descripcion = $descripcion;
 		$this->precio = $precio;
-		$this->color = $idColor;
-		$this->categoria = $idCategoria;
-		$this->material = $idMaterial;
+		$this->idColor = $idColor;
+		$this->idCategoria = $idCategoria;
+		$this->idMaterial = $idMaterial;
 	}
 
 	function equals($elemento){
@@ -31,9 +31,9 @@ class Elemento extends Entity
 				$this->nombre == $elemento->nombre &&
 				$this->descripcion == $elemento->descripcion &&
 				$this->precio == $elemento->precio &&
-				$this->color == $idColor &&
-				$this->categoria == $idCategoria &&
-				$this->material == $idMaterial;
+				$this->idColor == $idColor &&
+				$this->idCategoria == $idCategoria &&
+				$this->idMaterial == $idMaterial;
 	}
 }
 ?>

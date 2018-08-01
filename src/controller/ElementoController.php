@@ -11,7 +11,7 @@ $elementoBusiness = new ElementoBusiness();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
 		case 'deleteElement':
-			$elemento = new Elemento($_POST['id'], $_POST['nombre'], $_POST['descripcion'], $_POST['precio'], $_POST['idColor'], $_POST['idCategoria'], $_POST['idMaterial']);
+			$elemento = new Elemento($_POST['id'], $_POST['nombre'], $_POST['descripcion'], $_POST['precio'], null, null, null);
 			$elementoBusiness->deleteElement($elemento);
 			break;
 		case 'createOrUpdateElement':
