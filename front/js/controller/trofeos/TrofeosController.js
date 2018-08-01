@@ -21,6 +21,12 @@ function openUpdateModal(row){
 		$('#precio').val(currentTrophy.precio);
 		$('#trophy-photo').val(currentTrophy.foto);
 		$('#row-index').val(row.index());
+		elementosGridView.getGrid(
+		{method: 'getElementosTrofeo', trophy:currentTrophy}, 
+		'../../src/controller/ElementoController.php', 
+		null, 
+		$('#grid-elementtrophy-table'), 
+		[0, 1, 2, 3, 4, 5]);
 	}
 
 	$('#update-trophy-modal').modal('show');
@@ -38,7 +44,12 @@ function toggleCollapse(row){
 function searchElement(){
 	$('#search-element-modal').modal('hide');
 	$('#add-element-modal').modal('show');
-	elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/ElementoController.php', elemtsGridActions, $('#grid-element-table'), [0, 1, 2, 3, 4, 5]);
+	elementosGridView.getGrid(
+		{method: 'getElementosTrofeos'}, 
+		'../../src/controller/ElementoController.php', 
+		elemtsGridActions, 
+		$('#grid-element-table'), 
+		[0, 1, 2, 3, 4, 5]);
 }
 
 function addElement(row){
@@ -80,5 +91,10 @@ function deleteElement(){
 
 $(document).ready(function(){
 	SessionController.checkSession('trofeos');
-	trofeosGridView.getGrid({method: 'getTrofeosGrid'}, '../../src/controller/TrofeoController.php', actions, $('#grid-table'), [0, 1, 2]);
+	trofeosGridView.getGrid(
+		{method: 'getTrofeosGrid'}, 
+		'../../src/controller/TrofeoController.php', 
+		actions, 
+		$('#grid-table'), 
+		[0, 1, 2]);
 });
