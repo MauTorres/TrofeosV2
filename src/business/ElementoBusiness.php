@@ -81,6 +81,15 @@ class ElementoBusiness extends Business
 		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
 	}
 
+	public function getElementosTrofeo($trofeo){
+		$this->responce = new Responce();
+		$result = $this->elementoDAO->getElementosTrofeo($trofeo);
+		$this->responce->success = true;
+		$this->responce->data = $result;
+
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
+	}
+
 	public function deleteElement($elemento){
 		$this->responce = new Responce();
 		try{

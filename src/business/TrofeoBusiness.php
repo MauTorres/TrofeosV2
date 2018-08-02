@@ -42,7 +42,6 @@ class TrofeoBusiness extends Business
 		}
 		
 		$result = $this->trofeoDAO->getTrofeosGrid($params);
-		Loger::log(json_encode($result, JSON_UNESCAPED_UNICODE), null);
 		$this->responce->success = true;
 		$this->responce->data = $result;
 
@@ -79,11 +78,36 @@ class TrofeoBusiness extends Business
 			$this->responce->message = "El elemento se guardó correctamente";
 		}catch(Exception $e){
 			Loger::log("Error al actualizar el elemento ".$trofeo->nombre."\n".$e->getMessage(), null);
+
+	public function setElement($trofeo, $elemento){
+		$this->responce = new Responce();
+		try{
+			$this->trofeoDAO->setElement($trofeo, $elemento);
+			$this->responce->success = true;
+			$this->responce->message = "Se ha registrado el elemento ".$elemento->id;
+		}catch(Exception $e){
+			throw new Exception("Falló en insertar el elemento ".$elemento->id);	
+		}
+
+		//echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
+	}
+
+	public function setElements($trofeo, $elementos){
+		try {
+			if(count($elementos) == 0)
+				throw new Exception('No hay elementos que agregar a éste trofeo');	
+			foreach ($elementos as $elemento) {
+				$this->setElement($trofeo, $elemento);
+			}
+		} catch (Exception $e) {
 			$this->responce->success = false;
 			$this->responce->message = $e->getMessage();
 		}
 
 		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
+		$this->responce->success = true;
+		$this->responce->message = "Elementos insertados con éxito";
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
 	}
 }
 ?>

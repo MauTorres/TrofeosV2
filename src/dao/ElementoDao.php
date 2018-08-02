@@ -7,6 +7,7 @@ require_once __DIR__."/ColorDao.php";
 require_once __DIR__."/CategoriaDao.php";
 require_once __DIR__."/MaterialDao.php";
 require_once __DIR__."/entities/Elemento.php";
+require_once __DIR__."/entities/Trofeo.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
 
 class ElementoDao extends DAO
@@ -52,8 +53,11 @@ class ElementoDao extends DAO
 		    E.descripcion,
 		    E.precio,
 		    C.descripcion AS color,
+		    C.id idColor,
 		    M.descripcion AS material,
-		    Cat.descripcion AS categoria
+		    M.id idMaterial,
+		    Cat.descripcion AS categoria,
+		    Cat.id idCategoria
 			FROM elementos E
 			LEFT JOIN colores C
 				ON E.idColor = C.id
@@ -91,6 +95,35 @@ class ElementoDao extends DAO
 			WHERE 
 				E.estatus = 1
 				%s", $params);
+
+		return $this->query($query, null);
+	}
+
+	public function getElementosTrofeo($trofeo){
+		$query = sprintf(
+			"SELECT 
+				E.id,
+	   			E.nombre,
+			    IF(C.descripcion is null, '', C.descripcion) AS color,
+			    IF(M.descripcion is null, '', M.descripcion) AS material,
+			    IF(Cat.descripcion is null, '', Cat.descripcion) AS categoria,
+			    (SELECT 
+			    	GROUP_CONCAT(Meds.medida SEPARATOR '|')
+			   	FROM medidas Meds
+			   	WHERE Meds.idElemento = E.id
+			   	GROUP BY Meds.idElemento) AS medidas
+			FROM elementos E
+			LEFT JOIN colores C
+				ON E.idColor = C.id
+			LEFT JOIN materiales M
+				ON E.idMaterial = M.id
+			LEFT JOIN categorias Cat
+				ON E.idCategoria = Cat.id
+			JOIN trofeoselementos TE
+				ON TE.idElemento = E.id
+			WHERE 
+				E.estatus = 1
+				AND TE.idTrofeo = %s", $trofeo->id);
 
 		return $this->query($query, null);
 	}
