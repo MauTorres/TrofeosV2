@@ -10,14 +10,16 @@ class Trofeo extends Entity
 	public $descripcion;
 	public $precio;
 	public $foto;
+	public $estatus;
 	
-	function __construct($id, $nombre, $descripcion, $precio, $foto)
+	function __construct($id, $nombre, $descripcion, $precio, $foto, $estatus)
 	{
 		parent::__construct($id);
 		$this->nombre = $nombre;
 		$this->descripcion = $descripcion;
 		$this->precio = $precio;
-		$this->foto = $foto;	
+		$this->foto = $foto;
+		$this->estatus = $estatus;
 	}
 }
 ?>

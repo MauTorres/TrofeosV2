@@ -58,6 +58,15 @@ class TrofeoBusiness extends Business
 			Loger::log("Error, no se pudo eliminar el elemento ".$trofeo->nombre."\n".$e->getMessage(), null);
 			$this->responce->success = false;
 			$this->responce->message = "Error al eliminar el material ".$trofeo->nombre;
+	public function createOrUpdateTrophy($trofeo){
+		$this->responce = new Responce();
+		try{
+			$this->trofeoDAO->createOrUpdateTrophy($trofeo);
+			$this->responce->success = true;
+			$this->responce->message = "Se ha almacenado el trofeo de forma correcta";
+		}catch(Exception $e){
+			$this->responce->success = false;
+			$this->responce->message = "Ocurrió un erorr al alacenar el trofeo";
 		}
 		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
