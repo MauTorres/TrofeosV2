@@ -78,6 +78,8 @@ class TrofeoBusiness extends Business
 			$this->responce->message = "El elemento se guardó correctamente";
 		}catch(Exception $e){
 			Loger::log("Error al actualizar el elemento ".$trofeo->nombre."\n".$e->getMessage(), null);
+		}
+	}
 
 	public function setElement($trofeo, $elemento){
 		$this->responce = new Responce();

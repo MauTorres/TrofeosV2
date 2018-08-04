@@ -1,7 +1,6 @@
 var actions = 
 	[new ActionEdit('', '', ''),
 	new ActionDelete('', '', '')];
-var trofeosGridView = new GridView();
 var elementosGridView = new GridView();
 var isCollapseUp = true;
 var colorCatalogCreator = new CatalogCreator('../../src/controller/ColorController.php');
@@ -19,7 +18,13 @@ function deleteElement(row){
 			try{
 				var responce = jQuery.parseJSON(data);
 				if(responce.success){
-					ElementsView.getElementsGrid(null);
+					elementosGridView.getGrid(
+					{method: 'deleteElement'}, 
+					'../../src/controller/ElementoController.php', 
+					actions, 
+					$('#grid-element-table'), 
+					[0, 1, 2, 3, 4, 5]
+					);
 					alert(responce.message);
 				}
 			}catch(err){
@@ -60,7 +65,14 @@ function createOrUpdateElement(){
 			try{
 				var responce = jQuery.parseJSON(data);
 				if(responce.success){
-					ElementsView.getElementsGrid(null);
+
+					elementosGridView.getGrid(
+					{method: 'createOrUpdateElement'}, 
+					'../../src/controller/ElementoController.php', 
+					actions, 
+					$('#grid-element-table'), 
+					[0, 1, 2, 3, 4, 5]
+					);
 					$('#update-element-modal').modal('hide');
 				}
 				alert(responce.message);
@@ -82,9 +94,16 @@ function searchElement(){
 		$('#id-elemento').val(),
 		$('#nombre-elemento').val(),
 		$('#descripcion-elemento').val(),
-		$('#precio-elemento').val(),
-		);
-	ElementsView.getElementsGrid(elemento);
+		$('#precio-elemento').val()
+	);
+	elementosGridView.getGrid(
+		{method: 'getElementosTrofeos'}, 
+		'../../src/controller/ElementoController.php', 
+		actions, 
+		$('#grid-element-table'), 
+		[0, 1, 2, 3, 4, 5]
+	);
+
 }
 
 function openUpdateModal(row){
@@ -129,5 +148,5 @@ function toggleCollapse(element){
 
 $(document).ready(function(){
 	SessionController.checkSession('elementos');
-	elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/ElementoController.php', actions, $('#grid-element-table'));
+	elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/ElementoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5]);
 });
