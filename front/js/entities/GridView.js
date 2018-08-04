@@ -1,5 +1,6 @@
 function GridView(){
 	this.elements = null;
+	this.headers = null;
 	var self = this;
 	this.getGrid = function(data, rootURL, actions, table, elementsToDisplay){
 		$.when(httpCall('GET', rootURL, data)).done(function(res){

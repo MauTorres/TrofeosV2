@@ -35,8 +35,10 @@ class SessionBusiness extends Business
 	}
 
 	public function endSession(){
-		if(session_status() != PHP_SESSION_NONE)
+		session_start();
+		if(session_status() != PHP_SESSION_NONE){
 			session_destroy();
+		}
 
 		$this->responce = new Responce();
 		$this->responce->success = true;

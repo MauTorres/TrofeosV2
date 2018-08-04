@@ -33,6 +33,19 @@ class TrofeoBusiness extends Business
 		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
 	}
 
+	public function createOrUpdateTrophy($trofeo){
+		$this->responce = new Responce();
+		try{
+			$this->trofeoDAO->createOrUpdateTrophy($trofeo);
+			$this->responce->success = true;
+			$this->responce->message = "Se ha almacenado el trofeo de forma correcta";
+		}catch(Exception $e){
+			$this->responce->success = false;
+			$this->responce->message = "Ocurrió un erorr al alacenar el trofeo";
+		}
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
+	}
+
 	public function setElement($trofeo, $elemento){
 		$this->responce = new Responce();
 		try{

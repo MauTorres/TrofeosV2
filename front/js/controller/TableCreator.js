@@ -39,17 +39,19 @@ TableCreator = {
 				TableCreator.createActions(data.actions, row);
 		}
 	},
-	fillElementTable: function(data, table){
-		TableCreator.cleanTable(table);
-		TableCreator.createHeaders(data, table);
-		table.append(TableCreator.body);
+	updateTable: function(data, table, elementsToDisplay){
 		var tableBody = table.find('tbody');
-		for(var rowsCount = 0; rowsCount < data.resultSet.length; rowsCount++){
+		for(var rowsCount = 0; rowsCount < data.length; rowsCount++){
+			var displayCount = 0;
 			tableBody.append('<tr></tr>');
 			var tableRow = tableBody.find('tr');
-			var columns = Object.values(data.resultSet[rowsCount]);
+			var columns = Object.values(data[rowsCount]);
 			var row = $(tableRow[rowsCount]);
 			for(var columnCount = 0; columnCount < columns.length; columnCount++){
+				if(columnCount != elementsToDisplay[displayCount]){
+					continue;
+				}
+				displayCount++;
 				row.append('<td>' + columns[columnCount] + '</td>');
 			}
 			if(data.actions != undefined)

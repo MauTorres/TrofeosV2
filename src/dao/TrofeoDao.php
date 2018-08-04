@@ -15,6 +15,16 @@ class TrofeoDao extends DAO
 		parent::__construct();
 	}
 
+	public function getTrophyById($trofeo){
+		try {
+			$result = $this->query("SELECT * FROM trofeos WHERE id = ?", array($trofeo->id));
+			$row = $result->getResultSet()[0];
+			return new Trofeo($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $row['fotoPath'], $row['estatus']);
+		}catch (Exception $e) {
+			Loger::log($e->getMessage(), null);
+		}
+	}
+
 	public function getTrofeosGrid($params){
 		try {
 			$query = sprintf(
@@ -38,6 +48,53 @@ class TrofeoDao extends DAO
 		try {
 			$this->execute('INSERT INTO trofeoselementos(idTrofeo, idElemento) VALUES(?, ?)', array(array($trofeo->id, $elemento->id)));
 		} catch (Exception $e) {
+			Loger::log($e->getMessage(), null);
+			throw $e;
+		}
+	}
+
+	public function saveTrophy($trofeo){
+		try {
+			$this->execute('INSERT INTO trofeos(nombre, descripcion, precio, fotoPath) VALUES(?, ?, ?, ?)', array(array($trofeo->nombre, $trofeo->descripcion, $trofeo->precio, $trofeo->foto)));
+		}catch (Exception $e) {
+			Loger::log($e->getMessage(), null);
+		}
+	}
+
+	public function createOrUpdateTrophy($trofeo){
+		try {
+			if($trofeo->id != null){
+				$this->saveTrophy($trofeo);
+				return;
+			}
+
+			$trofeoNew = $this->getTrophyById($trofeo);
+			if($trofeo->nombre != null && $trofeo->nombre != '')
+				$trofeoNew->nombre = $trofeo->nombre;
+			if($trofeo->descripcion != null && $trofeo->descripcion != '')
+				$trofeoNew->descripcion = $trofeo->descripcion;
+			if($trofeo->precio != null && $trofeo->precio != '')
+				$trofeoNew->precio = $trofeo->precio;
+			if($trofeo->fotoPath != null && $trofeo->fotoPath != '')
+				$trofeoNew->fotoPath = $trofeo->fotoPath;
+
+			$this->execute(
+				'UPDATE trofeos
+				SET
+					nombre = ?,
+					descripcion = ?,
+					precio = ?,
+					fotoPath = ?,
+					estatus = ?
+				WHERE id = ?', 
+				array(array(
+					$trofeo->nombre, 
+					$trofeo->descripcion, 
+					$trofeo->precio, 
+					$trofeo->fotoPath,
+					$trofeo->estatus,
+					$trofeo->id)));
+		}catch (Exception $e) {
 			Loger::log($e->getMessage(), null);
 			throw $e;
 		}
