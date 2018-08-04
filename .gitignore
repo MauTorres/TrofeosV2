@@ -1,2 +1,4 @@
 /src/utils/ConnectionStrings.php
 *.log
+/src/img/*.jpg
+!.gitkeep
