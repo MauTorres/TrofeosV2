@@ -139,7 +139,6 @@ function toggleCollapse(element){
 		element.children().addClass('fa fa-caret-square-o-down');
 		isCollapseUp = true;
 	}
-
 }
 
 $(document).ready(function(){

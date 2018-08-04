@@ -149,7 +149,7 @@ class ElementoDao extends DAO
 		return new Elemento($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $color, $categoria, $material);
 	}
 
-	public function createOrUpdateElement($elemento){
+	public function createOrUpdateUser($elemento){
 		try{
 			$elementoNew = $this->getElementByID($elemento);
 			if($elemento->nombre != null && $elemento->nombre != '')
