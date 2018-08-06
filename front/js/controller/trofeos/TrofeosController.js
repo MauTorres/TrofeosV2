@@ -13,21 +13,24 @@ function openUpdateModal(row){
 	colorCatalogCreator.fillCatalog($('#color'));
 	materialCatalogCreator.fillCatalog($('#material'));
 	categoriaCatalogCreator.fillCatalog($('#categoria'));
-
+	var trofeoUpdate = null;
+	$('#photo-body').html('');
 	if(row != undefined){
-		if(currentTrophy == null){
-			currentTrophy = trofeosGridView.elements[row.index()];
-			$('#row-index').val(row.index());
+		trofeoUpdate = trofeosGridView.elements[row.index()];
+		$('#row-index').val(row.index());
+		$('#id-modelo').val(trofeoUpdate.nombre);
+		$('#descripcion').val(trofeoUpdate.descripcion);
+		$('#precio').val(trofeoUpdate.precio);
+		if(trofeoUpdate.fotoPath != null){
+			$('#photo-body').append('<img src="../../src' + trofeoUpdate.fotoPath + '" class="img-fluid">');
 		}
-		$('#id-modelo').val(currentTrophy.nombre);
-		$('#descripcion').val(currentTrophy.descripcion);
-		$('#precio').val(currentTrophy.precio);
-		$('#trophy-photo').val(currentTrophy.foto);
+		//$('#trophy-photo').val(currentTrophy.foto);
 	}else{
 		$('#grid-elementtrophy-table').html('');
 	}
+
 	elementosGridView.getGrid(
-		{method: 'getElementosTrofeo', trophy:currentTrophy == null ? {id:0} : currentTrophy}, 
+		{method: 'getElementosTrofeo', trophy:trofeoUpdate == null ? {id:0} : trofeoUpdate}, 
 		'../../src/controller/ElementoController.php', 
 		null, 
 		$('#grid-elementtrophy-table'), 
@@ -94,27 +97,48 @@ function addElements(){
 					openUpdateModal(currentTrophy);
 				}
 			}catch(exeption){
-
+				alert("Ocurrió un error en el servidor");
 			}
 		}
 	});
 }
 
-function deleteElement(){
-	
+function deleteElement(row){
+	var trofeoDelete = trofeosGridView.elements[row.index()];
+	$.ajax({
+		type: 'POST',
+		url: '../../src/controller/TrofeoController.php',
+		data: {method:'deleteTrophy', trofeo: trofeoDelete},
+		success: function(respoce){
+			try{
+				var res = jQuery.parseJSON(respoce);
+				if(res.success){
+					alert(res.message);
+					loadTrofeoGrid();
+				}
+			}catch(exeption){
+				alert("Ocurrió un error en el servidor");
+			}
+		}
+	});	
+}
+
+function getTrophyToCreateOrUpdate(){
+	var trofeoUpdate = new Trofeo(null, null, null, null, null, null);
+	if($('#row-index').val() != null && $('#row-index').val() != ''){
+		trofeoUpdate = trofeosGridView.elements[$('#row-index').val()];
+	}else{
+		trofeoUpdate.id = null;
+	}
+
+	trofeoUpdate.nombre = $('#id-modelo').val();
+	trofeoUpdate.descripcion = $('#descripcion').val();
+	trofeoUpdate.precio = $('#precio').val();
+
+	return trofeoUpdate;
 }
 
 function createOrUpdateTrophy(){
-	if(currentTrophy == null){
-		currentTrophy = new Trofeo(
-			null,
-			$('#id-modelo').val(),
-			$('#descripcion').val(),
-			$('#precio').val(),
-			null,
-			null);
-	}
-
 	$('#form-update-trophy').submit();
 }
 
@@ -125,22 +149,27 @@ function cleanTrophyForm(){
 	$('#trophy-photo').val('');
 	$('#row-index').val('');
 	$('#update-trophy-modal').modal('hide');
-	currentTrophy = null;
 }
 
-$(document).ready(function(){
-	SessionController.checkSession('trofeos');
+function loadTrofeoGrid(){
 	trofeosGridView.getGrid(
 		{method: 'getTrofeosGrid'}, 
 		'../../src/controller/TrofeoController.php', 
 		actions, 
 		$('#grid-table'), 
 		[0, 1, 2]);
+}
+
+$(document).ready(function(){
+	SessionController.checkSession('trofeos');
+	loadTrofeoGrid();
+	/*Uso ésta forma de enviar la información para lograr cargar imágenes en el server*/
 	$('#form-update-trophy').submit(function(e){
 		e.preventDefault();
+		var trofeoUpdate = getTrophyToCreateOrUpdate();
 		var formData = new FormData($(this));
-		for ( var key in currentTrophy ) {
-			formData.append(key, currentTrophy[key]);
+		for ( var key in trofeoUpdate ) {
+			formData.append(key, trofeoUpdate[key]);
 		}
 		formData.append("foto", document.getElementById("trophy-photo").files[0]);
 		formData.append("method", "createOrUpdateTrophy");
@@ -159,13 +188,7 @@ $(document).ready(function(){
 					alert("Ocurrió un error en el servidor");
 				}
 				cleanTrophyForm();
-				trofeosGridView.getGrid(
-					{method: 'getTrofeosGrid'}, 
-					'../../src/controller/TrofeoController.php', 
-					actions, 
-					$('#grid-table'), 
-					[0, 1, 2]
-				);
+				loadTrofeoGrid();
 			}
 		});
 	});

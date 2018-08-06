@@ -29,13 +29,14 @@ class TrofeoDao extends DAO
 		try {
 			$query = sprintf(
 				"SELECT
-					T.id,
-					T.nombre as nombre,
-					T.descripcion as descripcion,
-					T.precio as precio
-				FROM trofeos T
+					id,
+					nombre,
+					descripcion,
+					precio,
+					fotoPath
+				FROM trofeos
 				WHERE
-					T.estatus = 1
+					estatus = 1
 					%s
 				", $params);
 			return $this->query($query, null);
@@ -63,7 +64,7 @@ class TrofeoDao extends DAO
 
 	public function createOrUpdateTrophy($trofeo){
 		try {
-			if($trofeo->id != null){
+			if($trofeo->id == null){
 				$this->saveTrophy($trofeo);
 				return;
 			}
@@ -75,8 +76,10 @@ class TrofeoDao extends DAO
 				$trofeoNew->descripcion = $trofeo->descripcion;
 			if($trofeo->precio != null && $trofeo->precio != '')
 				$trofeoNew->precio = $trofeo->precio;
-			if($trofeo->fotoPath != null && $trofeo->fotoPath != '')
-				$trofeoNew->fotoPath = $trofeo->fotoPath;
+			if($trofeo->foto != null && $trofeo->foto != '')
+				$trofeoNew->foto = $trofeo->foto;
+			if($trofeo->estatus != null && $trofeo->estatus != '')
+				$trofeoNew->estatus = $trofeo->estatus;
 
 			$this->execute(
 				'UPDATE trofeos
@@ -91,7 +94,7 @@ class TrofeoDao extends DAO
 					$trofeo->nombre, 
 					$trofeo->descripcion, 
 					$trofeo->precio, 
-					$trofeo->fotoPath,
+					$trofeo->foto,
 					$trofeo->estatus,
 					$trofeo->id)));
 		}catch (Exception $e) {

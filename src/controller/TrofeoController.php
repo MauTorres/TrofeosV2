@@ -8,11 +8,13 @@ $trofeoBusiness = new TrofeoBusiness();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
 		case 'createOrUpdateTrophy':
-			Loger::log(print_r($_POST, 1), null);
-			$fileManager = new FileManager($_FILES['foto']);
-			$fileManager->saveImage();
-			$trofeo = new Trofeo($_POST['id'], $_POST['nombre'], $_POST['descripcion'], $_POST['precio'], STORE_PATH.$_FILES['foto']['name'], $_POST['estatus']);
-			Loger::log(print_r($trofeo, 1), null);
+			$fotoPath = null;
+			if(isset($_FILES) && isset($_FILES['foto'])){
+				$fileManager = new FileManager($_FILES['foto']);
+				$fileManager->saveImage();
+				$fotoPath = STORE_PATH.$_FILES['foto']['name'];
+			}
+			$trofeo = new Trofeo($_POST['id'], $_POST['nombre'], $_POST['descripcion'], $_POST['precio'], $fotoPath, $_POST['estatus']);
 			$trofeoBusiness->createOrUpdateTrophy($trofeo);
 			break;
 		case 'setElement':
@@ -23,11 +25,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		case 'setElements':
 			$trofeo = new Trofeo($_POST['currentTrophy']['id'], null, null, null, null, null);
 			$elementos = array();
-			//Loger::log(print_r($trofeo, 1), null);
 			foreach($_POST['currentTrophy']['elementos'] as $elemento){
 				array_push($elementos, new Elemento($elemento['id'], null, null, null, null, null, null));
 			}
 			$trofeoBusiness->setElements($trofeo, $elementos);
+			break;
+		case 'deleteTrophy':
+			$trofeo = new Trofeo($_POST['trofeo']['id'], null, null, null, null, 0);
+			$trofeoBusiness->createOrUpdateTrophy($trofeo);
 			break;
 		default:
 			

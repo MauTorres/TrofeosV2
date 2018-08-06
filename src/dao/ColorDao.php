@@ -43,7 +43,6 @@ class ColorDao extends DAO
 			WHERE
 				estatus = 1
 				%s", $params);
-		Loger::log($query, null);
 		return $this->query($query, null);
 	}
 

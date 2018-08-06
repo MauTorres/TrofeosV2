@@ -40,7 +40,6 @@ class MaterialBusiness extends Business
 			if($material->descripcion != null)
 				$params .= "AND M.descripcion like '%".$material->descripcion."%'";
 		}
-		Loger::log(print_r($params,true), null);
 		$result = $this->materialDAO->getMaterialsGrid($params);
 		$this->responce->success = true;
 		$this->responce->data = $result;
