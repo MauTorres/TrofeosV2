@@ -71,6 +71,8 @@ function addElements(){
 		trofeoUpdate = trofeosGridView.elements[$('#row-index').val()];
 	}else{
 		alert("Primero cree el trofeo antes de agregar elementos");
+		$('#add-element-modal').modal('hide');
+		openUpdateModal(null);
 		return;
 	}
 
@@ -82,13 +84,13 @@ function addElements(){
 	});
 
 	trofeoUpdate.elementos = elementos;
-	$('#add-element-modal').modal('hide');
+	/*$('#add-element-modal').modal('hide');
 	openUpdateModal(null);
 	TableCreator.updateTable(
 		elementos,
 		$('#grid-elementtrophy-table'),
 		[1, 2, 3, 4, 5]
-	);
+	);*/
 	$.ajax({
 		type: 'POST',
 		url: '../../src/controller/TrofeoController.php',
