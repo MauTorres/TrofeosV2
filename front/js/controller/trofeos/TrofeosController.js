@@ -1,4 +1,4 @@
-var actions = 
+var actions =
 	[new ActionEdit('', '', ''),
 	new ActionDelete('', '', '')];
 var elemtsGridActions = [{_class: '', value: 1, component: 'check', functionECute: 'addElement($(this))'}];
@@ -30,10 +30,10 @@ function openUpdateModal(row){
 	}
 
 	elementosGridView.getGrid(
-		{method: 'getElementosTrofeo', trophy:trofeoUpdate == null ? {id:0} : trofeoUpdate}, 
-		'../../src/controller/ElementoController.php', 
-		null, 
-		$('#grid-elementtrophy-table'), 
+		{method: 'getElementosTrofeo', trophy:trofeoUpdate == null ? {id:0} : trofeoUpdate},
+		'../../src/controller/ElementoController.php',
+		null,
+		$('#grid-elementtrophy-table'),
 		[1, 2, 3, 4, 5]
 	);
 
@@ -53,10 +53,10 @@ function searchElement(){
 	$('#search-element-modal').modal('hide');
 	$('#add-element-modal').modal('show');
 	elementosGridView.getGrid(
-		{method: 'getElementosTrofeos'}, 
-		'../../src/controller/ElementoController.php', 
-		elemtsGridActions, 
-		$('#grid-element-table'), 
+		{method: 'getElementosTrofeos'},
+		'../../src/controller/ElementoController.php',
+		elemtsGridActions,
+		$('#grid-element-table'),
 		[0, 1, 2, 3, 4, 5]);
 }
 
@@ -66,8 +66,12 @@ function addElement(row){
 }
 
 function addElements(){
-	if(currentTrophy == null){
-		currentTrophy = {id:0};
+	var trofeoUpdate = null
+	if($('#row-index').val() != null && $('#row-index').val() != ''){
+		trofeoUpdate = trofeosGridView.elements[$('#row-index').val()];
+	}else{
+		alert("Primero cree el trofeo antes de agregar elementos");
+		return;
 	}
 
 	var elementos = [];
@@ -77,24 +81,25 @@ function addElements(){
 		}
 	});
 
-	currentTrophy.elementos = elementos;
+	trofeoUpdate.elementos = elementos;
 	$('#add-element-modal').modal('hide');
 	openUpdateModal(null);
 	TableCreator.updateTable(
 		elementos,
-		$('#grid-elementtrophy-table'), 
+		$('#grid-elementtrophy-table'),
 		[1, 2, 3, 4, 5]
 	);
 	$.ajax({
 		type: 'POST',
 		url: '../../src/controller/TrofeoController.php',
-		data: {method: 'setElements', currentTrophy},
+		data: {method: 'setElements', trofeoUpdate},
 		success: function(result){
 			try{
 				var res = jQuery.parseJSON(result);
 				if(res.success){
 					$('#add-element-modal').modal('hide');
-					openUpdateModal(currentTrophy);
+					alert("Se han agregado los elementos");
+					//openUpdateModal(trofeoUpdate);
 				}
 			}catch(exeption){
 				alert("Ocurrió un error en el servidor");
@@ -120,7 +125,7 @@ function deleteElement(row){
 				alert("Ocurrió un error en el servidor");
 			}
 		}
-	});	
+	});
 }
 
 function getTrophyToCreateOrUpdate(){
@@ -153,10 +158,10 @@ function cleanTrophyForm(){
 
 function loadTrofeoGrid(){
 	trofeosGridView.getGrid(
-		{method: 'getTrofeosGrid'}, 
-		'../../src/controller/TrofeoController.php', 
-		actions, 
-		$('#grid-table'), 
+		{method: 'getTrofeosGrid'},
+		'../../src/controller/TrofeoController.php',
+		actions,
+		$('#grid-table'),
 		[0, 1, 2]);
 }
 
