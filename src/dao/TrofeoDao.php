@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  */
 require_once __DIR__."/DAO.php";
 require_once __DIR__."/entities/Trofeo.php";
@@ -9,7 +9,7 @@ require_once dirname(__DIR__)."/utils/Loger.php";
 
 class TrofeoDao extends DAO
 {
-	
+
 	function __construct()
 	{
 		parent::__construct();
@@ -64,7 +64,7 @@ class TrofeoDao extends DAO
 
 	public function createOrUpdateTrophy($trofeo){
 		try {
-			if($trofeo->id == null){
+			if($trofeo->id == null || $trofeo->id == 0){
 				$this->saveTrophy($trofeo);
 				return;
 			}
@@ -89,11 +89,11 @@ class TrofeoDao extends DAO
 					precio = ?,
 					fotoPath = ?,
 					estatus = ?
-				WHERE id = ?', 
+				WHERE id = ?',
 				array(array(
-					$trofeo->nombre, 
-					$trofeo->descripcion, 
-					$trofeo->precio, 
+					$trofeo->nombre,
+					$trofeo->descripcion,
+					$trofeo->precio,
 					$trofeo->foto,
 					$trofeo->estatus,
 					$trofeo->id)));
