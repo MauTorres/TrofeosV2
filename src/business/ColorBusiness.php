@@ -71,7 +71,6 @@ class ColorBusiness extends Business
 				$this->saveColor($color);
 				return;
 			}
-			//Loger::log(print_r($color, 1), null);
 			$this->colorDAO->createOrUpdateColor($color);
 			$this->responce->success = true;
 			$this->responce->message = "El color se guardó correctamente";

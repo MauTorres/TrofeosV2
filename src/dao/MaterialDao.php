@@ -61,7 +61,7 @@ class MaterialDao extends DAO
 
 	public function getMaterialByID($material){
 		$result = $this->query("SELECT * FROM materiales WHERE id = ?", array($material->id));
-		$row = $result->getResultSet();
+		$row = $result->getResultSet()[0];
 
 		return new Material($row['id'], $row['descripcion']);
 	}

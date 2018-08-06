@@ -57,19 +57,17 @@ class ColorDao extends DAO
 
 	public function getColorByID($color){
 		$result = $this->query("SELECT * FROM colores WHERE id = ?", array($color->id));
-		$row = $result->getResultSet();
+		$row = $result->getResultSet()[0];
 		return new Color($row['id'], $row['descripcion']);
 	}
 
 	public function createOrUpdateColor($color){
 		try{
-			//Loger::log("Color: ".print_r($color, 1), null);
 			$colorNew = $this->getColorByID($color);
-			//Loger::log("Color: ".print_r($color, 1), null);
-			if($color->descripcion != null && $color->descripcion != '')
+			if($color->descripcion != null && $color->descripcion != ''){
 				$colorNew->descripcion = $color->descripcion;
-			Loger::log("Color: ".print_r($color, 1), null);
-			Loger::log("Color new: ".print_r($colorNew, 1), null);
+			}
+			
 			$this->execute(
 				"UPDATE colores 
 				SET 

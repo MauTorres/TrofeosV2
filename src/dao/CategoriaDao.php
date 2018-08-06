@@ -64,7 +64,7 @@ class CategoriaDao extends DAO
 
 	public function getCategoryByID($category){
 		$result = $this->query("SELECT * FROM categorias WHERE id = ?", array($category->id));
-		$row = $result->getResultSet();
+		$row = $result->getResultSet()[0];
 
 		return new Categoria($row['id'], $row['descripcion']);
 	}
@@ -72,8 +72,9 @@ class CategoriaDao extends DAO
 	public function createOrUpdateCategory($category){
 		try{
 			$categoryNew = $this->getCategoryByID($category);
-			if($category->descripcion != null && $category->descripcion != '')
+			if($category->descripcion != null && $category->descripcion != ''){
 				$categoryNew->descripcion = $category->descripcion;
+			}
 			
 			$this->execute(
 				"UPDATE categorias 
