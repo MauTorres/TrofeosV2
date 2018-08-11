@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ *
  */
 require_once __DIR__."/Business.php";
 require_once dirname(__DIR__)."/dao/TrofeoDao.php";
@@ -22,13 +22,13 @@ class TrofeoBusiness extends Business
 			$this->trofeoDAO->saveTrophy($trofeo);
 			$this->responce->success = true;
 			$this->responce->message = "El trofeo se guardó correctamente";
-		}catch(Exception $e){	
+		}catch(Exception $e){
 			Loger::log("Error al guardar el elemento ".$trofeo->nombre."\n".$e->getMessage(), null);
 			$this->responce->success = false;
 			$this->responce->message = "Error al agregar el nuevo material ".$trofeo->nombre;
 		}
 		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
-		
+
 	}
 
 	public function getTrofeosGrid($trofeo){
@@ -40,12 +40,12 @@ class TrofeoBusiness extends Business
 			if($trofeo->precio != null)
 				$params .= "AND T.precio = ".$trofeo->precio;
 		}
-		
+
 		$result = $this->trofeoDAO->getTrofeosGrid($params);
 		$this->responce->success = true;
 		$this->responce->data = $result;
 
-		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 
 	public function deleteTrophy($trofeo){
@@ -59,7 +59,7 @@ class TrofeoBusiness extends Business
 			$this->responce->success = false;
 			$this->responce->message = "Error al eliminar el material ".$trofeo->nombre;
 		}
-		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 
 	public function createOrUpdateTrophy($trofeo){
@@ -82,16 +82,16 @@ class TrofeoBusiness extends Business
 			$this->responce->success = true;
 			$this->responce->message = "Se ha registrado el elemento ".$elemento->id;
 		}catch(Exception $e){
-			throw new Exception("Falló en insertar el elemento ".$elemento->id);	
+			throw new Exception("Falló en insertar el elemento ".$elemento->id);
 		}
 
-		//echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
+		//echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 
 	public function setElements($trofeo, $elementos){
 		try {
 			if(count($elementos) == 0)
-				throw new Exception('No hay elementos que agregar a éste trofeo');	
+				throw new Exception('No hay elementos que agregar a éste trofeo');
 			foreach ($elementos as $elemento) {
 				$this->setElement($trofeo, $elemento);
 			}
@@ -100,10 +100,9 @@ class TrofeoBusiness extends Business
 			$this->responce->message = $e->getMessage();
 		}
 
-		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 		$this->responce->success = true;
 		$this->responce->message = "Elementos insertados con éxito";
-		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 }
 ?>

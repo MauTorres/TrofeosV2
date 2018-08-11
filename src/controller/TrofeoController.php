@@ -35,7 +35,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$trofeoBusiness->createOrUpdateTrophy($trofeo);
 			break;
 		default:
-			
+
 			break;
 	}
 }
@@ -48,7 +48,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			$trofeoBusiness->getTrofeosGrid($trofeo);
 			break;
 		default:
-			
+
 			break;
 	}
 }
