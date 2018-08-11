@@ -17,6 +17,7 @@ function openUpdateModal(row){
 	$('#photo-body').html('');
 	if(row != undefined){
 		trofeoUpdate = trofeosGridView.elements[row.index()];
+		trofeoUpdate.estatus = 1;
 		$('#row-index').val(row.index());
 		$('#id-modelo').val(trofeoUpdate.nombre);
 		$('#descripcion').val(trofeoUpdate.descripcion);
@@ -26,6 +27,7 @@ function openUpdateModal(row){
 		}
 		//$('#trophy-photo').val(currentTrophy.foto);
 	}else{
+		$('.hide-on-new').hide();
 		$('#grid-elementtrophy-table').html('');
 	}
 
@@ -52,12 +54,37 @@ function toggleCollapse(row){
 function searchElement(){
 	$('#search-element-modal').modal('hide');
 	$('#add-element-modal').modal('show');
+	var elemento = new Elemento(
+		$('#id-elemento').val(),
+		$('#nombre-elemento').val(),
+		null,
+		$('#color').val(),
+		$('#categoria').val(),
+		$('#material').val(),
+		null
+	);
 	elementosGridView.getGrid(
-		{method: 'getElementosTrofeos'},
+		{method: 'getElementosTrofeos', filters: elemento},
 		'../../src/controller/ElementoController.php',
 		elemtsGridActions,
 		$('#grid-element-table'),
 		[0, 1, 2, 3, 4, 5]);
+}
+
+function searchTrophy(){
+	var trofeo = new Trofeo(
+		$('#id').val(), 
+		$('#nombre-trofeo').val(),
+		null,
+		$('#precio').val(),
+		null,
+		null);
+	trofeosGridView.getGrid(
+		{method: 'getTrofeosGrid', filters: trofeo},
+		'../../src/controller/TrofeoController.php',
+		actions,
+		$('#grid-table'),
+		[0, 1, 2, 3]);
 }
 
 function addElement(row){
@@ -112,6 +139,7 @@ function addElements(){
 
 function deleteElement(row){
 	var trofeoDelete = trofeosGridView.elements[row.index()];
+	trofeoDelete.estatus = 0;
 	$.ajax({
 		type: 'POST',
 		url: '../../src/controller/TrofeoController.php',
@@ -164,7 +192,7 @@ function loadTrofeoGrid(){
 		'../../src/controller/TrofeoController.php',
 		actions,
 		$('#grid-table'),
-		[0, 1, 2]);
+		[0, 1, 2, 3]);
 }
 
 $(document).ready(function(){

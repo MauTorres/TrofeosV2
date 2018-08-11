@@ -12,14 +12,51 @@ class Trofeo extends Entity
 	public $foto;
 	public $estatus;
 	
-	function __construct($id, $nombre, $descripcion, $precio, $foto, $estatus)
+	function __construct($data)
 	{
-		parent::__construct($id);
-		$this->nombre = $nombre;
-		$this->descripcion = $descripcion;
-		$this->precio = $precio;
-		$this->foto = $foto;
-		$this->estatus = $estatus;
+		if(isset($data['id'])){
+			parent::__construct($data['id']);
+		}
+		else{
+			parent::__construct(null);
+		}
+
+		if(isset($data['nombre'])){
+			$this->nombre = $data['nombre'];
+		}
+		else{
+			$this->nombre = null;
+		}
+
+		if(isset($data['descripcion'])){
+			$this->descripcion = $data['descripcion'];
+		}
+		else{
+			$this->descripcion = null;
+		}
+
+		if(isset($data['precio'])){
+			$this->precio = $data['precio'];
+		}
+		else{
+			$this->precio = null;
+		}
+
+		if(isset($data['foto'])){
+			$this->foto = $data['foto'];
+		}else if(isset($data['fotoPath'])){
+			$this->foto = $data['fotoPath'];
+		}else{
+			$this->foto = null;
+		}
+
+		if(isset($data['estatus'])){
+			$this->estatus = $data['estatus'];
+		}
+		
+		else{
+			$this->estatus = null;
+		}
 	}
 }
 ?>

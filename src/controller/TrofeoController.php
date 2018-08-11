@@ -14,24 +14,26 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$fileManager->saveImage();
 				$fotoPath = STORE_PATH.$_FILES['foto']['name'];
 			}
-			$trofeo = new Trofeo($_POST['id'], $_POST['nombre'], $_POST['descripcion'], $_POST['precio'], $fotoPath, $_POST['estatus']);
+			$_POST['foto'] = $fotoPath;
+			$trofeo = new Trofeo($_POST);
 			$trofeoBusiness->createOrUpdateTrophy($trofeo);
 			break;
 		case 'setElement':
-			$trofeo = new Trofeo($_POST['idTrofeo'], null, null, null, null, null);
-			$elemento = new Elemento($_POST['idTrofeo'], null, null, null, null, null, null);
+			$trofeo = new Trofeo($_POST);
+			$elemento = new Elemento($_POST);
 			$trofeoBusiness->setElement($trofeo, $elemento);
 			break;
 		case 'setElements':
-			$trofeo = new Trofeo($_POST['currentTrophy']['id'], null, null, null, null, null);
+			Loger::log(print_r($_POST, 1), null);
+			$trofeo = new Trofeo($_POST['trofeoUpdate']);
 			$elementos = array();
-			foreach($_POST['currentTrophy']['elementos'] as $elemento){
+			foreach($_POST['trofeoUpdate']['elementos'] as $elemento){
 				array_push($elementos, new Elemento($elemento['id'], null, null, null, null, null, null));
 			}
 			$trofeoBusiness->setElements($trofeo, $elementos);
 			break;
 		case 'deleteTrophy':
-			$trofeo = new Trofeo($_POST['trofeo']['id'], null, null, null, null, 0);
+			$trofeo = new Trofeo($_POST['trofeo']);
 			$trofeoBusiness->createOrUpdateTrophy($trofeo);
 			break;
 		default:
@@ -44,7 +46,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 		case 'getTrofeosGrid':
 			$trofeo = null;
 			if(isset($_GET['filters']) && $_GET['filters'] != null)
-				$trofeo = new Trofeo(null, $_GET['filters']['nombre'], null, $_GET['filters']['precio'], null, null);
+				$trofeo = new Trofeo($_GET['filters']);
 			$trofeoBusiness->getTrofeosGrid($trofeo);
 			break;
 		default:

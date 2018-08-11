@@ -41,7 +41,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			break;
 		case 'getElementosTrofeo':
 			//Loger::log(print_r($_GET, 1), null);
-			$trofeo = new Trofeo($_GET['trophy']['id'], null, null, null, null, null);
+			$trofeo = new Trofeo($_GET['trophy']);
 			$elementoBusiness->getElementosTrofeo($trofeo);
 			break;
 		default:

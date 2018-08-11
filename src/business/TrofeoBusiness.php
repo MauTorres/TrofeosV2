@@ -35,10 +35,15 @@ class TrofeoBusiness extends Business
 		$this->responce = new Responce();
 		$params = "";
 		if($trofeo != null){
-			if($trofeo->nombre != null)
-				$params .= "AND T.nombre like '%".$trofeo->nombre."%'";
-			if($trofeo->precio != null)
-				$params .= "AND T.precio = ".$trofeo->precio;
+			if($trofeo->id != null){
+				$params .= "AND id = ".$trofeo->id;
+			}
+			if($trofeo->nombre != null){
+				$params .= "AND nombre like '%".$trofeo->nombre."%'";
+			}
+			if($trofeo->precio != null){
+				$params .= "AND precio <= ".$trofeo->precio;
+			}
 		}
 
 		$result = $this->trofeoDAO->getTrofeosGrid($params);
@@ -70,7 +75,7 @@ class TrofeoBusiness extends Business
 			$this->responce->message = "Se ha almacenado el trofeo de forma correcta";
 		}catch(Exception $e){
 			$this->responce->success = false;
-			$this->responce->message = "Ocurrió un erorr al alacenar el trofeo";
+			$this->responce->message = "Ocurrió un erorr al alacenar el trofeo: ".$e->getMessage();
 		}
 		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}

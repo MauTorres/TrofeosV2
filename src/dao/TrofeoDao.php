@@ -19,7 +19,19 @@ class TrofeoDao extends DAO
 		try {
 			$result = $this->query("SELECT * FROM trofeos WHERE id = ?", array($trofeo->id));
 			$row = $result->getResultSet()[0];
-			return new Trofeo($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $row['fotoPath'], $row['estatus']);
+			return new Trofeo($row);
+		}catch (Exception $e) {
+			Loger::log($e->getMessage(), null);
+		}
+	}
+
+	public function getTrophyByName($trofeo){
+		try {
+			$result = $this->query("SELECT * FROM trofeos WHERE nombre = ? AND estatus = 1", array($trofeo->nombre));
+			$rows = $result->getResultSet();
+			if(count($rows) <= 0)
+				return null;
+			return new Trofeo($rows[0]);
 		}catch (Exception $e) {
 			Loger::log($e->getMessage(), null);
 		}
@@ -39,6 +51,7 @@ class TrofeoDao extends DAO
 					estatus = 1
 					%s
 				", $params);
+			Loger::log($query, null);
 			return $this->query($query, null);
 		} catch (Exception $e) {
 			Loger::log($e->getMessage(), null);
@@ -64,12 +77,17 @@ class TrofeoDao extends DAO
 
 	public function createOrUpdateTrophy($trofeo){
 		try {
+			$trofeoResult = $this->getTrophyByName($trofeo);
 			if($trofeo->id == null || $trofeo->id == 0){
+				if($trofeoResult != null){
+					throw new Exception("Ya existe un trofeo con éste identificador");
+				}
 				$this->saveTrophy($trofeo);
 				return;
 			}
-
+			Loger::log("Nuevo: ".print_r($trofeo, 1), null);
 			$trofeoNew = $this->getTrophyById($trofeo);
+			Loger::log("Anterior: ".print_r($trofeoNew, 1), null);
 			if($trofeo->nombre != null && $trofeo->nombre != '')
 				$trofeoNew->nombre = $trofeo->nombre;
 			if($trofeo->descripcion != null && $trofeo->descripcion != '')

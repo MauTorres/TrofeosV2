@@ -1,6 +1,7 @@
 var isCollapseUp = false;
 
 function CatalogosController(){
+	var self = this;
 	this.createOrUpdateElement = function(){
 		var element;
 		if($('#row-index').val() != null && $('#row-index').val() != ''){
@@ -23,6 +24,7 @@ function CatalogosController(){
 						CatalogosView.getCatalogosGrid({method:'getElementsGrid'});
 						$('#update-element-modal').modal('hide');
 					}
+					self.cleanForm();
 					alert(responce.message);
 				}catch(err){
 					alert("Ha ocurrido un error en el servidor");
