@@ -1,3 +1,14 @@
 .nav-item{
 	text-transform: capitalize;
 }
+.center-main{
+	margin: auto;
+	padding: inherit;
+}
+.img-frame{
+	background-color: #fcdb20;
+    height: 89vh;
+}
+.img-logo{
+	box-shadow: 0px 2px 2px 0px;
+}

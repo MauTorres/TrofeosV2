@@ -14,7 +14,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$usuarioBusiness->deleteUser($usuario);
 			break;
 		case 'createOrUpdateUser':
-			$usuario = new Usuario($_POST['id'], $_POST['usuario'], null, $_POST['email']);
+			Loger::log(print_r($_POST, 1), null);
+			$usuario = new Usuario($_POST['id'], $_POST['usuario'], $_POST['passwd'], $_POST['email']);
 			$usuarioBusiness->createOrUpdateUser($usuario);
 			break;
 		default:

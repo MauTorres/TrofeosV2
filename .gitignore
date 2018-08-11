@@ -2,3 +2,4 @@
 *.log
 /src/img/*.jpg
 !.gitkeep
+!/front/img/*.jpg

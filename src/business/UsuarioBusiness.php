@@ -95,12 +95,12 @@ class UsuarioBusiness extends Business
 		$this->responce = new Responce();
 		
 		try{
-			$result = $this->usuarioDAO->getUserByUserName($usuario->usuario);
-
-			$usersCount = count($result);
-			
-			if($usersCount > 0)
-				throw new Exception("Ya hay un usuario con el mismo nombre");
+			if($usuario->id == null || $usuario->id == ''){
+				$result = $this->usuarioDAO->getUserByUserName($usuario->usuario);
+				$usersCount = count($result);
+				if($usersCount > 0)
+					throw new Exception("Ya hay un usuario con el mismo nombre");
+			}
 
 			$this->usuarioDAO->createOrUpdateUser($usuario);
 			$this->responce->success = true;
