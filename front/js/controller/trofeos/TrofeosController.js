@@ -2,6 +2,7 @@ var actions =
 	[new ActionEdit('', '', ''),
 	new ActionDelete('', '', '')];
 var elemtsGridActions = [{_class: '', value: 1, component: 'check', functionECute: 'addElement($(this))'}];
+var elementosTrofeoGridActions = [new Action('danger', '', 'fa fa-close', '', 'btn-sm', 'deleteElementTrofeo($(this).parent().parent());')];
 var trofeosGridView = new GridView();
 var elementosGridView = new GridView();
 var colorCatalogCreator = new CatalogCreator('../../src/controller/ColorController.php');
@@ -21,7 +22,7 @@ function openUpdateModal(row){
 		$('#row-index').val(row.index());
 		$('#id-modelo').val(trofeoUpdate.nombre);
 		$('#descripcion').val(trofeoUpdate.descripcion);
-		$('#precio').val(trofeoUpdate.precio);
+		$('#precio-trofeo').val(trofeoUpdate.precio);
 		if(trofeoUpdate.fotoPath != null){
 			$('#photo-body').append('<img src="../../src' + trofeoUpdate.fotoPath + '" class="img-fluid">');
 		}
@@ -34,7 +35,7 @@ function openUpdateModal(row){
 	elementosGridView.getGrid(
 		{method: 'getElementosTrofeo', trophy:trofeoUpdate == null ? {id:0} : trofeoUpdate},
 		'../../src/controller/ElementoController.php',
-		null,
+		elementosTrofeoGridActions,
 		$('#grid-elementtrophy-table'),
 		[1, 2, 3, 4, 5]
 	);
@@ -111,13 +112,6 @@ function addElements(){
 	});
 
 	trofeoUpdate.elementos = elementos;
-	/*$('#add-element-modal').modal('hide');
-	openUpdateModal(null);
-	TableCreator.updateTable(
-		elementos,
-		$('#grid-elementtrophy-table'),
-		[1, 2, 3, 4, 5]
-	);*/
 	$.ajax({
 		type: 'POST',
 		url: '../../src/controller/TrofeoController.php',
@@ -135,6 +129,13 @@ function addElements(){
 			}
 		}
 	});
+	cleanElementModal();
+}
+
+function backSearchElements(){
+	cleanElementModal();
+	$('#add-element-modal').modal('hide');
+	$('#search-element-modal').modal('show');
 }
 
 function deleteElement(row){
@@ -168,7 +169,7 @@ function getTrophyToCreateOrUpdate(){
 
 	trofeoUpdate.nombre = $('#id-modelo').val();
 	trofeoUpdate.descripcion = $('#descripcion').val();
-	trofeoUpdate.precio = $('#precio').val();
+	trofeoUpdate.precio = $('#precio-trofeo').val();
 
 	return trofeoUpdate;
 }
@@ -180,10 +181,19 @@ function createOrUpdateTrophy(){
 function cleanTrophyForm(){
 	$('#id-modelo').val('');
 	$('#descripcion').val('');
-	$('#precio').val('');
+	$('#precio-trofeo').val('');
 	$('#trophy-photo').val('');
 	$('#row-index').val('');
 	$('#update-trophy-modal').modal('hide');
+}
+
+function cleanElementModal(){
+	$('#id-elemento').val('');
+	$('#nombre-elemento').val('');
+	$('#color').val('');
+	$('#material').val('');
+	$('#categoria').val('');
+	$('#search-element-modal').modal('hide');
 }
 
 function loadTrofeoGrid(){
@@ -193,6 +203,27 @@ function loadTrofeoGrid(){
 		actions,
 		$('#grid-table'),
 		[0, 1, 2, 3]);
+}
+
+function deleteElementTrofeo(row){
+	var elementoTrofeo = elementosGridView.elements[row.index()];
+	var trofeo = trofeosGridView.elements[$('#row-index').val()];
+
+	$.ajax({
+		type: 'POST',
+		url: '../../src/controller/TrofeoController.php',
+		data: {method:'deleteTrofeoElemento', trofeo: trofeo, elemento: elementoTrofeo},
+		success: function(respoce){
+			try{
+				var res = jQuery.parseJSON(respoce);
+				if(res.success){
+					elementoTrofeo.splice(row.index(), 1);
+				}
+			}catch(exeption){
+				alert("Ocurrió un error en el servidor");
+			}
+		}
+	});
 }
 
 $(document).ready(function(){

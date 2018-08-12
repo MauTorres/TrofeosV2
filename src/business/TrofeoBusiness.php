@@ -109,5 +109,19 @@ class TrofeoBusiness extends Business
 		$this->responce->message = "Elementos insertados con éxito";
 		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
+
+	public function deleteElementoTrofeo($trofeo, $elemento){
+		$this->responce = new Responce();
+		try{
+			$this->trofeoDAO->deleteElementoTrofeo($trofeo, $elemento);
+		}catch (Exception $e) {
+			$this->responce->success = false;
+			$this->responce->message = $e->getMessage();
+		}
+
+		$this->responce->success = true;
+		$this->responce->message = "Se ha eliminado el elemento";
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
+	}
 }
 ?>
