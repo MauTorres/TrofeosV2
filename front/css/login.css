@@ -1,5 +1,5 @@
 #login-back {
-	height: 100vh;
+	height: 100%;
 }
 
 #login-floatbox {
@@ -7,11 +7,24 @@
 }
 
 .floatbox {
-	margin-top: 35vh;
+	margin-top: 18%;
 }
 
 #login-buton{
 	background-color: #2D2D2D;
 	color: white;
 	border-color: #BBBBBB;
+}
+
+#font {
+    width:100%;
+    height: 100%;
+}
+
+#font2 {
+        background: url(../img/Fondo.png) no-repeat center center fixed;
+        background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        -o-background-size: cover;
 }
