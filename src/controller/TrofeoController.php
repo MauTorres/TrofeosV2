@@ -1,9 +1,12 @@
 <?php
 
 require_once dirname(__DIR__)."/business/TrofeoBusiness.php";
+require_once dirname(__DIR__)."/business/SessionBusiness.php";
 require_once dirname(__DIR__)."/utils/FileManager.php";
 
 $trofeoBusiness = new TrofeoBusiness();
+$sessionBusiness = new SessionBusiness();
+$sessionBusiness->checkSession();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
@@ -25,7 +28,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$trofeoBusiness->setElement($trofeo, $elemento);
 			break;
 		case 'setElements':
-			Loger::log(print_r($_POST, 1), null);
 			$trofeo = new Trofeo($_POST['trofeoUpdate']);
 			$elementos = array();
 			foreach($_POST['trofeoUpdate']['elementos'] as $elemento){

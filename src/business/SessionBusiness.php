@@ -36,9 +36,25 @@ class SessionBusiness extends Business
 			$this->responce->success = true;
 			$this->responce->data = $_SESSION['user'];
 			$_SESSION['most_recent_activity'] = time();
-			Loger::log(print_r($_SESSION, 1), null);
 			echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 		}
+	}
+
+	public function checkSession(){
+		session_start();
+
+		if (isset($_SESSION['most_recent_activity']) && 
+		((time() -   $_SESSION['most_recent_activity']) > 1800)) {
+			session_destroy();   
+			session_unset();  
+		}
+		if (session_status() == PHP_SESSION_NONE || !isset($_SESSION['user'])){
+			header( "Location: ../../".LOGIN_PAGE);
+			return;
+		}
+		
+		$_SESSION['most_recent_activity'] = time();
+		//Loger::log(print_r($_SESSION, 1), null);
 	}
 
 	public function endSession(){
