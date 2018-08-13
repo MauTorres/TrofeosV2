@@ -75,6 +75,14 @@ class TrofeoDao extends DAO
 		}
 	}
 
+	public function deleteElementoTrofeo($trofeo, $elemento){
+		try {
+			$this->execute('DELETE FROM trofeoselementos WHERE idTrofeo = ? AND idElemento = ?', array(array($trofeo->id, $elemento->id)));
+		}catch (Exception $e) {
+			Loger::log($e->getMessage(), null);
+		}	
+	}
+
 	public function createOrUpdateTrophy($trofeo){
 		try {
 			$trofeoResult = $this->getTrophyByName($trofeo);

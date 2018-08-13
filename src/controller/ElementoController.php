@@ -33,6 +33,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			$elementoBusiness->getElementsGrid($elemento);
 			break;
 		case 'getElementosTrofeos':
+			Loger::log(print_r($_GET, 1), null);
 			$elemento = null;
 			if(isset($_GET['filters']) && $_GET['filters'] != null){
 				$elemento = new Elemento($_GET['filters']['id'], $_GET['filters']['nombre'], $_GET['filters']['descripcion'], $_GET['filters']['precio'], $_GET['filters']['idColor'], $_GET['filters']['idCategoria'], $_GET['filters']['idMaterial']);

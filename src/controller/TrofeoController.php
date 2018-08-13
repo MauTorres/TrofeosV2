@@ -8,6 +8,7 @@ $trofeoBusiness = new TrofeoBusiness();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
 		case 'createOrUpdateTrophy':
+		Loger::log(print_r($_POST, 1), null);
 			$fotoPath = null;
 			if(isset($_FILES) && isset($_FILES['foto'])){
 				$fileManager = new FileManager($_FILES['foto']);
@@ -35,6 +36,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		case 'deleteTrophy':
 			$trofeo = new Trofeo($_POST['trofeo']);
 			$trofeoBusiness->createOrUpdateTrophy($trofeo);
+			break;
+		case 'deleteTrofeoElemento':
+			$trofeo = new Trofeo($_POST['trofeo']);
+			$elemento = new Elemento($_POST['elemento']['id'], null, null, null, null, null, null);
+			$trofeoBusiness->deleteElementoTrofeo($trofeo, $elemento);
 			break;
 		default:
 

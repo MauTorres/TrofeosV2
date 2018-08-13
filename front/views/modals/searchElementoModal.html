@@ -12,22 +12,22 @@
 					<input type="text" class="form-control" id="nombre-elemento" placeholder="Nombre del elemeto">
 					<label for="color">Color</label>
 					<select class="form-control" id="color">
-						<option>Seleccione color</option>
+						<option value="">Seleccione color</option>
 					</select>
 					<label for="material">Material</label>
 					<select class="form-control" id="material">
-						<option>Seleccione material</option>
+						<option value="">Seleccione material</option>
 					</select>
 					<label for="categoria">Categoría</label>
 					<select class="form-control" id="categoria">
-						<option>Seleccione categoria</option>
+						<option value="">Seleccione categoria</option>
 					</select>
 					<input type="hidden" class="form-control" id="row-index">
 				</div>
 			</form>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" onclick="cleanUserForm();" id="btn-update-user-cancel">Cerrar</button>
+			<button type="button" class="btn btn-secondary" onclick="cleanElementModal();" id="btn-update-user-cancel">Cerrar</button>
 			<button type="button" class="btn btn-primary" onclick="searchElement();" id="btn-update-user">Buscar</button>
 		</div>
 	</div>
