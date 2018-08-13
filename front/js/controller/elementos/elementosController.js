@@ -67,11 +67,11 @@ function createOrUpdateElement(){
 				if(responce.success){
 
 					elementosGridView.getGrid(
-					{method: 'createOrUpdateElement'}, 
-					'../../src/controller/ElementoController.php', 
-					actions, 
-					$('#grid-element-table'), 
-					[0, 1, 2, 3, 4, 5]
+						{method: 'createOrUpdateElement'},
+						'../../src/controller/ElementoController.php', 
+						actions, 
+						$('#grid-element-table'), 
+						[0, 1, 2, 3, 4, 5]
 					);
 					$('#update-element-modal').modal('hide');
 				}

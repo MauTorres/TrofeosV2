@@ -13,15 +13,43 @@ class Elemento extends Entity
 	public $idCategoria;
 	public $idMaterial;
 
-	function __construct($id, $nombre, $descripcion, $precio, $idColor, $idCategoria, $idMaterial)
+	function __construct($data)
 	{
-		parent::__construct($id);
-		$this->nombre = $nombre;
-		$this->descripcion = $descripcion;
-		$this->precio = $precio;
-		$this->idColor = $idColor;
-		$this->idCategoria = $idCategoria;
-		$this->idMaterial = $idMaterial;
+		if(isset($data['id'])){
+			parent::__construct($data['id']);	
+		}else{
+			parent::__construct(null);
+		}
+		if(isset($data['nombre'])){
+			$this->nombre = $data['nombre'];	
+		}else{
+			$this->nombre = null;
+		}
+		if(isset($data['descripcion'])){
+			$this->descripcion = $data['descripcion'];	
+		}else{
+			$this->descripcion = null;
+		}
+		if(isset($data['precio'])){
+			$this->precio = $data['precio'];
+		}else{
+			$this->precio = null;
+		}
+		if(isset($data['idColor'])){
+			$this->idColor = $data['idColor'];
+		}else{
+			$this->idColor = null;
+		}
+		if(isset($data['idCategoria'])){
+			$this->idCategoria = $data['idCategoria'];
+		}else{
+			$this->idCategoria = null;
+		}
+		if(isset($data['idMaterial'])){
+			$this->idMaterial = $data['idMaterial'];
+		}else{
+			$this->idMaterial = null;
+		}
 	}
 
 	function equals($elemento){
