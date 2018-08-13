@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$elementoBusiness->deleteElement($elemento);
 			break;
 		case 'createOrUpdateElement':
-			$elemento = new Elemento($_POST['id'], $_POST['nombre'], $_POST['descripcion'], $_POST['precio'], $_POST['idColor'], $_POST['idCategoria'], $_POST['idMaterial']);
+			$elemento = new Elemento($_POST['id'], $_POST['nombre'], $_POST['descripcion'], null, $_POST['color'], $_POST['categoria'], $_POST['material']);
 			$elementoBusiness->createOrUpdateElement($elemento);
 			break;
 		default:
@@ -28,15 +28,14 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 		case 'getElementsGrid':
 			$elemento = null;
 			if(isset($_GET['filters']) && $_GET['filters'] != null){
-				$elemento = new Elemento($_GET['filters']['id'], $_GET['filters']['nombre'], $_GET['filters']['descripcion'], $_GET['filters']['precio'], $_GET['filters']['idColor'], $_GET['filters']['idCategoria'], $_GET['filters']['idMaterial']);
+				$elemento = new Elemento($_GET['filters']['id'], $_GET['filters']['nombre'], null, null,$_GET['filters']['color'], $_GET['filters']['categoria'], $_GET['filters']['material']);
 			}
 			$elementoBusiness->getElementsGrid($elemento);
 			break;
 		case 'getElementosTrofeos':
-			Loger::log(print_r($_GET, 1), null);
 			$elemento = null;
 			if(isset($_GET['filters']) && $_GET['filters'] != null){
-				$elemento = new Elemento($_GET['filters']['id'], $_GET['filters']['nombre'], $_GET['filters']['descripcion'], $_GET['filters']['precio'], $_GET['filters']['idColor'], $_GET['filters']['idCategoria'], $_GET['filters']['idMaterial']);
+				$elemento = new Elemento($_GET['filters']['id'], $_GET['filters']['nombre'], null, null, $_GET['filters']['color'], $_GET['filters']['categoria'], $_GET['filters']['material']);
 			}
 			$elementoBusiness->getElementosTrofeos($elemento);
 			break;

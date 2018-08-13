@@ -8,24 +8,34 @@
 				<div class="form-group">
 					<label for="nm-elemento">Nombre del elemento</label>
 					<input type="text" class="form-control" id="nm-elemento" placeholder="Nombre del elemento">
-					<label for="precio">Precio</label>
-					<input type="text" class="form-control" id="precio" placeholder="Precio del elemento">
 					<label for="descripcion">Descripcion</label>
 					<input type="text" class="form-control" id="descripcion" placeholder="Descripcion del elemento">
+					<label for="precio">Precio</label>
+					<input type="text" class="form-control" id="precio" placeholder="Precio del elemento">
 					<label for="color">Color</label>
 					<select class="form-control" id="color">
-						<option value="">Seleccione el color</option>
+						<option>Seleccione el color</option>
 					</select>
 					<label for="material">Material</label>
 					<select class="form-control" id="material">
-						<option value="">Seleccione material</option>
+						<option>Seleccione material</option>
 					</select>
 					<label for="categoria">Categoría</label>
 					<select class="form-control" id="categoria">
-						<option value="">Seleccione categoria</option>
+						<option>Seleccione categoria</option>
 					</select>
 				</div>
 			</form>
+			</div>
+			<div class="row hide-on-new">
+				<div class="col-sm-12 button-add">
+					<button type="button" class="btn btn-success" onclick="openElementModal();"><span class="fa fa-plus-square" aria-hidden="true"></span></button>
+				</div>
+			</div>
+			<div class="row hide-on-new">
+				<table class="table table-striped table-hover" id="grid-elementmeasures-table">
+				</table>
+			</div>
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-secondary" onclick="cleanElementForm();" id="btn-update-element-cancel">Cerrar</button>

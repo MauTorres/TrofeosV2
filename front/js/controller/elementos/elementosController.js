@@ -6,6 +6,7 @@ var isCollapseUp = true;
 var colorCatalogCreator = new CatalogCreator('../../src/controller/ColorController.php');
 var materialCatalogCreator = new CatalogCreator('../../src/controller/MaterialController.php');
 var categoriaCatalogCreator = new CatalogCreator('../../src/controller/CategoryController.php');
+var currentElement = null;
 
 function deleteElement(row){
 	var elementDelete = elementosGridView.elements[row.index()];
@@ -50,13 +51,12 @@ function createOrUpdateElement(){
 	}
 	
 	elementUpdate.method = 'createOrUpdateElement';
-	elementUpdate.nombre = $('#nombre').val();
+	elementUpdate.nombre = $('#nm-elemento').val();
 	elementUpdate.descripcion = $('#descripcion').val();
-	elementUpdate.precio = $('#precio').val();
-	elementUpdate.color = $('#color').val();
-	elementUpdate.categoria = $('#categoria').val();
-	elementUpdate.material = $('#material').val();
-
+	elementUpdate.idColor = $('#color').val();
+	elementUpdate.idMaterial = $('#material').val();
+	elementUpdate.idCategoria = $('#categoria').val();
+	
 	$.ajax({
 		type:'POST',
 		url: '../../src/controller/ElementoController.php',
@@ -93,11 +93,10 @@ function searchElement(){
 	var elemento = new Elemento(
 		$('#id-elemento').val(),
 		$('#nombre-elemento').val(),
-		$('#descripcion-elemento').val(),
-		$('#precio-elemento').val()
+		$('#descripcion-elemento').val()
 	);
 	elementosGridView.getGrid(
-		{method: 'getElementosTrofeos'}, 
+		{method: 'getElementosTrofeos',filters:elemento}, 
 		'../../src/controller/ElementoController.php', 
 		actions, 
 		$('#grid-element-table'), 
@@ -112,9 +111,8 @@ function openUpdateModal(row){
 	categoriaCatalogCreator.fillCatalog($('#categoria'));
 	if(row != undefined){
 		var elementUpdate = elementosGridView.elements[row.index()];
-		$('#nombre').val(elementUpdate.nombre);
+		$('#nm-elemento').val(elementUpdate.nombre);
 		$('#descripcion').val(elementUpdate.descripcion);
-		$('#precio').val(elementUpdate.precio);
 		$('#idColor').val(elementUpdate.idColor);
 		$('#idCategoria').val(elementUpdate.idCategoria);
 		$('#idMaterial').val(elementUpdate.idMaterial);
@@ -124,12 +122,11 @@ function openUpdateModal(row){
 }
 
 function cleanElementForm(){
-	$('#nombre').val('');
+	$('#nm-elemento').val('');
 	$('#descripcion').val('');
-	$('#precio').val('');
-	$('#idColor').val('');
-	$('#idCategoria').val('');
-	$('#idMaterial').val('');
+	$('#color').val('');
+	$('#categoria').val('');
+	$('#material').val('');
 	$('#row-index').val('');
 	$('#update-element-modal').modal('hide');
 }

@@ -33,7 +33,7 @@ class ElementoDao extends DAO
 			array_push($elementos, new Elemento($result['id'], $result['nombre'], $result['descripcion'], $result['precio'], $result['idColor'], $result['idCategoria'], $result['idMaterial']));
 		}
 
-		return $usuarios;
+		return $elementos;
 	}
 
 	public function saveElement($elemento){
@@ -149,7 +149,7 @@ class ElementoDao extends DAO
 		return new Elemento($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $color, $categoria, $material);
 	}
 
-	public function createOrUpdateUser($elemento){
+	public function createOrUpdateElement($elemento){
 		try{
 			$elementoNew = $this->getElementByID($elemento);
 			if($elemento->nombre != null && $elemento->nombre != '')
