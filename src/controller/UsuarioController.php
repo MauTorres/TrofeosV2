@@ -3,9 +3,11 @@
 * 
 */
 require_once dirname(__DIR__)."/business/UsuarioBusiness.php";
-
+require_once dirname(__DIR__)."/business/SessionBusiness.php";
 
 $usuarioBusiness = new UsuarioBusiness();
+$sessionBusiness = new SessionBusiness();
+$sessionBusiness->checkSession();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
@@ -14,7 +16,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$usuarioBusiness->deleteUser($usuario);
 			break;
 		case 'createOrUpdateUser':
-			Loger::log(print_r($_POST, 1), null);
 			$usuario = new Usuario($_POST['id'], $_POST['usuario'], $_POST['passwd'], $_POST['email']);
 			$usuarioBusiness->createOrUpdateUser($usuario);
 			break;

@@ -51,7 +51,6 @@ class TrofeoDao extends DAO
 					estatus = 1
 					%s
 				", $params);
-			Loger::log($query, null);
 			return $this->query($query, null);
 		} catch (Exception $e) {
 			Loger::log($e->getMessage(), null);

@@ -3,10 +3,13 @@
 * 
 */
 require_once dirname(__DIR__)."/business/ElementoBusiness.php";
+require_once dirname(__DIR__)."/business/SessionBusiness.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
 
 
 $elementoBusiness = new ElementoBusiness();
+$sessionBusiness = new SessionBusiness();
+$sessionBusiness->checkSession();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
@@ -40,7 +43,6 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			$elementoBusiness->getElementosTrofeos($elemento);
 			break;
 		case 'getElementosTrofeo':
-			//Loger::log(print_r($_GET, 1), null);
 			$trofeo = new Trofeo($_GET['trophy']);
 			$elementoBusiness->getElementosTrofeo($trofeo);
 			break;

@@ -3,10 +3,14 @@
 * 
 */
 require_once dirname(__DIR__)."/business/ColorBusiness.php";
+require_once dirname(__DIR__)."/business/SessionBusiness.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
 
 
 $colorBusiness = new ColorBusiness();
+$sessionBusiness = new SessionBusiness();
+$sessionBusiness->checkSession();
+
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
 		case 'deleteElement':
