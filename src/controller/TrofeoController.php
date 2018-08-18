@@ -28,10 +28,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$trofeoBusiness->setElement($trofeo, $elemento);
 			break;
 		case 'setElements':
+			Loger::log(print_r($_POST, 1), null);
 			$trofeo = new Trofeo($_POST['trofeoUpdate']);
 			$elementos = array();
 			foreach($_POST['trofeoUpdate']['elementos'] as $elemento){
-				array_push($elementos, new Elemento($elemento['id'], null, null, null, null, null, null));
+				array_push($elementos, new Elemento($elemento));
 			}
 			$trofeoBusiness->setElements($trofeo, $elementos);
 			break;
@@ -41,7 +42,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			break;
 		case 'deleteTrofeoElemento':
 			$trofeo = new Trofeo($_POST['trofeo']);
-			$elemento = new Elemento($_POST['elemento']['id'], null, null, null, null, null, null);
+			$elemento = new Elemento($_POST['elemento']);
 			$trofeoBusiness->deleteElementoTrofeo($trofeo, $elemento);
 			break;
 		default:

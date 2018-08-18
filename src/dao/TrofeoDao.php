@@ -58,6 +58,7 @@ class TrofeoDao extends DAO
 	}
 
 	public function setElement($trofeo, $elemento){
+		Loger::log("Trofeo".print_r($trofeo, 1)." ".print_r($elemento, 1), null);
 		try {
 			$this->execute('INSERT INTO trofeoselementos(idTrofeo, idElemento) VALUES(?, ?)', array(array($trofeo->id, $elemento->id)));
 		} catch (Exception $e) {
