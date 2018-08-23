@@ -6,6 +6,7 @@ var isCollapseUp = true;
 var colorCatalogCreator = new CatalogCreator('../../src/controller/ColorController.php');
 var materialCatalogCreator = new CatalogCreator('../../src/controller/MaterialController.php');
 var categoriaCatalogCreator = new CatalogCreator('../../src/controller/CategoryController.php');
+var medidaCatalogCreator = new CatalogCreator('../../src/controller/MeasureController.php');
 var currentElement = null;
 
 function deleteElement(row){
@@ -20,11 +21,11 @@ function deleteElement(row){
 				var responce = jQuery.parseJSON(data);
 				if(responce.success){
 					elementosGridView.getGrid(
-					{method: 'deleteElement'}, 
-					'../../src/controller/ElementoController.php', 
-					actions, 
-					$('#grid-element-table'), 
-					[0, 1, 2, 3, 4, 5]
+						{method: 'deleteElement'}, 
+						'../../src/controller/ElementoController.php', 
+						actions, 
+						$('#grid-element-table'), 
+						[0, 1, 2, 3, 4, 5, 6]
 					);
 					alert(responce.message);
 				}
@@ -56,6 +57,7 @@ function createOrUpdateElement(){
 	elementUpdate.idColor = $('#color').val();
 	elementUpdate.idMaterial = $('#material').val();
 	elementUpdate.idCategoria = $('#categoria').val();
+	elementUpdate.idMedida = $('#medida').val();
 	
 	$.ajax({
 		type:'POST',
@@ -67,11 +69,11 @@ function createOrUpdateElement(){
 				if(responce.success){
 
 					elementosGridView.getGrid(
-						{method: 'createOrUpdateElement'},
+						{method: 'getElementosTrofeos'},
 						'../../src/controller/ElementoController.php', 
 						actions, 
 						$('#grid-element-table'), 
-						[0, 1, 2, 3, 4, 5]
+						[0, 1, 2, 3, 4, 5, 6]
 					);
 					$('#update-element-modal').modal('hide');
 				}
@@ -85,7 +87,6 @@ function createOrUpdateElement(){
 			console.log("Error contactando con el servidor");
 		}
 	});
-
 	elementUpdate.method = undefined;
 }
 
@@ -100,7 +101,7 @@ function searchElement(){
 		'../../src/controller/ElementoController.php', 
 		actions, 
 		$('#grid-element-table'), 
-		[0, 1, 2, 3, 4, 5]
+		[0, 1, 2, 3, 4, 5, 6]
 	);
 
 }
@@ -131,6 +132,11 @@ function cleanElementForm(){
 	$('#update-element-modal').modal('hide');
 }
 
+function openMeasureModal(){
+	$('#update-element-modal').modal('hide');
+	$('#search-measure-modal').modal('show');
+}
+
 function toggleCollapse(element){
 	if(isCollapseUp){
 		element.children().removeClass('fa fa-caret-square-o-down');
@@ -143,7 +149,77 @@ function toggleCollapse(element){
 	}
 }
 
+function cleanMeasureModal(){
+	$('#id-medida').val('');
+	$('#descripcion-medida').val('');
+	$('#search-measure-modal').modal('hide');
+}
+
+function searchMeasure(){
+	$('#search-measure-modal').modal('hide');
+	$('#add-measure-modal').modal('show');
+	var medida = new Measure(
+		$('#id-medida').val(),
+		$('#descripcion-medida').val()
+	);
+	elementosGridView.getGrid(
+		{method: 'getElementsGrid', filters: medida},
+		'../../src/controller/MeasureController.php',
+		elemtsGridActions,
+		$('#grid-measure-table'),
+		[0, 1]);
+}
+
+function backSearchMeasures(){
+	cleanMeasureModal();
+	$('#add-measure-modal').modal('hide');
+	$('#search-measure-modal').modal('show');
+}
+
+function addMeasure(row){
+	var index = row.parent().parent().index();
+	medidasGridView.elements[index].selected = !medidasGridView.elements[index].selected;
+}
+
+function addMeasures(){
+	var elementoUpdate = null
+	if($('#row-index').val() != null && $('#row-index').val() != ''){
+		elementoUpdate = elementosGridView.elements[$('#row-index').val()];
+	}else{
+		alert("Primero cree el elemento antes de agregar medidas");
+		$('#add-element-modal').modal('hide');
+		openUpdateModal(null);
+		return;
+	}
+
+	var medidas = [];
+	medidasGridView.elements.forEach(function(medida){
+		if(medida.selected){
+			medidas.push(medida);
+		}
+	});
+
+	elementoUpdate.medidas = medidas;
+	$.ajax({
+		type: 'POST',
+		url: '../../src/controller/ElementoController.php',
+		data: {method: 'setMeasures', elementoUpdate},
+		success: function(result){
+			try{
+				var res = jQuery.parseJSON(result);
+				if(res.success){
+					$('#add-measure-modal').modal('hide');
+					alert("Se han agregado las medidas");
+				}
+			}catch(exeption){
+				alert("Ocurrió un error en el servidor");
+			}
+		}
+	});
+	cleanMeasureModal();
+}
+
 $(document).ready(function(){
 	SessionController.checkSession('elementos');
-	elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/ElementoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5]);
+	elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/ElementoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5, 6]);
 });

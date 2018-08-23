@@ -47,6 +47,8 @@ class ElementoBusiness extends Business
 				$params .= "AND Cat.descripcion like '%".$elemento->idCategoria."%'";
 			if($elemento->idMaterial != null)
 				$params .= "AND M.descripcion like '%".$elemento->idMaterial."%'";
+			if($elemento->idMedida != null)
+				$params .= "AND Meds.descripcion like '%".$elemento->idMedida."%'";
 		}
 		
 		$result = $this->elementoDAO->getElementsGrid($params);
@@ -72,6 +74,8 @@ class ElementoBusiness extends Business
 				$params .= "AND Cat.descripcion like '%".$elemento->idCategoria."%'";
 			if($elemento->idMaterial != null)
 				$params .= "AND M.descripcion like '%".$elemento->idMaterial."%'";
+			if($elemento->idMedida != null)
+				$params .= "AND Meds.descripcion like '%".$elemento->idMedida."%'";
 		}
 		
 		$result = $this->elementoDAO->getElementosTrofeos($params);
@@ -126,5 +130,36 @@ class ElementoBusiness extends Business
 
 		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
+
+	public function setMeasure($elemento, $medida){
+		$this->responce = new Responce();
+		try{
+			$this->elementoDAO->setMeasure($elemento, $medida);
+			$this->responce->success = true;
+			$this->responce->message = "Se ha registrado la medida ".$medida->id;
+		}catch(Exception $e){
+			throw new Exception("Falló en insertar la medida ".$medida->id);
+		}
+
+		//echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
+	}
+
+	public function setMeasures($elemento, $medidas){
+		try {
+			if(count($medidas) == 0)
+				throw new Exception('No hay medidas que agregar a éste elemento');
+			foreach ($medidas as $medida) {
+				$this->setMeasure($elemento, $medida);
+			}
+		} catch (Exception $e) {
+			$this->responce->success = false;
+			$this->responce->message = $e->getMessage();
+		}
+
+		$this->responce->success = true;
+		$this->responce->message = "Medidas insertados con éxito";
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
+	}
+
 }
 ?>

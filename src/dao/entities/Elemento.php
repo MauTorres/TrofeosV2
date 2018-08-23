@@ -12,6 +12,7 @@ class Elemento extends Entity
 	public $idColor;
 	public $idCategoria;
 	public $idMaterial;
+	public $idMedida;
 
 	function __construct($data)
 	{
@@ -50,6 +51,11 @@ class Elemento extends Entity
 		}else{
 			$this->idMaterial = null;
 		}
+		if(isset($data['idMedida'])){
+			$this->idMedida = $data['idMedida'];
+		}else{
+			$this->idMedida = null;
+		}
 	}
 
 	function equals($elemento){
@@ -61,7 +67,8 @@ class Elemento extends Entity
 				$this->precio == $elemento->precio &&
 				$this->idColor == $idColor &&
 				$this->idCategoria == $idCategoria &&
-				$this->idMaterial == $idMaterial;
+				$this->idMaterial == $idMaterial &&
+				$this->idMedida == $idMedida;
 	}
 }
 ?>

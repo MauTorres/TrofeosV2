@@ -6,6 +6,7 @@ require_once __DIR__."/DAO.php";
 require_once __DIR__."/ColorDao.php";
 require_once __DIR__."/CategoriaDao.php";
 require_once __DIR__."/MaterialDao.php";
+require_once __DIR__."/MedidaDao.php";
 require_once __DIR__."/entities/Elemento.php";
 require_once __DIR__."/entities/Trofeo.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
@@ -15,6 +16,7 @@ class ElementoDao extends DAO
 	private $colorDao;
 	private $categoriaDao;
 	private $materialDao;
+	private $medidaDao;
 
 	function __construct()
 	{
@@ -22,6 +24,7 @@ class ElementoDao extends DAO
 		$this->colorDao = new ColorDao();
 		$this->categoriaDao = new CategoriaDao();
 		$this->materialDao = new MaterialDao();
+		$this->medidaDao = new MedidaDao();
 	}
 
 	public function getElementByElementName($ElementName){
@@ -30,7 +33,7 @@ class ElementoDao extends DAO
 		$result = $result->getResultSet();
 
 		foreach ($result as $elementos) {
-			array_push($elementos, new Elemento($result['id'], $result['nombre'], $result['descripcion'], $result['precio'], $result['idColor'], $result['idCategoria'], $result['idMaterial']));
+			array_push($elementos, new Elemento($result['id'], $result['nombre'], $result['descripcion'], $result['precio'], $result['idColor'], $result['idCategoria'], $result['idMaterial'], $result['idMedida']));
 		}
 
 		return $elementos;
@@ -38,7 +41,7 @@ class ElementoDao extends DAO
 
 	public function saveElement($elemento){
 		try{
-			$this->execute("INSERT INTO elementos(nombre, descripcion, precio, idColor, idCategoria, idMaterial) VALUES(?, ?, ?, ?, ?, ?)", array(array($elemento->nombre, $elemento->descripcion, $elemento->precio, $elemento->idColor, $elemento->idCategoria, $elemento->idMaterial)));
+			$this->execute("INSERT INTO elementos(nombre, descripcion, precio, idColor, idCategoria, idMaterial, idMedida) VALUES(?, ?, ?, ?, ?, ?, ?)", array(array($elemento->nombre, $elemento->descripcion, $elemento->precio, $elemento->idColor, $elemento->idCategoria, $elemento->idMaterial, $elemento->idMedida)));
 		}catch(Exception $e){
 			throw $e;
 		}
@@ -48,16 +51,21 @@ class ElementoDao extends DAO
 	public function getElementsGrid($params){
 		$query = sprintf("
 			SELECT 
-			E.id,
-   			E.nombre,
-		    E.descripcion,
-		    E.precio,
-		    C.descripcion AS color,
-		    C.id idColor,
-		    M.descripcion AS material,
-		    M.id idMaterial,
-		    Cat.descripcion AS categoria,
-		    Cat.id idCategoria
+				E.id,
+	   			E.nombre,
+			    E.descripcion,
+			    E.precio,
+		    	E.id,
+	   			E.nombre,
+	   			E.descripcion,
+			    IF(C.descripcion is null, '', C.descripcion) AS color,
+			    IF(M.descripcion is null, '', M.descripcion) AS material,
+			    IF(Cat.descripcion is null, '', Cat.descripcion) AS categoria,
+			    (SELECT 
+			    	GROUP_CONCAT(Meds.medida SEPARATOR '|')
+			   	FROM medidas Meds
+			   	WHERE Meds.idElemento = E.id
+			   	GROUP BY Meds.idElemento) AS medidas
 			FROM elementos E
 			LEFT JOIN colores C
 				ON E.idColor = C.id
@@ -72,11 +80,22 @@ class ElementoDao extends DAO
 		return $this->query($query, null);
 	}
 
+	public function setMeasure($elemento, $medida){
+		Loger::log("Medida".print_r($medida, 1)." ".print_r($medida, 1), null);
+		try {
+			$this->execute('INSERT INTO medidas(idElemento, idTipoMedida) VALUES(?, ?)', array(array($elemento->id, $medida->id)));
+		} catch (Exception $e) {
+			Loger::log($e->getMessage(), null);
+			throw $e;
+		}
+	}
+
 	public function getElementosTrofeos($params){
 		$query = sprintf(
 			"SELECT 
 				E.id,
 	   			E.nombre,
+	   			E.descripcion,
 			    IF(C.descripcion is null, '', C.descripcion) AS color,
 			    IF(M.descripcion is null, '', M.descripcion) AS material,
 			    IF(Cat.descripcion is null, '', Cat.descripcion) AS categoria,
@@ -104,6 +123,7 @@ class ElementoDao extends DAO
 			"SELECT 
 				E.id,
 	   			E.nombre,
+			    E.descripcion,
 			    IF(C.descripcion is null, '', C.descripcion) AS color,
 			    IF(M.descripcion is null, '', M.descripcion) AS material,
 			    IF(Cat.descripcion is null, '', Cat.descripcion) AS categoria,
@@ -146,7 +166,8 @@ class ElementoDao extends DAO
 		$color = $this->colorDao->getColorByID($row['idColor']);
 		$categoria = $this->categoriaDao->getCategoryByID($row['idCategoria']);
 		$material = $this->materialDao->getMaterialByID($row['idMaterial']);
-		return new Elemento($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $color, $categoria, $material);
+		$medida = $this->medidaDao->getMeasureByID($row['idMedida']);
+		return new Elemento($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $color, $categoria, $material, $medida);
 	}
 
 	public function createOrUpdateElement($elemento){
@@ -164,6 +185,8 @@ class ElementoDao extends DAO
 				$elementoNew->idCategoria = $elemento->idCategoria;
 			if($elemento->idMaterial != null && $elemento->idMaterial != '')
 				$elementoNew->idMaterial = $elemento->idMaterial;
+			if($elemento->idMedida != null && $elemento->idMedida != '')
+				$elementoNew->idMedida = $elemento->idMedida;
 
 			$this->execute(
 				"UPDATE elementos 
@@ -173,9 +196,10 @@ class ElementoDao extends DAO
 					precio = ?,
 					idColor = ?,
 					idCategoria = ?,
-					idMaterial = ?
+					idMaterial = ?,
+					idMedida = ?
 				WHERE id = ?", 
-				array(array($elementoNew->nombre, $elementoNew->descripcion, $elementoNew->precio, $elementoNew->idColor,  $elementoNew->idCategoria,  $elementoNew->idMaterial, $elementoNew->id)));
+				array(array($elementoNew->nombre, $elementoNew->descripcion, $elementoNew->precio, $elementoNew->idColor, $elementoNew->idCategoria, $elementoNew->idMaterial, $elementoNew->idMedida, $elementoNew->id)));
 		}catch(Exception $e){
 			Loger::log($e->getMessage(),null);
 			throw $e;

@@ -3,11 +3,16 @@
 }
 
 #login-floatbox {
-	background-color: #FFE030;
+	background-color: #FAC600;
+    border-top-width: 3em;
+    border-right-width: 3em;
+    border-bottom-width: 3em;
+    border-left-width: 3em;
+    border-color: #000000;
 }
 
 .floatbox {
-	margin-top: 18%;
+	margin-top: 14%;
 }
 
 #login-buton{
@@ -22,9 +27,6 @@
 }
 
 #font2 {
-        background: url(../img/Fondo.png) no-repeat center center fixed;
-        background-size: cover;
-        -moz-background-size: cover;
-        -webkit-background-size: cover;
-        -o-background-size: cover;
+        width:100%;
+        height:100%;
 }

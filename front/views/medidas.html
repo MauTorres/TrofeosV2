@@ -2,32 +2,27 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Trofeos</title>
+	<title>Medidas</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	<script src="../js/entities/Action.js"></script>
-	<script src="../js/controller/HttpFunctions.js"></script>
-	<script src="../js/controller/CatalogCreator.js"></script>
-	<script src="../js/controller/MenuNavs.js"></script>
 	<script src="../js/controller/session/SessionController.js"></script>
 	<script src="../js/entities/Usuario.js"></script>
+	<script src="../js/entities/CatalogElement.js"></script>
+	<script src="../js/entities/CatalogosView.js"></script>
 	<script src="../js/controller/ActionButton.js"></script>
-	<script src="../js/controller/ActionCheck.js"></script>
 	<script src="../js/controller/TableCreator.js"></script>
-	<script src="../js/entities/GridView.js"></script>
-	<script src="../js/entities/Trofeo.js"></script>
-	<script src="../js/entities/Elemento.js"></script>
-	<script src="../js/controller/trofeos/TrofeosController.js"></script>
+	<script src="../js/controller/MenuNavs.js"></script>
+	<script src="../js/controller/catalogos/CatalogosController.js"></script>
+	<script src="../js/controller/catalogos/MedidasController.js"></script>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../css/main.css">
 	<link rel="stylesheet" href="../css/usuarios.css">
-	<link rel="stylesheet" href="../css/trofeos.css">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="main-nav">
@@ -43,11 +38,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-8">
-				<h2>Trofeos</h2>
+				<h2>Medidas</h2>
 			</div>
 			<div class="col-sm-4">
-				<button type="button" class="btn btn-success" onclick="openUpdateModal(null)"><span class="fa fa-plus" aria-hidden="true"></span></button>
-				<button class="btn btn-secondary" id="btn-collapse-search" type="button" data-toggle="collapse" data-target="#search-collapse" aria-expanded="true" aria-controls="search-collapse" onclick="toggleCollapse($(this));">
+				<button type="button" class="btn btn-success" onclick="catalogosController.openUpdateModal(null)"><span class="fa fa-plus-square" aria-hidden="true"></span></button>
+				<button class="btn btn-secondary" id="btn-collapse-search" type="button" data-toggle="collapse" data-target="#search-collapse" aria-expanded="true" aria-controls="search-collapse" onclick="catalogosController.toggleCollapse($(this));">
 					<span class="fa fa-caret-square-o-down" aria-hidden="true"></span>
 				</button>
 			</div>
@@ -60,22 +55,17 @@
 							<form id="form-search-user">
 								<div class="row">
 									<div class="col">
-										<input type="text" id="id" class="form-control" placeholder="ID trofeo">
+										<input type="text" id="id-catalogo" class="form-control" placeholder="ID de Medida">
 									</div>
 									<div class="col">
-										<input type="text" id="nombre-trofeo" class="form-control" placeholder="Modelo">
-									</div>
-									<div class="col">
-										<input type="text" id="precio" class="form-control" placeholder="Precio del trofeo">
+										<input type="text" id="descripcion" class="form-control" placeholder="Valor de la medida">
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-sm-4">
+									<div class="col-sm-6">
 									</div>
-									<div class="col-sm-4">
-									</div>
-									<div class="col-sm-4">
-										<button class="btn btn-dark search-btn" type="button" id="btn-search-user" onclick="searchTrophy();">
+									<div class="col-sm-6">
+										<button class="btn btn-dark search-btn" type="button" id="btn-search-catalogo" onclick="catalogosController.searchElement();">
 											Buscar
 										</button>
 									</div>	
@@ -87,24 +77,31 @@
 			</div>		
 		</div>
 		<div class="row">
-			<table class="table table-striped table-hover" id="grid-table">
+			<table class="table table-striped table-hover" id="catalogo-table">
 			</table>
 		</div>
 	</div>
-	<div class="modal fade" id="update-trophy-modal" tabindex="-1" role="dialog" aria-labelledby="trofeos-label-modal" aria-hidden="true">
-		<script type="text/javascript">
-			$('#update-trophy-modal').load("modals/updateCreateModalTrofeo.html" );
-		</script>
-	</div>
-	<div class="modal fade bd-example-modal-lg" id="search-element-modal" tabindex="-1" role="dialog" aria-labelledby="elementos-label-modal" aria-hidden="true">
-		<script type="text/javascript">
-			$('#search-element-modal').load("modals/searchElementoModal.html" );
-		</script>
-	</div>
-	<div class="modal fade bd-example-modal-lg" id="add-element-modal" tabindex="-1" role="dialog" aria-labelledby="elementos-label-modal" aria-hidden="true">
-		<script type="text/javascript">
-			$('#add-element-modal').load("modals/addElementsModal.html" );
-		</script>
+	<div class="modal fade" id="update-element-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Medida</h5>
+				</div>
+				<div class="modal-body">
+					<form id="form-update-element">
+						<div class="form-group">	
+							<label for="element-descripcion">Medida</label>
+							<input type="text" class="form-control" id="element-descripcion" placeholder="Valor de la medida">
+							<input type="hidden" class="form-control" id="row-index">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" onclick="catalogosController.cleanForm();" id="btn-update-element-cancel">Cerrar</button>
+					<button type="button" class="btn btn-primary" onclick="catalogosController.createOrUpdateElement();" id="btn-update-element">Guardar</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

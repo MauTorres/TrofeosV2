@@ -21,8 +21,27 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$elemento = new Elemento($_POST);
 			$elementoBusiness->createOrUpdateElement($elemento);
 			break;
+		case 'setMeasure':
+			$elemento = new Elemento($_POST);
+			$medida = new Measure($_POST);
+			$elementoBusiness->setMeasure($elemento, $medida);
+			break;
+		case 'setMeasures':
+			Loger::log(print_r($_POST, 1), null);
+			$elemento = new Elemento($_POST['elementoUpdate']);
+			$elementos = array();
+			foreach($_POST['elementoUpdate']['medidas'] as $medida){
+				array_push($medidas, new Measure($medida));
+			}
+			$elementoBusiness->setMeasures($elemento, $medidas);
+			break;
+		case 'deleteMedidaElemento':
+			$elemento = new Elemento($_POST['elemento']);
+			$medida = new Measure($_POST['medida']);
+			$elementoBusiness->deleteMedidaElemento($elemento, $medida);
+			break;
 		default:
-			
+
 			break;
 	}
 }
