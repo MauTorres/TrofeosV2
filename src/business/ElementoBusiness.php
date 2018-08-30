@@ -110,10 +110,11 @@ class ElementoBusiness extends Business
 
 	public function createOrUpdateElement($elemento){
 		$this->responce = new Responce();
-		
+		Loger::log(print_r($elemento, 1), null);
 		try{
 
 			if($elemento->id == null){
+				Loger::log("Guardando elemento", null);
 				$this->saveElement($elemento);
 				return;
 			}

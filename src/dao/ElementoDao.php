@@ -32,8 +32,8 @@ class ElementoDao extends DAO
 		$result = $this->query("SELECT * FROM elementos WHERE nombre = ?", array($ElementName));
 		$result = $result->getResultSet();
 
-		foreach ($result as $elementos) {
-			array_push($elementos, new Elemento($result['id'], $result['nombre'], $result['descripcion'], $result['precio'], $result['idColor'], $result['idCategoria'], $result['idMaterial'], $result['idMedida']));
+		foreach ($result as $elemento) {
+			array_push($elementos, new Elemento($elemento));
 		}
 
 		return $elementos;
@@ -41,7 +41,19 @@ class ElementoDao extends DAO
 
 	public function saveElement($elemento){
 		try{
-			$this->execute("INSERT INTO elementos(nombre, descripcion, precio, idColor, idCategoria, idMaterial, idMedida) VALUES(?, ?, ?, ?, ?, ?, ?)", array(array($elemento->nombre, $elemento->descripcion, $elemento->precio, $elemento->idColor, $elemento->idCategoria, $elemento->idMaterial, $elemento->idMedida)));
+			Loger::log("Elemento a guardar: ".print_r($elemento, 1), null);
+			$this->execute(
+				"INSERT INTO elementos(nombre, descripcion, precio, idColor, idCategoria, idMaterial) 
+				VALUES(:nombre, :descripcion, :precio, :idColor, :idCategoria, :idMaterial)", 
+				array(
+					":nombre"=>$elemento->nombre, 
+					":descripcion"=>$elemento->descripcion, 
+					":precio"=>$elemento->precio, 
+					":idColor"=>$elemento->idColor, 
+					":idCategoria"=>$elemento->idCategoria, 
+					":idMaterial"=>$elemento->idMaterial
+				)
+			);
 		}catch(Exception $e){
 			throw $e;
 		}
@@ -81,9 +93,14 @@ class ElementoDao extends DAO
 	}
 
 	public function setMeasure($elemento, $medida){
-		Loger::log("Medida".print_r($medida, 1)." ".print_r($medida, 1), null);
 		try {
-			$this->execute('INSERT INTO medidas(idElemento, idTipoMedida) VALUES(?, ?)', array(array($elemento->id, $medida->id)));
+			$this->execute(
+				'INSERT INTO medidas(idElemento, idTipoMedida) VALUES(:idElemento, :idTipoMedida)', 
+				array(
+					":idElemento"=>$elemento->id, 
+					":idTipoMedida"=>$medida->id
+				)
+			);
 		} catch (Exception $e) {
 			Loger::log($e->getMessage(), null);
 			throw $e;
@@ -150,7 +167,7 @@ class ElementoDao extends DAO
 
 	public function deleteElement($elemento){
 		try{
-			$this->execute("UPDATE elementos SET estatus = 0 WHERE id = ?", array(array($elemento->id)));
+			$this->execute("UPDATE elementos SET estatus = 0 WHERE id = :id", array(":id"=>$elemento->id));
 		}catch(Exception $e){
 			Loger::log($e->getMessage(),null);
 			throw $e;
@@ -167,7 +184,7 @@ class ElementoDao extends DAO
 		$categoria = $this->categoriaDao->getCategoryByID($row['idCategoria']);
 		$material = $this->materialDao->getMaterialByID($row['idMaterial']);
 		$medida = $this->medidaDao->getMeasureByID($row['idMedida']);
-		return new Elemento($row['id'], $row['nombre'], $row['descripcion'], $row['precio'], $color, $categoria, $material, $medida);
+		return new Elemento($row);
 	}
 
 	public function createOrUpdateElement($elemento){
@@ -191,15 +208,23 @@ class ElementoDao extends DAO
 			$this->execute(
 				"UPDATE elementos 
 				SET 
-					nombre = ?,
-					descripcion = ?,
-					precio = ?,
-					idColor = ?,
-					idCategoria = ?,
-					idMaterial = ?,
-					idMedida = ?
-				WHERE id = ?", 
-				array(array($elementoNew->nombre, $elementoNew->descripcion, $elementoNew->precio, $elementoNew->idColor, $elementoNew->idCategoria, $elementoNew->idMaterial, $elementoNew->idMedida, $elementoNew->id)));
+					nombre = :nombre,
+					descripcion = :descripcion,
+					precio = :precio,
+					idColor = :idColor,
+					idCategoria = :idCategoria,
+					idMaterial = :idMaterial
+				WHERE id = :id", 
+				array(
+					":nombre"=>$elementoNew->nombre, 
+					":descripcion"=>$elementoNew->descripcion, 
+					":precio"=>$elementoNew->precio, 
+					":idColor"=>$elementoNew->idColor, 
+					":idCategoria"=>$elementoNew->idCategoria, 
+					":idMaterial"=>$elementoNew->idMaterial, 
+					":id"=>$elementoNew->id
+				)
+			);
 		}catch(Exception $e){
 			Loger::log($e->getMessage(),null);
 			throw $e;

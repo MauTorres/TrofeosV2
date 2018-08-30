@@ -233,7 +233,7 @@ $(document).ready(function(){
 	$('#form-update-trophy').submit(function(e){
 		e.preventDefault();
 		var trofeoUpdate = getTrophyToCreateOrUpdate();
-		var formData = new FormData($(this));
+		var formData = new FormData();
 		for ( var key in trofeoUpdate ) {
 			formData.append(key, trofeoUpdate[key]);
 		}

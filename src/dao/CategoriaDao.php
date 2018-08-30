@@ -28,7 +28,7 @@ class CategoriaDao extends DAO
 
 	public function saveCategory($category){
 		try{
-			$this->execute("INSERT INTO categorias(descripcion) VALUES(?)", array(array($category->descripcion)));
+			$this->execute("INSERT INTO categorias(descripcion) VALUES(:descripcion)", array(":descripcion"=>$category->descripcion));
 		}catch(Exception $e){
 			Loger::log($e->getMessage(), null);
 			throw $e;
@@ -55,7 +55,7 @@ class CategoriaDao extends DAO
 
 	public function deleteCategory($category){
 		try{
-			$this->execute("UPDATE categorias SET estatus = 0 WHERE id = ?", array(array($category->id)));
+			$this->execute("UPDATE categorias SET estatus = 0 WHERE id = :id", array(":id"=>$category->id));
 		}catch(Exception $e){
 			Loger::log($e->getMessage(), null);
 			throw $e;
@@ -79,9 +79,13 @@ class CategoriaDao extends DAO
 			$this->execute(
 				"UPDATE categorias 
 				SET 
-					descripcion = ?
-				WHERE id = ?", 
-				array(array($categoryNew->descripcion, $categoryNew->id)));
+					descripcion = :descripcion
+				WHERE id = :id", 
+				array(
+					":descripcion"=>$categoryNew->descripcion, 
+					":id"=>$categoryNew->id
+				)
+			);
 		}catch(Exception $e){
 			Loger::log($e->getMessage(), null);
 			throw $e;
