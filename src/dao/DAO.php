@@ -49,9 +49,6 @@ class DAO
 			
 			if($variablesArr != null){
 				foreach ($variablesArr as $key => $value) {
-					Loger::log("Key: ".print_r($key, 1)."\n", null);
-					Loger::log("Value: ".print_r($value, 1)."\n", null);
-					Loger::log("type: ".print_r($this->getDataType($value)."\n", 1), null);
 					$statement->bindValue($key, $value, $this->getDataType($value));
 				}
 			}
@@ -67,6 +64,8 @@ class DAO
 			return PDO::PARAM_INT;
 		}else if(is_bool($data)){
 			return PDO::PARAM_BOOL;
+		}else if($data == null || $data == ""){
+			return PDO::PARAM_NULL;
 		}
 		return PDO::PARAM_STR;
 	}
