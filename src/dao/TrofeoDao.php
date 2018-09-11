@@ -91,7 +91,11 @@ class TrofeoDao extends DAO
 
 	public function deleteElementoTrofeo($trofeo, $elemento){
 		try {
-			$this->execute('DELETE FROM trofeoselementos WHERE idTrofeo = ? AND idElemento = ?', array(array($trofeo->id, $elemento->id)));
+			$this->execute('DELETE FROM trofeoselementos WHERE idTrofeo = :idTrofeo AND idElemento = :idElemento', 
+				array(
+					":idTrofeo" => $trofeo->id, 
+					":idElemento" => $elemento->id
+				));
 		}catch (Exception $e) {
 			Loger::log($e->getMessage(), null);
 		}	

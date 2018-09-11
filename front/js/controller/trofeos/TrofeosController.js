@@ -8,13 +8,13 @@ var elementosGridView = new GridView();
 var colorCatalogCreator = new CatalogCreator('../../src/controller/ColorController.php');
 var materialCatalogCreator = new CatalogCreator('../../src/controller/MaterialController.php');
 var categoriaCatalogCreator = new CatalogCreator('../../src/controller/CategoryController.php');
-var currentTrophy = null;
 
 function openUpdateModal(row){
 	colorCatalogCreator.fillCatalog($('#color'));
 	materialCatalogCreator.fillCatalog($('#material'));
 	categoriaCatalogCreator.fillCatalog($('#categoria'));
 	var trofeoUpdate = null;
+	currentRow = row.index();
 	$('#photo-body').html('');
 	if(row != undefined){
 		trofeoUpdate = trofeosGridView.elements[row.index()];
@@ -26,7 +26,6 @@ function openUpdateModal(row){
 		if(trofeoUpdate.fotoPath != null){
 			$('#photo-body').append('<img src="../../src' + trofeoUpdate.fotoPath + '" class="img-fluid">');
 		}
-		//$('#trophy-photo').val(currentTrophy.foto);
 	}else{
 		$('.hide-on-new').hide();
 		$('#grid-elementtrophy-table').html('');
@@ -145,9 +144,9 @@ function deleteElement(row){
 		type: 'POST',
 		url: '../../src/controller/TrofeoController.php',
 		data: {method:'deleteTrophy', trofeo: trofeoDelete},
-		success: function(respoce){
+		success: function(responce){
 			try{
-				var res = jQuery.parseJSON(respoce);
+				var res = jQuery.parseJSON(responce);
 				if(res.success){
 					alert(res.message);
 					loadTrofeoGrid();
@@ -217,7 +216,14 @@ function deleteElementTrofeo(row){
 			try{
 				var res = jQuery.parseJSON(respoce);
 				if(res.success){
-					elementoTrofeo.splice(row.index(), 1);
+					alert(res.message);
+					elementosGridView.getGrid(
+						{method: 'getElementosTrofeo', trophy: trofeo},
+						'../../src/controller/ElementoController.php',
+						elementosTrofeoGridActions,
+						$('#grid-elementtrophy-table'),
+						[1, 2, 3, 4, 5]
+					);
 				}
 			}catch(exeption){
 				alert("Ocurrió un error en el servidor");
