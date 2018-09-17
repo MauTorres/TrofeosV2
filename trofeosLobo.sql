@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS trofeoslobo;
 create database if not exists trofeoslobo;
 
 use trofeoslobo;
@@ -87,6 +88,8 @@ create table if not exists TrofeosElementos(
 create TABLE if not exists vistas(
 	id int AUTO_INCREMENT,
     descripcion varchar(255),
-    estatus boolean,
+    estatus boolean DEFAULT 1,
+    `isDropDown` bit(1) DEFAULT 0,
+    `subMenus` varchar(1000) DEFAULT NULL,
     PRIMARY KEY (id)
 );
