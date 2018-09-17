@@ -18,6 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$elementoBusiness->deleteElement($elemento);
 			break;
 		case 'createOrUpdateElement':
+			Loger::log(print_r($_POST, 1), null);
 			$elemento = new Elemento($_POST);
 			$elementoBusiness->createOrUpdateElement($elemento);
 			break;
@@ -27,7 +28,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$elementoBusiness->setMeasure($elemento, $medida);
 			break;
 		case 'setMeasures':
-			Loger::log(print_r($_POST, 1), null);
 			$elemento = new Elemento($_POST['elementoUpdate']);
 			$elementos = array();
 			foreach($_POST['elementoUpdate']['medidas'] as $medida){
