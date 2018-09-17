@@ -27,7 +27,7 @@ class MedidaDao extends DAO
 
 	public function saveMeasure($measure){
 		try{
-			$this->execute("INSERT INTO tiposMedidas(descripcion) VALUES(?)", array(array($measure->descripcion)));
+			$this->execute("INSERT INTO tiposMedidas(descripcion) VALUES(:descripcion)", array(":descripcion"=>$measure->descripcion));
 		}catch(Exception $e){
 			Loger::log($e->getMessage(), null);
 			throw $e;
@@ -48,7 +48,7 @@ class MedidaDao extends DAO
 
 	public function deleteMeasure($measure){
 		try{
-			$this->execute("UPDATE tiposMedidas SET estatus = 0 WHERE id = ?", array(array($measure->id)));
+			$this->execute("UPDATE tiposMedidas SET estatus = 0 WHERE id = :id", array(":id"=>$measure->id));
 		}catch(Exception $e){
 			throw $e;
 		}
@@ -57,7 +57,7 @@ class MedidaDao extends DAO
 	public function getMeasureByID($measure){
 		$result = $this->query("SELECT * FROM tiposMedidas WHERE id = ?", array($measure->id));
 		$row = $result->getResultSet()[0];
-		return new Measure($row['id'], $row['descripcion']);
+		return new Medida($row['id'], $row['descripcion']);
 	}
 
 	public function createOrUpdateMeasure($measure){
@@ -70,9 +70,13 @@ class MedidaDao extends DAO
 			$this->execute(
 				"UPDATE tiposMedidas 
 				SET 
-					descripcion = ?
-				WHERE id = ?", 
-				array(array($measureNew->descripcion, $measureNew->id)));
+					descripcion = :descripcion
+				WHERE id = :id", 
+				array(
+					":descripcion"=>$measureNew->descripcion, 
+					":id"=>$measureNew->id
+				)
+			);
 		}catch(Exception $e){
 			Loger::log($e->getMessage(), null);
 			throw $e;
