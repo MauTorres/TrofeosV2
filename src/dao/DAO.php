@@ -49,6 +49,7 @@ class DAO
 			
 			if($variablesArr != null){
 				foreach ($variablesArr as $key => $value) {
+					#Loger::log("Current key: $key [$value]\n", NULL);
 					$statement->bindValue($key, $value, $this->getDataType($value));
 				}
 			}
