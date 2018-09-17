@@ -1,6 +1,7 @@
 var actions = 
 	[new ActionEdit('', '', ''),
 	new ActionDelete('', '', '')];
+var elemtsGridActions = [{_class: '', value: 1, component: 'check', functionECute: 'addElement($(this))'}];
 var elementosGridView = new GridView();
 var isCollapseUp = true;
 var colorCatalogCreator = new CatalogCreator('../../src/controller/ColorController.php');
@@ -30,6 +31,7 @@ function deleteElement(row){
 					alert(responce.message);
 				}
 			}catch(err){
+				console.error( err);
 				alert("Ha ocurrido un error en el servidor");
 				return;
 			}
@@ -79,6 +81,7 @@ function createOrUpdateElement(){
 				}
 				alert(responce.message);
 			}catch(err){
+				console.error(err);
 				alert("Ha ocurrido un error en el servidor");
 				return;
 			}		
@@ -104,6 +107,11 @@ function searchElement(){
 		[0, 1, 2, 3, 4, 5, 6]
 	);
 
+}
+
+function addElement(row){
+	var index = row.parent().parent().index();
+	elementosGridView.elements[index].selected = !elementosGridView.elements[index].selected;
 }
 
 function openUpdateModal(row){
@@ -184,7 +192,8 @@ function addMeasure(row){
 function addMeasures(){
 	var elementoUpdate = null
 	if($('#row-index').val() != null && $('#row-index').val() != ''){
-		elementoUpdate = elementosGridView.elements[$('#row-index').val()];
+		//elementoUpdate = elementosGridView.elements[$('#row-index').val()];
+		elementoUpdate = new Object();
 	}else{
 		alert("Primero cree el elemento antes de agregar medidas");
 		$('#add-element-modal').modal('hide');
@@ -193,17 +202,16 @@ function addMeasures(){
 	}
 
 	var medidas = [];
-	medidasGridView.elements.forEach(function(medida){
+	elementosGridView.elements.forEach(function(medida){
 		if(medida.selected){
 			medidas.push(medida);
 		}
 	});
-
 	elementoUpdate.medidas = medidas;
 	$.ajax({
 		type: 'POST',
 		url: '../../src/controller/ElementoController.php',
-		data: {method: 'setMeasures', elementoUpdate},
+		data: {method: 'setMeasures', 'elementoUpdate': elementoUpdate},
 		success: function(result){
 			try{
 				var res = jQuery.parseJSON(result);
@@ -214,6 +222,9 @@ function addMeasures(){
 			}catch(exeption){
 				alert("Ocurrió un error en el servidor");
 			}
+		},
+		error: function( jqhqr, textStatus, errorThrown ){
+			console.error( textStatus + ": " + errorThrown );
 		}
 	});
 	cleanMeasureModal();
