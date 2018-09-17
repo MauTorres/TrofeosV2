@@ -133,12 +133,12 @@ class TrofeoDao extends DAO
 					estatus = :estatus
 				WHERE id = :id',
 				array(
-					":nombre"=>$trofeo->nombre,
-					":descripcion"=>$trofeo->descripcion,
-					":precio"=>$trofeo->precio,
-					":foto"=>$trofeo->foto,
-					":estatus"=>$trofeo->estatus,
-					":id"=>$trofeo->id
+					":nombre"=>$trofeoNew->nombre,
+					":descripcion"=>$trofeoNew->descripcion,
+					":precio"=>$trofeoNew->precio,
+					":fotoPath"=>$trofeoNew->foto,
+					":estatus"=>$trofeoNew->estatus,
+					":id"=>$trofeoNew->id
 				)
 			);
 		}catch (Exception $e) {
