@@ -180,10 +180,10 @@ class ElementoDao extends DAO
 		if ($row == null) {
 			return null;
 		}
-		$color = $this->colorDao->getColorByID($row['idColor']);
-		$categoria = $this->categoriaDao->getCategoryByID($row['idCategoria']);
-		$material = $this->materialDao->getMaterialByID($row['idMaterial']);
-		$medida = $this->medidaDao->getMeasureByID($row['idMedida']);
+		$color = $this->colorDao->getColorByID( new Color($row['idColor'], NULL) );
+		$categoria = $this->categoriaDao->getCategoryByID( new Categoria($row['idCategoria'], NULL ));
+		$material = $this->materialDao->getMaterialByID(new Material($row['idMaterial'], NULL));
+		$medida = $this->medidaDao->getMeasureByID(new Measure($row['idMedida'], NULL ));
 		return new Elemento($row);
 	}
 
