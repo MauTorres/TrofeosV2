@@ -91,7 +91,7 @@ class UsuarioDao extends DAO
 					usuario = :usuario,
 					passwd = :passwd,
 					email = :email
-				WHERE id = ?", 
+				WHERE id = :id", 
 				array(
 					":usuario"=>$usuarioNew->usuario, 
 					":passwd"=>$usuarioNew->passwd, 
