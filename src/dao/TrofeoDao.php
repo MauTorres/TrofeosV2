@@ -5,7 +5,6 @@
 require_once __DIR__."/DAO.php";
 require_once __DIR__."/entities/Trofeo.php";
 require_once __DIR__."/entities/Elemento.php";
-require_once dirname(__DIR__)."/utils/Loger.php";
 
 class TrofeoDao extends DAO
 {
@@ -58,9 +57,13 @@ class TrofeoDao extends DAO
 	}
 
 	public function setElement($trofeo, $elemento){
-		Loger::log("Trofeo".print_r($trofeo, 1)." ".print_r($elemento, 1), null);
 		try {
-			$this->execute('INSERT INTO trofeoselementos(idTrofeo, idElemento) VALUES(?, ?)', array(array($trofeo->id, $elemento->id)));
+			$this->execute('INSERT INTO trofeoselementos(idTrofeo, idElemento) VALUES(:idTrofeo, :idElemento)', 
+				array(
+					":idTrofeo"=>$trofeo->id,
+					":idElemento"=>$elemento->id
+				)
+			);
 		} catch (Exception $e) {
 			Loger::log($e->getMessage(), null);
 			throw $e;
@@ -69,7 +72,18 @@ class TrofeoDao extends DAO
 
 	public function saveTrophy($trofeo){
 		try {
-			$this->execute('INSERT INTO trofeos(nombre, descripcion, precio, fotoPath) VALUES(?, ?, ?, ?)', array(array($trofeo->nombre, $trofeo->descripcion, $trofeo->precio, $trofeo->foto)));
+			/*foreach ($trofeo as $key => $value) {
+				print_r($key);
+				echo "<bo"
+				print_r($value);
+			}*/
+			$this->execute('INSERT INTO trofeos(nombre, descripcion, precio, fotoPath) VALUES(:nombre, :descripcion, :precio, :foto)', 
+				array(
+					":nombre"=>$trofeo->nombre, 
+					":descripcion"=>$trofeo->descripcion,
+					":precio"=>$trofeo->precio,
+					":foto"=>$trofeo->foto
+				));
 		}catch (Exception $e) {
 			Loger::log($e->getMessage(), null);
 		}
@@ -77,7 +91,11 @@ class TrofeoDao extends DAO
 
 	public function deleteElementoTrofeo($trofeo, $elemento){
 		try {
-			$this->execute('DELETE FROM trofeoselementos WHERE idTrofeo = ? AND idElemento = ?', array(array($trofeo->id, $elemento->id)));
+			$this->execute('DELETE FROM trofeoselementos WHERE idTrofeo = :idTrofeo AND idElemento = :idElemento', 
+				array(
+					":idTrofeo" => $trofeo->id, 
+					":idElemento" => $elemento->id
+				));
 		}catch (Exception $e) {
 			Loger::log($e->getMessage(), null);
 		}	
@@ -93,9 +111,7 @@ class TrofeoDao extends DAO
 				$this->saveTrophy($trofeo);
 				return;
 			}
-			Loger::log("Nuevo: ".print_r($trofeo, 1), null);
 			$trofeoNew = $this->getTrophyById($trofeo);
-			Loger::log("Anterior: ".print_r($trofeoNew, 1), null);
 			if($trofeo->nombre != null && $trofeo->nombre != '')
 				$trofeoNew->nombre = $trofeo->nombre;
 			if($trofeo->descripcion != null && $trofeo->descripcion != '')
@@ -110,19 +126,21 @@ class TrofeoDao extends DAO
 			$this->execute(
 				'UPDATE trofeos
 				SET
-					nombre = ?,
-					descripcion = ?,
-					precio = ?,
-					fotoPath = ?,
-					estatus = ?
-				WHERE id = ?',
-				array(array(
-					$trofeo->nombre,
-					$trofeo->descripcion,
-					$trofeo->precio,
-					$trofeo->foto,
-					$trofeo->estatus,
-					$trofeo->id)));
+					nombre = :nombre,
+					descripcion = :descripcion,
+					precio = :precio,
+					fotoPath = :fotoPath,
+					estatus = :estatus
+				WHERE id = :id',
+				array(
+					":nombre"=>$trofeo->nombre,
+					":descripcion"=>$trofeo->descripcion,
+					":precio"=>$trofeo->precio,
+					":foto"=>$trofeo->foto,
+					":estatus"=>$trofeo->estatus,
+					":id"=>$trofeo->id
+				)
+			);
 		}catch (Exception $e) {
 			Loger::log($e->getMessage(), null);
 			throw $e;
