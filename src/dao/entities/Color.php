@@ -8,6 +8,10 @@ class Color extends Entity
 {
 	public $descripcion;
 
+	function toString(){
+		return "Color[id=$this->id, descripcion=$this->descripcion]";
+	}
+
 	function __construct($id, $descripcion)
 	{
 		parent::__construct($id);
