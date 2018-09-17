@@ -21,7 +21,7 @@ function deleteElement(row){
 				var responce = jQuery.parseJSON(data);
 				if(responce.success){
 					elementosGridView.getGrid(
-						{method: 'deleteElement'}, 
+						{method: 'getElementosTrofeos'}, 
 						'../../src/controller/ElementoController.php', 
 						actions, 
 						$('#grid-element-table'), 
