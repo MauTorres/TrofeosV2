@@ -27,7 +27,7 @@ class ColorDao extends DAO
 
 	public function saveColor($color){
 		try{
-			$this->execute("INSERT INTO colores(descripcion) VALUES(?)", array(array($color->descripcion)));
+			$this->execute("INSERT INTO colores(descripcion) VALUES(:descripcion)", array(":descripcion"=>$color->descripcion));
 		}catch(Exception $e){
 			Loger::log($e->getMessage(), null);
 			throw $e;
@@ -48,7 +48,7 @@ class ColorDao extends DAO
 
 	public function deleteColor($color){
 		try{
-			$this->execute("UPDATE colores SET estatus = 0 WHERE id = ?", array(array($color->id)));
+			$this->execute("UPDATE colores SET estatus = 0 WHERE id = :id", array(":id"=>$color->id));
 		}catch(Exception $e){
 			throw $e;
 		}
@@ -70,9 +70,13 @@ class ColorDao extends DAO
 			$this->execute(
 				"UPDATE colores 
 				SET 
-					descripcion = ?
-				WHERE id = ?", 
-				array(array($colorNew->descripcion, $colorNew->id)));
+					descripcion = :descripcion
+				WHERE id = :id", 
+				array(
+					":descripcion"=>$colorNew->descripcion, 
+					":id"=>$colorNew->id
+				)
+			);
 		}catch(Exception $e){
 			Loger::log($e->getMessage(), null);
 			throw $e;
