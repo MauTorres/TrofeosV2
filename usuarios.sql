@@ -7,8 +7,8 @@ VALUES('Rojo'), ('Azul'), ('Verde');
 INSERT INTO `materiales`(`descripcion`)
 VALUES('Madera'), ('Oro'), ('Cobre');
 
-INSERT INTO `deportes`(`descripcion`)
-VALUES('Natación'), ('Box'), ('Futbol');
-
 INSERT INTO `categorias`(`descripcion`)
-VALUES('Bajo'), ('Medio'), ('Alto');
+VALUES('Natacion'), ('Box'), ('Futbol');
+
+INSERT INTO `elementos`(`nombre`, `descripcion`, `precio`, `idColor`, `idDeporte`, `idMaterial`)
+VALUES('Elemento 1', 'Es el primero', '500', 1, 1, 1);

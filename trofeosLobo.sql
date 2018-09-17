@@ -2,7 +2,7 @@ create database if not exists trofeoslobo;
 
 use trofeoslobo;
 
-create table if not exists deportes(
+create table if not exists categorias(
 	id integer auto_increment,
 	descripcion varchar(500),
 	estatus boolean default 1,
@@ -55,12 +55,12 @@ create table if not exists elementos(
 	descripcion varchar(2500),
 	precio double,
 	idColor integer,
-	idDeporte integer,
+	idCategoria integer,
 	idMaterial integer,
 	estatus boolean default 1,
 	primary key(id),
 	foreign key (idColor) references colores(id),
-	foreign key (idDeporte) references deportes(id),
+	foreign key (idCategoria) references categorias(id),
 	foreign key (idMaterial) references materiales(id)
 );
 
