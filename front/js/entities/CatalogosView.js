@@ -17,6 +17,7 @@ CatalogosView = {
 						TableCreator.fillTable(responce.data, table, [0, 1]);
 					}
 				}catch(err){
+					console.error(err);
 					alert("Ha ocurrido un error en el servidor");
 					return;
 				}

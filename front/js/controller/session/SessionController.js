@@ -16,6 +16,7 @@ var SessionController = {
 						return;
 					}
 				}catch(err){
+					console.error(err);
 					alert("Ha ocurrido un error en el servidor");
 					return;
 				}

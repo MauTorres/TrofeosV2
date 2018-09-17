@@ -17,6 +17,7 @@ UsersView = {
 						TableCreator.fillTable(responce.data, table, [0, 1, 2]);
 					}
 				}catch(err){
+					console.error(err);
 					alert("Ha ocurrido un error en el servidor");
 					return;
 				}
@@ -48,6 +49,7 @@ function deleteUser(row){
 					alert(responce.message);
 				}
 			}catch(err){
+				console.error(err);
 				alert("Ha ocurrido un error en el servidor");
 				return;
 			}
@@ -87,6 +89,7 @@ function createOrUpdateUser(){
 				}
 				alert(responce.message);
 			}catch(err){
+				console.error(err);
 				alert("Ha ocurrido un error en el servidor");
 				return;
 			}		
