@@ -57,7 +57,7 @@ class MedidaDao extends DAO
 	public function getMeasureByID($measure){
 		$result = $this->query("SELECT * FROM tiposMedidas WHERE id = ?", array($measure->id));
 		$row = $result->getResultSet()[0];
-		return new Medida($row['id'], $row['descripcion']);
+		return new Measure($row['id'], $row['descripcion']);
 	}
 
 	public function createOrUpdateMeasure($measure){
