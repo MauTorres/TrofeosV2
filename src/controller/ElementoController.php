@@ -18,7 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$elementoBusiness->deleteElement($elemento);
 			break;
 		case 'createOrUpdateElement':
-			Loger::log(print_r($_POST, 1), null);
+			#Loger::log(print_r($_POST, 1), null);
 			$elemento = new Elemento($_POST);
 			$elementoBusiness->createOrUpdateElement($elemento);
 			break;
