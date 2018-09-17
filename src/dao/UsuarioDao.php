@@ -28,7 +28,15 @@ class UsuarioDao extends DAO
 
 	public function saveUser($usuario){
 		try{
-			$this->execute("INSERT INTO usuarios(usuario, passwd, email) VALUES(?, ?, ?)", array(array($usuario->usuario, $usuario->passwd, $usuario->email)));
+			$this->execute(
+				"INSERT INTO usuarios(usuario, passwd, email) 
+				VALUES(:usuario, :passwd, :email)", 
+				array(
+					":usuario"=>$usuario->usuario, 
+					":passwd"=>$usuario->passwd, 
+					":email"=>$usuario->email
+				)
+			);
 		}catch(Exception $e){
 			throw $e;
 		}
@@ -49,7 +57,7 @@ class UsuarioDao extends DAO
 
 	public function deleteUser($usuario){
 		try{
-			$this->execute("UPDATE usuarios SET estatus = 0 WHERE id = ?", array(array($usuario->id)));
+			$this->execute("UPDATE usuarios SET estatus = 0 WHERE id = :id", array(":id"=>$usuario->id));
 		}catch(Exception $e){
 			throw $e;
 		}
@@ -80,11 +88,17 @@ class UsuarioDao extends DAO
 			$this->execute(
 				"UPDATE usuarios 
 				SET 
-					usuario = ?,
-					passwd = ?,
-					email = ?
+					usuario = :usuario,
+					passwd = :passwd,
+					email = :email
 				WHERE id = ?", 
-				array(array($usuarioNew->usuario, $usuarioNew->passwd, $usuarioNew->email, $usuarioNew->id)));
+				array(
+					":usuario"=>$usuarioNew->usuario, 
+					":passwd"=>$usuarioNew->passwd, 
+					":email"=>$usuarioNew->email, 
+					":id"=>$usuarioNew->id
+				)
+			);
 		}catch(Exception $e){
 			throw $e;
 		}	
