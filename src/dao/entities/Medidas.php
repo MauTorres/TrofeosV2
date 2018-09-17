@@ -8,18 +8,14 @@ class Measure extends Entity
 {
 	public $descripcion;
 
-	function __construct($data)
+	function toString(){
+		return "Measure[id=$this->id, descripcion=$this->descripcion]";
+	}
+
+	function __construct($id, $descripcion)
 	{
-		if(isset($data['id'])){
-			parent::__construct($data['id']);	
-		}else{
-			parent::__construct(null);
-		}
-		if(isset($data['descripcion'])){
-			$this->descripcion = $data['descripcion'];	
-		}else{
-			$this->descripcion = null;
-		}
+		parent::__construct($id);
+		$this->descripcion = $descripcion;
 	}
 
 	function equals($medida){
