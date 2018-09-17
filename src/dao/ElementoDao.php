@@ -156,7 +156,7 @@ class ElementoDao extends DAO
 				ON E.idMaterial = M.id
 			LEFT JOIN categorias Cat
 				ON E.idCategoria = Cat.id
-			JOIN trofeoselementos TE
+			JOIN TrofeosElementos TE
 				ON TE.idElemento = E.id
 			WHERE 
 				E.estatus = 1

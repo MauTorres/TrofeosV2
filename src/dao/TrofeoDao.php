@@ -58,7 +58,7 @@ class TrofeoDao extends DAO
 
 	public function setElement($trofeo, $elemento){
 		try {
-			$this->execute('INSERT INTO trofeoselementos(idTrofeo, idElemento) VALUES(:idTrofeo, :idElemento)', 
+			$this->execute('INSERT INTO TrofeosElementos(idTrofeo, idElemento) VALUES(:idTrofeo, :idElemento)', 
 				array(
 					":idTrofeo"=>$trofeo->id,
 					":idElemento"=>$elemento->id
@@ -91,7 +91,7 @@ class TrofeoDao extends DAO
 
 	public function deleteElementoTrofeo($trofeo, $elemento){
 		try {
-			$this->execute('DELETE FROM trofeoselementos WHERE idTrofeo = :idTrofeo AND idElemento = :idElemento', 
+			$this->execute('DELETE FROM TrofeosElementos WHERE idTrofeo = :idTrofeo AND idElemento = :idElemento', 
 				array(
 					":idTrofeo" => $trofeo->id, 
 					":idElemento" => $elemento->id
