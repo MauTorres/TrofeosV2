@@ -1,5 +1,5 @@
 /src/utils/ConnectionStrings.php
 *.log
-/src/img/*.jpg
+/src/img/*
 !.gitkeep
 !/front/img/*.jpg
