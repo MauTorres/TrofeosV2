@@ -16,6 +16,8 @@ function openUpdateModal(row){
 	var trofeoUpdate = null;
 	$('#photo-body').html('');
 	if(row != undefined){
+		$("#modal-trofeo-table-extra").show();
+		$("#modal-trofeo-option").show();
 		currentRow = row.index();
 		trofeoUpdate = trofeosGridView.elements[row.index()];
 		trofeoUpdate.estatus = 1;
