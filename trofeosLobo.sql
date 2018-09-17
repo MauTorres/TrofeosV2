@@ -90,10 +90,3 @@ create TABLE if not exists vistas(
     estatus boolean,
     PRIMARY KEY (id)
 );
-
-insert into vistas
-values
-(null, 'main', 1),
-(null, 'usuarios', 1),
-(null, 'trofeos', 1),
-(null, 'materiales', 1);

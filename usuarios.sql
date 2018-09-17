@@ -1,3 +1,9 @@
+INSERT INTO `vistas` VALUES
+(null, 'main', 1),
+(null, 'usuarios', 1),
+(null, 'trofeos', 1),
+(null, 'materiales', 1);
+
 INSERT INTO `usuarios`(`usuario`, `passwd`, `email`)
 VALUES('mcsonk', '1234', 'misaelarturo@gmail.com');
 
