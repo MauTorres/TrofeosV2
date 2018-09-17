@@ -28,7 +28,7 @@ class MaterialDao extends DAO
 
 	public function saveMaterial($material){
 		try{
-			$this->execute("INSERT INTO materiales(descripcion) VALUES(?)", array(array($material->descripcion)));
+			$this->execute("INSERT INTO materiales(descripcion) VALUES(:descripcion)", array(":descripcion"=>$material->descripcion));
 		}catch(Exception $e){
 			throw $e;
 		}
@@ -53,7 +53,7 @@ class MaterialDao extends DAO
 
 	public function deleteMaterial($material){
 		try{
-			$this->execute("UPDATE materiales SET estatus = 0 WHERE id = ?", array(array($material->id)));
+			$this->execute("UPDATE materiales SET estatus = 0 WHERE id = :id", array(":id"=>$material->id));
 		}catch(Exception $e){
 			throw $e;
 		}
@@ -80,9 +80,13 @@ class MaterialDao extends DAO
 			$this->execute(
 				"UPDATE materiales 
 				SET 
-					descripcion = ?
-				WHERE id = ?", 
-				array(array($materialNew->descripcion, $materialNew->id)));
+					descripcion = :descripcion
+				WHERE id = :id", 
+				array(
+					":descripcion"=>$materialNew->descripcion, 
+					":id"=>$materialNew->id
+				)
+			);
 		}catch(Exception $e){
 			throw $e;
 		}	
