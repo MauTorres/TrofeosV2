@@ -11,7 +11,6 @@ $sessionBusiness->checkSession();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
 		case 'createOrUpdateTrophy':
-		Loger::log(print_r($_POST, 1), null);
 			$fotoPath = null;
 			if(isset($_FILES) && isset($_FILES['foto'])){
 				$fileManager = new FileManager($_FILES['foto']);
@@ -28,7 +27,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$trofeoBusiness->setElement($trofeo, $elemento);
 			break;
 		case 'setElements':
-			Loger::log(print_r($_POST, 1), null);
 			$trofeo = new Trofeo($_POST['trofeoUpdate']);
 			$elementos = array();
 			foreach($_POST['trofeoUpdate']['elementos'] as $elemento){
