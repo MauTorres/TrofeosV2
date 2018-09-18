@@ -1,8 +1,10 @@
 var actions = 
 	[new ActionEdit('', '', ''),
 	new ActionDelete('', '', '')];
-var elemtsGridActions = [{_class: '', value: 1, component: 'check', functionECute: 'addElement($(this))'}];
+var elemtsGridActions = [{_class: '', value: 1, component: 'check', functionECute: 'addMeasure($(this))'}];
+var medidasElementosGridActions = [new Action('danger', '', 'fa fa-close', '', 'btn-sm', 'deleteElementTrofeo($(this).parent().parent());')];
 var elementosGridView = new GridView();
+var medidasGridView = new GridView();
 var isCollapseUp = true;
 var colorCatalogCreator = new CatalogCreator('../../src/controller/ColorController.php');
 var materialCatalogCreator = new CatalogCreator('../../src/controller/MaterialController.php');
@@ -109,11 +111,6 @@ function searchElement(){
 
 }
 
-function addElement(row){
-	var index = row.parent().parent().index();
-	elementosGridView.elements[index].selected = !elementosGridView.elements[index].selected;
-}
-
 function openUpdateModal(row){
 	colorCatalogCreator.fillCatalog($('#color'));
 	materialCatalogCreator.fillCatalog($('#material'));
@@ -170,7 +167,7 @@ function searchMeasure(){
 		$('#id-medida').val(),
 		$('#descripcion-medida').val()
 	);
-	elementosGridView.getGrid(
+	medidasGridView.getGrid(
 		{method: 'getElementsGrid', filters: medida},
 		'../../src/controller/MeasureController.php',
 		elemtsGridActions,
@@ -201,7 +198,7 @@ function addMeasures(){
 		return;
 	}
 	var medidas = [];
-	elementosGridView.elements.forEach(function(medida){
+	medidasGridView.elements.forEach(function(medida){
 		if(medida.selected){
 			medidas.push(medida);
 		}
