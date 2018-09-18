@@ -213,6 +213,7 @@ function addMeasures(){
 				var res = jQuery.parseJSON(result);
 				if(res.success){
 					$('#add-measure-modal').modal('hide');
+					elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/ElementoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5, 6]);
 					alert("Se han agregado las medidas");
 				}
 			}catch(exeption){
