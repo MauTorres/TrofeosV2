@@ -29,9 +29,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			break;
 		case 'setMeasures':
 			$elemento = new Elemento($_POST['elementoUpdate']);
-			$elementos = array();
+			$medidas = array();
 			foreach($_POST['elementoUpdate']['medidas'] as $medida){
-				array_push($medidas, new Measure($medida));
+				array_push($medidas, new Measure($medida["id"]));
 			}
 			$elementoBusiness->setMeasures($elemento, $medidas);
 			break;
