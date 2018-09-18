@@ -192,15 +192,14 @@ function addMeasure(row){
 function addMeasures(){
 	var elementoUpdate = null
 	if($('#row-index').val() != null && $('#row-index').val() != ''){
-		//elementoUpdate = elementosGridView.elements[$('#row-index').val()];
 		elementoUpdate = new Object();
+		elementoUpdate.id = elementosGridView.elements[$('#row-index').val()].id;
 	}else{
 		alert("Primero cree el elemento antes de agregar medidas");
 		$('#add-element-modal').modal('hide');
 		openUpdateModal(null);
 		return;
 	}
-
 	var medidas = [];
 	elementosGridView.elements.forEach(function(medida){
 		if(medida.selected){
