@@ -74,7 +74,7 @@ class ElementoDao extends DAO
 			    IF(M.descripcion is null, '', M.descripcion) AS material,
 			    IF(Cat.descripcion is null, '', Cat.descripcion) AS categoria,
 			    (SELECT 
-			    	GROUP_CONCAT(Meds.medida SEPARATOR '|')
+			    	GROUP_CONCAT(Meds.medida SEPARATOR '; ')
 			   	FROM medidas Meds
 			   	WHERE Meds.idElemento = E.id
 			   	GROUP BY Meds.idElemento) AS medidas
@@ -95,10 +95,11 @@ class ElementoDao extends DAO
 	public function setMeasure($elemento, $medida){
 		try {
 			$this->execute(
-				'INSERT INTO medidas(idElemento, idTipoMedida) VALUES(:idElemento, :idTipoMedida)', 
+				'INSERT INTO medidas(idElemento, idTipoMedida, medida) VALUES(:idElemento, :idTipoMedida, :medidaDesc)', 
 				array(
 					":idElemento"=>$elemento->id, 
-					":idTipoMedida"=>$medida->id
+					":idTipoMedida"=>$medida->id,
+					":medidaDesc" => $medida->descripcion
 				)
 			);
 		} catch (Exception $e) {
@@ -117,7 +118,7 @@ class ElementoDao extends DAO
 			    IF(M.descripcion is null, '', M.descripcion) AS material,
 			    IF(Cat.descripcion is null, '', Cat.descripcion) AS categoria,
 			    (SELECT 
-			    	GROUP_CONCAT(Meds.medida SEPARATOR '|')
+			    	GROUP_CONCAT(Meds.medida SEPARATOR '; ')
 			   	FROM medidas Meds
 			   	WHERE Meds.idElemento = E.id
 			   	GROUP BY Meds.idElemento) AS medidas
@@ -145,7 +146,7 @@ class ElementoDao extends DAO
 			    IF(M.descripcion is null, '', M.descripcion) AS material,
 			    IF(Cat.descripcion is null, '', Cat.descripcion) AS categoria,
 			    (SELECT 
-			    	GROUP_CONCAT(Meds.medida SEPARATOR '|')
+			    	GROUP_CONCAT(Meds.medida SEPARATOR '; ')
 			   	FROM medidas Meds
 			   	WHERE Meds.idElemento = E.id
 			   	GROUP BY Meds.idElemento) AS medidas

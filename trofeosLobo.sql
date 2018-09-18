@@ -68,7 +68,7 @@ create table if not exists elementos(
 create table if not exists medidas(
 	id integer auto_increment,
 	idTipoMedida integer,
-	medida double,
+	medida varchar(50),
 	idElemento integer,
 	estatus boolean default 1,
 	primary key(id),
