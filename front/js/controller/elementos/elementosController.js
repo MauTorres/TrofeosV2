@@ -122,6 +122,8 @@ function openUpdateModal(row){
 		$('#idColor').val(elementUpdate.idColor);
 		$('#idCategoria').val(elementUpdate.idCategoria);
 		$('#idMaterial').val(elementUpdate.idMaterial);
+		$('#medidas').val(elementUpdate.medidas);
+		debugger;
 		$('#row-index').val(row.index());
 	}
 	$('#update-element-modal').modal('show');
@@ -230,4 +232,10 @@ function addMeasures(){
 $(document).ready(function(){
 	SessionController.checkSession('elementos');
 	elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/ElementoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5, 6]);
+});
+
+//Obtener las medidas del elemento
+$(document).ready(function(){
+	SessionController.checkSession('elementos');
+	elementosGridView.getGrid({method: 'getMedidasElemento'}, '../../src/controller/MeasureController.php', actions, $('#grid-element-measures-table'),[0, 1, 2, 3, 4]);
 });
