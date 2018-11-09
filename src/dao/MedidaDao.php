@@ -82,5 +82,15 @@ class MedidaDao extends DAO
 			throw $e;
 		}	
 	}
+
+	public function getMeasureByElement($element) {
+		$measure = array();
+		$result = $this->query("SELECT `id`,`medida` FROM `medidas` WHERE `idElemento` = ? AND `estatus` = 1", array($element->id));
+		$result = $result->getResultSet();
+		foreach ($result as $measure) {
+			array_push($measure, new Measure($measure['id'], $measure['medida']));
+		}
+		return $measure;
+	}
 }
 ?>

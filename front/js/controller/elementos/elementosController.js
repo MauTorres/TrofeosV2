@@ -117,13 +117,25 @@ function openUpdateModal(row){
 	categoriaCatalogCreator.fillCatalog($('#categoria'));
 	if(row != undefined){
 		var elementUpdate = elementosGridView.elements[row.index()];
+		var elemento = new Elemento(
+			elementUpdate.id,
+			elementUpdate.nombre,
+			elementUpdate.descripcion
+		);
 		$('#nm-elemento').val(elementUpdate.nombre);
 		$('#descripcion').val(elementUpdate.descripcion);
 		$('#idColor').val(elementUpdate.idColor);
 		$('#idCategoria').val(elementUpdate.idCategoria);
-		$('#idMaterial').val(elementUpdate.idMaterial);
-		$('#medidas').val(elementUpdate.medidas);
 		debugger;
+		$('#idMaterial').val(elementUpdate.idMaterial);
+		elementosGridView.getGrid({method: 'getMedidasElemento', filters: elemento},
+		'../../src/controller/MeasureController.php',
+		actions,
+		$('#grid-element-measures-table'),
+		[6]
+		);
+		debugger;
+		$('#grid-element-measures-table').val(elementUpdate.medidas);
 		$('#row-index').val(row.index());
 	}
 	$('#update-element-modal').modal('show');
@@ -233,9 +245,11 @@ $(document).ready(function(){
 	SessionController.checkSession('elementos');
 	elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/ElementoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5, 6]);
 });
+debugger;
 
 //Obtener las medidas del elemento
-$(document).ready(function(){
+/*$(document).ready(function(){
 	SessionController.checkSession('elementos');
 	elementosGridView.getGrid({method: 'getMedidasElemento'}, '../../src/controller/MeasureController.php', actions, $('#grid-element-measures-table'),[0, 1, 2, 3, 4]);
-});
+	debugger;
+});*/

@@ -3,7 +3,7 @@
 * 
 */
 require_once dirname(__DIR__)."/business/MeasureBusiness.php";
-//require_once dirname(__DIR__)."\business\ElementoBusiness.php"; //Windows
+require_once dirname(__DIR__)."/business/ElementoBusiness.php"; //Windows
 require_once dirname(__DIR__)."/business/SessionBusiness.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
 
@@ -43,7 +43,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			$measureBusiness->getMedidaElemento($measure);
 			break;
 		case 'getMedidasElemento':
-			$elemento = new Elemento($_GET['element']);
+			$elemento = new Elemento($_GET['filters']);
 			$measureBusiness->getMedidasElemento($elemento);
 			break;
 		default:

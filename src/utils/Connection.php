@@ -2,8 +2,8 @@
 /**
 * 
 */
-//require_once dirname(__DIR__)."/utils/ConnectionStrings.php";
-require_once dirname(__DIR__)."\utils\ConnectionStrings.php"; //Windows
+require_once dirname(__DIR__)."/utils/ConnectionStrings.php";
+//require_once dirname(__DIR__)."\utils\ConnectionStrings.php"; //Windows
 class Connection
 {
 	private $pdoConnection;
