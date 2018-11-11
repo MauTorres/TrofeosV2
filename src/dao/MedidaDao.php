@@ -84,13 +84,24 @@ class MedidaDao extends DAO
 	}
 
 	public function getMeasureByElement($element) {
-		$measure = array();
+		$elemId = $element->id;
+		$params = "";
+		$query = sprintf("SELECT 
+				Meds.id,
+				Meds.medida
+			FROM medidas Meds
+			WHERE
+				Meds.idElemento = $elemId AND 
+				Meds.estatus = 1
+				%s", $params);
+		return $this->query($query, null);
+		/*$measure = array();
 		$result = $this->query("SELECT `id`,`medida` FROM `medidas` WHERE `idElemento` = ? AND `estatus` = 1", array($element->id));
 		$result = $result->getResultSet();
 		foreach ($result as $measure) {
 			array_push($measure, new Measure($measure['id'], $measure['medida']));
 		}
-		return $measure;
+		return $measure;*/
 	}
 }
 ?>

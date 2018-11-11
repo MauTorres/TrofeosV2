@@ -108,6 +108,20 @@ class ElementoBusiness extends Business
 		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 
+	public function deleteMedidaElemento($elemento, $medida){
+		$this->responce = new Responce();
+		try{
+			$this->elementoDAO->deleteElementMeasure($elemento, $medida);
+			$this->responce->success = true;
+			$this->responce->message = "La medida se eliminó correctamente";
+		}catch(Exception $e){
+			Loger::log("Error, no se pudo eliminar la medida ".$elemento->nombre."\n".$e->getMessage(), null);
+			$this->responce->success = false;
+			$this->responce->message = "Error al eliminar la medida ".$elemento->nombre;
+		}
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
+	}
+
 	public function createOrUpdateElement($elemento){
 		$this->responce = new Responce();
 		Loger::log(print_r($elemento, 1), null);

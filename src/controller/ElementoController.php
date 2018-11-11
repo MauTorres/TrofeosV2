@@ -3,6 +3,7 @@
 * 
 */
 require_once dirname(__DIR__)."/business/ElementoBusiness.php";
+require_once dirname(__DIR__)."/business/MeasureBusiness.php";
 require_once dirname(__DIR__)."/business/SessionBusiness.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
 
@@ -35,9 +36,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			}
 			$elementoBusiness->setMeasures($elemento, $medidas);
 			break;
-		case 'deleteMedidaElemento':
-			$elemento = new Elemento($_POST['elemento']);
-			$medida = new Measure($_POST['medida']);
+		case 'deleteElementMeasure':
+			$elemento = new Elemento($_POST['elementoUpdate']);
+			$medida = new Measure($_POST['measureDelete']['id'],$_POST['measureDelete']['medida']);
 			$elementoBusiness->deleteMedidaElemento($elemento, $medida);
 			break;
 		default:

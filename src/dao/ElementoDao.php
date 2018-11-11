@@ -76,7 +76,8 @@ class ElementoDao extends DAO
 			    (SELECT 
 			    	GROUP_CONCAT(Meds.medida SEPARATOR '; ')
 			   	FROM medidas Meds
-			   	WHERE Meds.idElemento = E.id
+				   WHERE Meds.idElemento = E.id
+				   AND Meds.estatus = 1
 			   	GROUP BY Meds.idElemento) AS medidas
 			FROM elementos E
 			LEFT JOIN colores C
@@ -121,6 +122,7 @@ class ElementoDao extends DAO
 			    	GROUP_CONCAT(Meds.medida SEPARATOR '; ')
 			   	FROM medidas Meds
 			   	WHERE Meds.idElemento = E.id
+				   AND Meds.estatus = 1
 			   	GROUP BY Meds.idElemento) AS medidas
 			FROM elementos E
 			LEFT JOIN colores C
@@ -169,6 +171,15 @@ class ElementoDao extends DAO
 	public function deleteElement($elemento){
 		try{
 			$this->execute("UPDATE elementos SET estatus = 0 WHERE id = :id", array(":id"=>$elemento->id));
+		}catch(Exception $e){
+			Loger::log($e->getMessage(),null);
+			throw $e;
+		}
+	}
+
+	public function deleteElementMeasure($elemento, $medida){
+		try{
+			$this->execute("UPDATE medidas SET estatus = 0 WHERE idElemento = :idElem AND medida = :medida AND id = :id", array(":idElem"=>$elemento->id, ":medida"=>$medida->descripcion, ":id"=>$medida->id));
 		}catch(Exception $e){
 			Loger::log($e->getMessage(),null);
 			throw $e;
