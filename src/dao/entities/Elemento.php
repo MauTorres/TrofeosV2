@@ -8,7 +8,6 @@ class Elemento extends Entity
 {
 	public $nombre;
 	public $descripcion;
-	public $precio;
 	public $idColor;
 	public $idCategoria;
 	public $idMaterial;
@@ -30,11 +29,6 @@ class Elemento extends Entity
 			$this->descripcion = $data['descripcion'];	
 		}else{
 			$this->descripcion = null;
-		}
-		if(isset($data['precio'])){
-			$this->precio = $data['precio'];
-		}else{
-			$this->precio = null;
 		}
 		if(isset($data['idColor'])){
 			$this->idColor = $data['idColor'];
@@ -64,7 +58,6 @@ class Elemento extends Entity
 				($elemento instanceof Elemento) && 
 				$this->nombre == $elemento->nombre &&
 				$this->descripcion == $elemento->descripcion &&
-				$this->precio == $elemento->precio &&
 				$this->idColor == $idColor &&
 				$this->idCategoria == $idCategoria &&
 				$this->idMaterial == $idMaterial &&

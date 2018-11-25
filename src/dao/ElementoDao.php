@@ -43,12 +43,11 @@ class ElementoDao extends DAO
 		try{
 			Loger::log("Elemento a guardar: ".print_r($elemento, 1), null);
 			$this->execute(
-				"INSERT INTO elementos(nombre, descripcion, precio, idColor, idCategoria, idMaterial) 
-				VALUES(:nombre, :descripcion, :precio, :idColor, :idCategoria, :idMaterial)", 
+				"INSERT INTO elementos(nombre, descripcion, idColor, idCategoria, idMaterial) 
+				VALUES(:nombre, :descripcion, :idColor, :idCategoria, :idMaterial)", 
 				array(
 					":nombre"=>$elemento->nombre, 
 					":descripcion"=>$elemento->descripcion, 
-					":precio"=>$elemento->precio, 
 					":idColor"=>$elemento->idColor, 
 					":idCategoria"=>$elemento->idCategoria, 
 					":idMaterial"=>$elemento->idMaterial
@@ -66,7 +65,6 @@ class ElementoDao extends DAO
 				E.id,
 	   			E.nombre,
 			    E.descripcion,
-			    E.precio,
 		    	E.id,
 	   			E.nombre,
 	   			E.descripcion,
@@ -206,8 +204,6 @@ class ElementoDao extends DAO
 				$elementoNew->nombre = $elemento->nombre;
 			if($elemento->descripcion != null && $elemento->descripcion != '')
 				$elementoNew->descripcion = $elemento->descripcion;
-			if($elemento->precio != null && $elemento->precio != '')
-				$elementoNew->precio = $elemento->precio;
 			if($elemento->idColor != null && $elemento->idColor != '')
 				$elementoNew->idColor = $elemento->idColor;
 			if($elemento->idCategoria != null && $elemento->idCategoria != '')
@@ -222,7 +218,6 @@ class ElementoDao extends DAO
 				SET 
 					nombre = :nombre,
 					descripcion = :descripcion,
-					precio = :precio,
 					idColor = :idColor,
 					idCategoria = :idCategoria,
 					idMaterial = :idMaterial
@@ -230,7 +225,6 @@ class ElementoDao extends DAO
 				array(
 					":nombre"=>$elementoNew->nombre, 
 					":descripcion"=>$elementoNew->descripcion, 
-					":precio"=>$elementoNew->precio, 
 					":idColor"=>$elementoNew->idColor, 
 					":idCategoria"=>$elementoNew->idCategoria, 
 					":idMaterial"=>$elementoNew->idMaterial, 
