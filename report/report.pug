@@ -16,55 +16,63 @@ figure.block-center.width-15cm
   table.ui.celled.table
     thead
       tr
-        th Elemento
         th Material
         th Color
+        th Chapado
     tbody
       tr
-        td Elemento 1
         td Material 1
-        td Negro azabache
+        td Color 1
+        td.negative #[i.icon.close]
       tr
-        td Plots
-        td Vegalite
-        td Needs testing
-      tr.negative
-        td Simple installation
-        td NPM
-        td #[i.icon.close] Problematic
+        td Material 2
+        td Color 2
+        td.positive #[i.icon.checkmark]
       tr
-        td Flowcharts
-        td Mermaid.js
-        td.positive #[i.icon.checkmark] Beautifully working
+        td Material 3
+        td Color 3
+        td.positive #[i.icon.checkmark]
+      tr
+        td Material 4
+        td Color 4
+        td.positive #[i.icon.checkmark]
+      tr
+        td Material 5
+        td Color 5
+        td.negative #[i.icon.close]
 
 h4 Elementos adicionales
 figure.block-center.width-15cm
   table.ui.celled.table
     thead
       tr
-        th Elemento
         th Material
         th Color
+        th Chapado
     tbody
       tr
-        td Elemento 1
         td Material 1
-        td Negro azabache
+        td Color 1
+        td.negative #[i.icon.close]
       tr
-        td Plots
-        td Vegalite
-        td Needs testing
-      tr.negative
-        td Simple installation
-        td NPM
-        td #[i.icon.close] Problematic
+        td Material 2
+        td Color 2
+        td.positive #[i.icon.checkmark]
       tr
-        td Flowcharts
-        td Mermaid.js
-        td.positive #[i.icon.checkmark] Beautifully working
+        td Material 3
+        td Color 3
+        td.positive #[i.icon.checkmark]
+      tr
+        td Material 4
+        td Color 4
+        td.positive #[i.icon.checkmark]
+      tr
+        td Material 5
+        td Color 5
+        td.positive #[i.icon.checkmark]
           
-p Here is another cool component provided by Semantic UI:  
-.ui.container
+//- p Here is another cool component provided by Semantic UI:  
+//- .ui.container
   .ui.icon.message.yellow.block-center
     i.lightbulb.outline.icon
     .content
@@ -73,7 +81,7 @@ p Here is another cool component provided by Semantic UI:
       | The ReLaXed homepage is at 
       a(href='https://github.com/RelaxedJS/ReLaXed') github.com/RelaxedJS/ReLaXed
 
-figure.float-left.width-8cm.ui.raised.segment
+//- figure.float-left.width-8cm.ui.raised.segment
   .panel
     .label A
     include diagrams/plot.svg
@@ -90,44 +98,13 @@ figure.float-left.width-8cm.ui.raised.segment
       #[b A. ] Graph defined as a JSON and transformed to SVG using Vega-lite and Chrome.
       #[b B. ] Graph generated using Mermaid and Chrome.
 
-:markdown-it(html=true)
-  Next we will have a look at some differences between ReLaXed and other frameworks.
+h4 Detalles adicionales
+.summary.ui.piled.segment: span.
+    El cliente detalló que la figura en la punta del trofeo debe ir pintada con los colores del club deportivo.
 
-  ## ReLaXed vs other solutions
-
-  Here are a few highlights of what you may win, or lose, using ReLaXed instead
-  of another solution. This section is of course open to contributions.
-
-  Let us start with Markdown. This widely supported language (Github, NPM, etc.)
-  became very popular due to its simple and friendly syntax close to plain text.
-  Markdown also has cool editors and extensions. One example is
-  [``markdown-preview-enhanced``](https://atom.io/packages/markdown-preview-enhanced)
-  which can render plots, flowcharts, and equations.
-
-  ReLaXed has been specially extended so that it could support plot, flowchart,
-  and equations (using the same underlying libraries as
-  markdown-preview-enhanced), as illustrated in Figure 1. In addition, ReLaXed
-  allows you to write any kind of layout with boxes, sidebars, etc. HTML
-  elements are more fun to write with Pug (in markdown, HTML elements must be
-  written in plain HTML). You can define macros, use conditionals and loops, use
-  computed expressions using Javascript , and ReLaXed supports (S)CSS which is
-  pretty cool. Last but not least, you can write parts in markdown if you want
-  to <i class="em em-wink"></i> . Yep, that was an emoji. Cost us one line of
-  code, to import [Emoji CSS](https://afeld.github.io/emoji-css/) as a
-  stylesheet.
-
-  Now what about LaTeX ? Sure, LaTeX is wide-spread in academic and publishing
-  communities, where it's typography and layout optimizations, and its
-  bibliography management tool are very appreciated. But LaTeX is also known for
-  its cryptic errors, its complex advanced syntax which not many make the effort
-  to learn, and as a consequence not many LaTeX venture on the creative side
-  with their own themes and layouts.
-
-  Certainly the letter and paragraph spacings won't be as nice in ReLaXed (but
-  Google Chrome is still doing a very good job), but the syntax, clear error
-  messages, etc. will certainly make  you happier. ReLaXed is also possibly
-  faster to render big documents (not entirely sure though <i class="em
-  em-thinking_face"></i>).
+h4 Imagen de la figura
+img#figura(src="./img/figurilla2.png" alt="Figurilla del trofeo")
+  
 
 template#page-footer
   style(type='text/css').
