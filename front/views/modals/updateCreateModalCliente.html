@@ -1,0 +1,38 @@
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="elementos-label-modal">Cliente</h5>
+		</div>
+		<div class="modal-body">
+			<form id="form-update-user">
+				<div class="form-group">
+					<label for="nombre">Nombre del cliente</label>
+					<input type="text" class="form-control" id="nombre" placeholder="Nombre del Cliente">
+					<label for="direccion">Direccion</label>
+					<input type="text" class="form-control" id="direccion" placeholder="Direccion">
+					<label for="vendedorInt">Fecha de Entrega</label>
+					<input type="text" class="form-control" id="vendedorInt" placeholder="¿Es vendedor intermedio?">
+					<select class="form-control" id="vendedorInt">
+						<option value="">Seleccione una opción</option>
+						<option value="1">Sí</option>
+						<option value="0">No</option>
+					</select>
+					<input type="hidden" class="form-control" id="row-index">
+				</div>
+			</form>
+			<div class="row hide-on-new">
+				<div class="col-sm-12 button-add">
+					<button type="button" class="btn btn-success" onclick="openMeasureModal();"><span class="fa fa-plus-square" aria-hidden="true"></span></button>
+				</div>
+			</div>
+			<div class="row hide-on-new">
+				<table class="table table-striped table-hover" id="grid-element-measures-table">
+				</table>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" onclick="cleanElementForm();" id="btn-update-element-cancel">Cerrar</button>
+			<button type="button" class="btn btn-primary" onclick="createOrUpdateElement();" id="btn-update-element">Guardar</button>
+		</div>
+	</div>
+</div>
