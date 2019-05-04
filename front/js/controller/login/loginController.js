@@ -24,6 +24,7 @@ function logginPOST(){
 				var responce = jQuery.parseJSON(data);
 				if(responce.success){
 					window.location.replace("./front/views/main.html");
+					debugger
 				}else{
 					alert("El usuario o contraseña no son correctos");
 					return;
