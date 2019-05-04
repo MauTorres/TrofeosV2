@@ -6,7 +6,7 @@ require_once __DIR__."/DAO.php";
 require_once __DIR__."/entities/Cliente.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
 
-class UsuarioDao extends DAO
+class ClienteDao extends DAO
 {
 
 	function __construct()
