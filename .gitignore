@@ -5,3 +5,4 @@
 !/front/img/*.jpg
 bdtrofeos.sql
 old-db-scripts/
+node_modules

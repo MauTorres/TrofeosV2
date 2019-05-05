@@ -16,7 +16,7 @@ class PedidoDao extends DAO
 	function __construct()
 	{
 		parent::__construct();
-		$this->clienteDao = new ClienteDao();
+		//$this->clienteDao = new ClienteDao();
 		$this->usuarioDao = new UsuarioDao();
 	}
 
