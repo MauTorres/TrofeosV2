@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/MauTorres/TrofeosV2/issues"
   },
-  "homepage": "https://github.com/MauTorres/TrofeosV2#readme"
+  "homepage": "https://github.com/MauTorres/TrofeosV2#readme",
+  "dependencies": {
+    "relaxedjs": "^0.2.1"
+  }
 }

@@ -1,13 +1,14 @@
 @import 'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css';
 @import 'https://afeld.github.io/emoji-css/emoji.css';
 
-$primary_color: #b4588c;
+$primary_color: #f6c204;
 $page-width: 17cm;
 
 @page {
   margin: 1cm 1cm 2cm 0cm;
 }
 html {
+  padding-top: 0.7cm;
   padding-left: 1cm;
   padding-right: 1cm;
   font-family: 'Lato';
@@ -19,15 +20,27 @@ body {
 #title {
   font-weight: bold;
   font-size: 2.0em;
+  margin-top: 0.4em;
 }
 
 #subtitle {
   font-weight: bold;
+  font-size: 1.0em;
+  margin: 0 auto;
+}
+
+#address {
+  font-size: 0.9em;
+  margin: 0 auto;
+  font-weight: normal !important;
+}
+
+table#totales > tbody > td {
   font-size: 0.8em;
 }
 
-#subtitle {
-  font-size: 0.5em;
+.gold-background {
+  background-color: lighten($primary_color, 10%) !important;
 }
 
 .summary {
@@ -36,6 +49,20 @@ body {
 
 h2 {
   font-size: 1.8em;
+}
+
+.client-data {
+  border-bottom: 1px solid;
+  border-color: rgba(34,36,38,.15);
+}
+
+.form-mp {
+  margin-bottom: 0.5em !important;
+  padding-right: 0 !important;
+}
+
+.mb-1 {
+  margin-bottom: 1.0em !important;
 }
 
 p {
@@ -64,7 +91,7 @@ $sidebar-height: 943px;
   border-bottom: $sidebar-width solid transparent;
   p {
     text-align: center;
-    color: lighten($primary_color, 30%);
+    color: #FFFFFF;
     margin-top: -1.55em;
   }
 }
