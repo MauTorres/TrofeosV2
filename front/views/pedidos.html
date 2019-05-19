@@ -21,11 +21,8 @@
 	<script src="../js/entities/GridView.js"></script>
 	<script src="../js/entities/Pedido.js"></script>
 	<script src="../js/controller/pedidos/pedidosController.js"></script>
-	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-	
 	<link rel="stylesheet" href="../css/main.css">
 	<link rel="stylesheet" href="../css/elemento.css">
 </head>
@@ -36,8 +33,23 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-			<div class="navbar-nav">
-			</div>
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="./usuarios.html">Usuarios</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="./clientes.html">Clientes</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="./pedidos.html">Pedidos</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="./materiales.html">Materiales</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="./elementos.html">Elementos</a>
+				</li>
+			</ul>
 		</div>
 	</nav>
 	<div class="container">
@@ -92,7 +104,7 @@
 			</div>		
 		</div>
 		<div class="row">
-			<table class="table table-striped table-hover" id="grid-element-table">
+			<table class="table table-striped table-hover" id="grid-order-table">
 			</table>
 		</div>
 	</div>

@@ -3,7 +3,7 @@ var actions =
 	new ActionDelete('', '', '')];
 var elemtsGridActions = [{_class: '', value: 1, component: 'check', functionECute: 'addMeasure($(this))'}];
 //var medidasElementosGridActions = [new Action('danger', '', 'fa fa-close', '', 'btn-sm', 'deleteElementTrofeo($(this).parent().parent());')];
-var elementosGridView = new GridView();
+var ordersGridView = new GridView();
 //var medidasGridView = new GridView();
 var isCollapseUp = true;
 /*var colorCatalogCreator = new CatalogCreator('../../src/controller/ColorController.php');
@@ -102,11 +102,11 @@ function searchElement(){
 		$('#nombre-cliente').val(),
 		$('#fecha-pedido').val()
 	);
-	elementosGridView.getGrid(
-		{method: 'getElementosTrofeos',filters:elemento}, 
+	ordersGridView.getGrid(
+		{method: 'getOrdersGrid',filters:pedido}, 
 		'../../src/controller/PedidoController.php', 
 		actions, 
-		$('#grid-element-table'), 
+		$('#grid-order-table'), 
 		[0, 1, 2, 3, 4, 5, 6]
 	);
 
@@ -238,8 +238,9 @@ function addMeasures(){
 }*/
 
 $(document).ready(function(){
+	ordersGridView.rootURL = '../../src/controller/PedidoController.php';
 	SessionController.checkSession('pedidos');
-	elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/PedidoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5, 6, 7]);
+	ordersGridView.getGrid({method: 'getOrdersGrid'}, '../../src/controller/PedidoController.php', actions, $('#grid-order-table'),[0, 1, 2, 3, 4, 5, 6, 7]);
 });
 
 //Obtener las medidas del elemento

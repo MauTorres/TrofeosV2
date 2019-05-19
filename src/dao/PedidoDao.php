@@ -54,7 +54,7 @@ class PedidoDao extends DAO
 		
 	}
 
-	public function getElementsGrid($params){
+	public function getOrdersGrid($params){
 		$query = sprintf("
 			SELECT 
 				P.id,

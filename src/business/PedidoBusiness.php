@@ -16,10 +16,10 @@ class PedidoBusiness extends Business
 		$this->pedidoDAO = new PedidoDao();
 	}
 
-	public function saveElement($pedido){
+	public function saveOrder($pedido){
 		$this->responce = new Responce();
 		try{
-			$this->pedidoDAO->saveElement($pedido);
+			$this->pedidoDAO->saveOrder($pedido);
 			$this->responce->success = true;
 			$this->responce->message = "El pedido se guardó correctamente";
 		}catch(Exception $e){	
@@ -31,7 +31,7 @@ class PedidoBusiness extends Business
 		
 	}
 
-	public function getElementsGrid($pedido){
+	public function getOrdersGrid($pedido){
 		$this->responce = new Responce();
 		$params = "";
 		if($pedido != null){
@@ -53,7 +53,7 @@ class PedidoBusiness extends Business
 				$params .= "AND U.usuario like '%".$pedido->IdUsuario."%'";
 		}
 		
-		$result = $this->pedidoDAO->getElementsGrid($params);
+		$result = $this->pedidoDAO->getOrdersGrid($params);
 		$this->responce->success = true;
 		$this->responce->data = $result;
 
@@ -83,6 +83,7 @@ class PedidoBusiness extends Business
 		}
 		
 		$result = $this->pedidoDAO->getElementosTrofeos($params);
+		echo($result);
 		$this->responce->success = true;
 		$this->responce->data = $result;
 
