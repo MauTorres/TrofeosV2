@@ -1,0 +1,174 @@
+.report-sidebar: p Pedido #7012
+
+.ui.grid
+  .four.wide.column
+    img.ui.small.image(src="./img/logolobovertical.png", alt="")
+    //-img#figura(src="./img/logolobohorizontal.jpg", alt="")
+  .twelve.wide.column
+    h1#title Trofeos Lobo, S.A de C.V
+    h6#subtitle R.F.C TLO-051202-N21
+    h6#address Calz. México-Tacuba Nº 128 Col. Anahuac, México, Distrito Federal C.P. 11320
+    .row
+      .column.ui.basic.image.label
+        i.phone.icon
+        | 5396-3357 / 5396-4344
+      .column.ui.basic.image.label
+        i.fax.icon
+        | Fax: 5816-1703
+      .column.ui.basic.image.label
+        i.envelope.icon
+        | ventas@trofeoslobo.com.mx
+  .row
+    .sixteen.wide.column.mb-1
+      h3 Datos del cliente
+    .eight.wide.column.form-mp
+      .ui.basic.image.label
+        i.calendar.alternate.icon
+        | Fecha de elaboración
+      .client-data
+    .eight.wide.column.form-mp
+      .ui.basic.image.label
+        i.calendar.alternate.outline.icon
+        | Fecha de entrega
+      .client-data
+    .eleven.wide.column.form-mp
+      .ui.basic.image.label
+        i.user.icon
+        | Nombre del cliente
+      .client-data
+    .five.wide.column.form-mp
+      .ui.basic.image.label
+        i.phone.icon
+        | Teléfono
+      .client-data
+    .sixteen.wide.column.form-mp
+      .ui.basic.image.label
+        i.id.card.icon
+        | Datos de facturación
+      .client-data
+    .eight.wide.column.form-mp
+      .ui.basic.image.label
+        i.smile.outline.icon
+        | Atendió
+      .client-data
+  .row
+    .sixteen.wide.column
+      table.ui.celled.table
+        thead
+          tr.row
+            th Cantidad
+            th Descripción
+            th Precio unitario
+            th Importe
+        tbody
+          tr
+            td 
+            td 
+            td
+            td
+          tr
+            td 
+            td 
+            td
+            td 
+          tr
+            td 
+            td 
+            td
+            td 
+          tr
+            td 
+            td 
+            td
+            td 
+          tr
+            td 
+            td 
+            td
+            td 
+          tr
+            td 
+            td 
+            td
+            td 
+          tr
+            td 
+            td 
+            td
+            td 
+          tr
+            td 
+            td 
+            td
+            td 
+          tr
+            td 
+            td 
+            td
+            td 
+          tr
+            td 
+            td 
+            td
+            td
+  .row
+    .nine.wide.column
+      table.ui.celled.table
+        thead
+          tr.row
+            th Observaciones
+        tbody
+          tr
+            td Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed arcu quis urna lobortis dignissim. Pellentesque neque nisi, ullamcorper sit amet tincidunt vitae, efficitur id est. Aliquam finibus ac ex dignissim ultrices. Proin nunc felis, tempus ac sapien id, vestibulum interdum mauris. Phasellus facilisis enim ex, porta pellentesque ipsum eleifend a. Sed a gravida augue. Sed vitae lacinia libero.
+    .seven.wide.column
+      table#totales.ui.celled.table
+        thead
+        tbody
+          tr
+            td Subtotal $
+          tr
+            td IVA $
+          tr
+            td Total $
+          tr
+            td Cheque No. / Efectivo / a/c $
+          tr
+            td Resta $
+  //-.row
+    .sixteen.wide.column
+      table.ui.celled.table
+        thead
+          tr.row
+            th Subtotal $
+            th IVA $
+            th Total $
+            th Cheque No. / Efectivo / a/c $
+            th Resta $
+        tbody
+          tr
+            td
+            td
+            td
+            td
+            td
+
+template#page-footer
+  style(type='text/css').
+    .pdfheader {
+      font-size: 10px;
+      color: #aaa;
+      font-family: Helvetica;
+      font-weight: bold;
+      width: 1000px;
+      border-top: 1px solid #aaa;
+      margin-left: 10%;
+      margin-right: 10%;
+      padding-top: 1mm;
+      margin-bottom: -1mm;
+      text-align: center;
+    }
+  
+  .pdfheader Página #[span.pageNumber] / #[span.totalPages]
+
+style
+  include:scss report.scss
