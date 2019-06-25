@@ -65,13 +65,27 @@ class MeasureBusiness extends Business
 		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
 	}
 
-	public function getMedidasElemento($trofeo){
+	public function getMedidasElemento($measure){
 		$this->responce = new Responce();
-		$result = $this->measureDAO->getMedidasElemento($elemento);
+		$params = "";
+		if($measure != null){
+			if($measure->id != null)
+				$params .= "AND Md.id = ".$measure->id;
+			if($measure->descripcion != null)
+				$params .= "AND Md.descripcion like '%".$measure->descripcion."%'";
+		}
+		$result = $this->measureDAO->getMeasureByElement($measure);
 		$this->responce->success = true;
 		$this->responce->data = $result;
 
-		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); 
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
+
+		/*$this->responce = new Responce();
+		$result = $this->measureDAO->getMeasureByElement($trofeo);
+		$this->responce->success = true;
+		$this->responce->data = $result;
+
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE); */
 	}
 
 	public function deleteMeasure($measure){

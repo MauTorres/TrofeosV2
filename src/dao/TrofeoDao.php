@@ -89,7 +89,7 @@ class TrofeoDao extends DAO
 		}
 	}
 
-	public function deleteElementoTrofeo($trofeo, $elemento){
+		public function deleteElementoTrofeo($trofeo, $elemento){
 		try {
 			$this->execute('DELETE FROM trofeoselementos WHERE idTrofeo = :idTrofeo AND idElemento = :idElemento', 
 				array(
@@ -123,7 +123,7 @@ class TrofeoDao extends DAO
 			if($trofeo->estatus != null && $trofeo->estatus != '')
 				$trofeoNew->estatus = $trofeo->estatus;
 
-			$this->execute(
+						$this->execute(
 				'UPDATE trofeos
 				SET
 					nombre = :nombre,

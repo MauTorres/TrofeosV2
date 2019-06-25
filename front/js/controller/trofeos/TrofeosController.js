@@ -17,6 +17,9 @@ function openUpdateModal(row){
 	currentRow = row.index();
 	$('#photo-body').html('');
 	if(row != undefined){
+		$("#modal-trofeo-table-extra").show();
+		$("#modal-trofeo-option").show();
+		currentRow = row.index();
 		trofeoUpdate = trofeosGridView.elements[row.index()];
 		trofeoUpdate.estatus = 1;
 		$('#row-index').val(row.index());
@@ -236,7 +239,7 @@ $(document).ready(function(){
 	SessionController.checkSession('trofeos');
 	loadTrofeoGrid();
 	/*Uso ésta forma de enviar la información para lograr cargar imágenes en el server*/
-	$('#form-update-trophy').submit(function(e){
+	$(document).on( 'submit', '#form-update-trophy', function(e){
 		e.preventDefault();
 		var trofeoUpdate = getTrophyToCreateOrUpdate();
 		var formData = new FormData();

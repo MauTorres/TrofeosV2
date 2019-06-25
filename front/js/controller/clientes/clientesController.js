@@ -1,20 +1,20 @@
-var usuarios = {};
+var clientes = {};
 var isCollapseUp = true;
 
 UsersView = {
 	getUsersGrid: function (filters){
 		$.ajax({
 			type:'GET',
-			url: '../../src/controller/UsuarioController.php',
+			url: '../../src/controller/ClienteController.php',
 			data: {method: 'getUsersGrid', filters: filters},
 			success: function(data){
 				try{
 					var responce = jQuery.parseJSON(data);
-					usuarios = responce.data.resultSet;
+					clientes = responce.data.resultSet;
 					responce.data.actions = UsersView.actions;
 					var table = $('#user-table');
 					if(responce.success){
-						TableCreator.fillTable(responce.data, table, [0, 1, 2]);
+						TableCreator.fillTable(responce.data, table, [0, 1, 2, 3]);
 					}
 				}catch(err){
 					console.error(err);
@@ -35,11 +35,11 @@ UsersView = {
 };
 
 function deleteUser(row){
-	var userDelete = usuarios[row.index()];
+	var userDelete = clientes[row.index()];
 	userDelete.method = 'deleteUser';
 	$.ajax({
 		type:'POST',
-		url: '../../src/controller/UsuarioController.php',
+		url: '../../src/controller/ClienteController.php',
 		data: userDelete,
 		success: function(data){
 			try{
@@ -66,19 +66,19 @@ function deleteUser(row){
 function createOrUpdateUser(){
 	var userUpdate = {};
 	if($('#row-index').val() != null && $('#row-index').val() != ''){
-		userUpdate = usuarios[parseInt($('#row-index').val())];	
+		userUpdate = clientes[parseInt($('#row-index').val())];	
 	}else{
 		userUpdate.id = null;
 	}
 	
 	userUpdate.method = 'createOrUpdateUser';
-	userUpdate.usuario = $('#usuario').val();
-	userUpdate.email = $('#email').val();
-	userUpdate.passwd = $('#passwd').val();
+	userUpdate.nombre = $('#nombre').val();
+	userUpdate.direccion = $('#direccion').val();
+	userUpdate.vendedorInt = $('#vendedorInt').val();
 
 	$.ajax({
 		type:'POST',
-		url: '../../src/controller/UsuarioController.php',
+		url: '../../src/controller/ClienteController.php',
 		data: userUpdate,
 		success: function(data){
 			try{
@@ -103,33 +103,32 @@ function createOrUpdateUser(){
 }
 
 function searchUser(){
-	var usuario = new Usuario(
-		$('#id-usuario').val(),
-		$('#nombre-usuario').val(),
+	var cliente = new Cliente(
 		null,
-		$('#mail-usuario').val(),
-		null
+		$('#nombre-cliente').val(),
+		$('#direccion-cliente').val(),
+		$('#vend-int').val()
 		);
-	UsersView.getUsersGrid(usuario);
+	UsersView.getUsersGrid(cliente);
 }
 
 function openUpdateModal(row){
 	if(row != undefined){
 		var userUpdate = usuarios[row.index()];
-		$('#usuario').val(userUpdate.usuario);
-		$('#email').val(userUpdate.email);
+		$('#nombre').val(userUpdate.nombre);
+		$('#direccion').val(userUpdate.direccion);
+		$('#vendedorInt').val(userUpdate.vendedorInt);
 		$('#row-index').val(row.index());
 	}
-	$('#update-user-modal').modal('show');
+	$('#update-client-modal').modal('show');
 }
 
 function cleanUserForm(){
-	$('#usuario').val('');
-	$('#email').val('');
+	$('#nombre').val('');
+	$('#direccion').val('');
+	$('#vendedorInt').val('');
 	$('#row-index').val('');
-	$('#passwd').val('');
-	$('#passwdValidate').val('');
-	$('#update-user-modal').modal('hide');
+	$('#update-client-modal').modal('hide');
 }
 
 function toggleCollapse(element){
@@ -145,6 +144,6 @@ function toggleCollapse(element){
 }
 
 $(document).ready(function(){
-	SessionController.checkSession('usuarios');
+	SessionController.checkSession('clientes');
 	UsersView.getUsersGrid(null);
 });

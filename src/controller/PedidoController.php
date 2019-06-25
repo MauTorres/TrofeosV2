@@ -2,43 +2,43 @@
 /**
 * 
 */
-require_once dirname(__DIR__)."/business/ElementoBusiness.php";
+require_once dirname(__DIR__)."/business/PedidoBusiness.php";
 require_once dirname(__DIR__)."/business/SessionBusiness.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
 
 
-$elementoBusiness = new ElementoBusiness();
+$pedidoBusiness = new pedidoBusiness();
 $sessionBusiness = new SessionBusiness();
 $sessionBusiness->checkSession();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
 		case 'deleteElement':
-			$elemento = new Elemento($_POST);
-			$elementoBusiness->deleteElement($elemento);
+			$pedido = new Pedido($_POST);
+			$pedidoBusiness->deleteElement($pedido);
 			break;
 		case 'createOrUpdateElement':
 			#Loger::log(print_r($_POST, 1), null);
-			$elemento = new Elemento($_POST);
-			$elementoBusiness->createOrUpdateElement($elemento);
+			$pedido = new Pedido($_POST);
+			$pedidoBusiness->createOrUpdateElement($pedido);
 			break;
 		case 'setMeasure':
-			$elemento = new Elemento($_POST);
+			$pedido = new Pedido($_POST);
 			$medida = new Measure($_POST);
-			$elementoBusiness->setMeasure($elemento, $medida);
+			$pedidoBusiness->setMeasure($pedido, $medida);
 			break;
 		case 'setMeasures':
-			$elemento = new Elemento($_POST['elementoUpdate']);
+			$pedido = new Pedido($_POST['elementoUpdate']);
 			$medidas = array();
 			foreach($_POST['elementoUpdate']['medidas'] as $medida){
 				array_push($medidas, new Measure($medida["id"], $medida["descripcion"]));
 			}
-			$elementoBusiness->setMeasures($elemento, $medidas);
+			$pedidoBusiness->setMeasures($pedido, $medidas);
 			break;
 		case 'deleteMedidaElemento':
-			$elemento = new Elemento($_POST['elemento']);
+			$pedido = new Pedido($_POST['elemento']);
 			$medida = new Measure($_POST['medida']);
-			$elementoBusiness->deleteMedidaElemento($elemento, $medida);
+			$pedidoBusiness->deleteMedidaElemento($pedido, $medida);
 			break;
 		default:
 
@@ -47,23 +47,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
 	switch ($_GET['method']) {
-		case 'getElementsGrid':
-			$elemento = null;
+		case 'getOrdersGrid':
+			$pedido = null;
 			if(isset($_GET['filters']) && $_GET['filters'] != null){
-				$elemento = new Elemento($_GET['filters']);
+				$pedido = new Pedido($_GET['filters']);
 			}
-			$elementoBusiness->getElementsGrid($elemento);
+			$pedidoBusiness->getElementsGrid($pedido);
 			break;
 		case 'getElementosTrofeos':
-			$elemento = null;
+			$pedido = null;
 			if(isset($_GET['filters']) && $_GET['filters'] != null){
-				$elemento = new Elemento($_GET['filters']);
+				$pedido = new Pedido($_GET['filters']);
 			}
-			$elementoBusiness->getElementosTrofeos($elemento);
-			break;
-		case 'getElementosTrofeo':
-			$trofeo = new Trofeo($_GET['trophy']);
-			$elementoBusiness->getElementosTrofeo($trofeo);
+			$pedidoBusiness->getElementosTrofeos($pedido);
 			break;
 		default:
 			break;

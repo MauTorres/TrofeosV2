@@ -99,7 +99,7 @@ class ElementoBusiness extends Business
 		try{
 			$this->elementoDAO->deleteElement($elemento);
 			$this->responce->success = true;
-			$this->responce->message = "El material se eliminó correctamente";
+			$this->responce->message = "El material se elimino correctamente";
 		}catch(Exception $e){
 			Loger::log("Error, no se pudo eliminar el elemento ".$elemento->nombre."\n".$e->getMessage(), null);
 			$this->responce->success = false;

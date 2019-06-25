@@ -11,6 +11,10 @@ class Trofeo extends Entity
 	public $precio;
 	public $foto;
 	public $estatus;
+
+	function toString(){
+		return "Trofeo[id=$this->id, nombre=$this->nombre, descripcion=$this->descripcion, precio=$this->precio, foto=$this->foto, estatus=$this->estatus]";
+	}
 	
 	function __construct($data)
 	{

@@ -1,8 +1,9 @@
+DROP DATABASE IF EXISTS trofeoslobo;
 create database if not exists trofeoslobo;
 
 use trofeoslobo;
 
-create table if not exists deportes(
+create table if not exists categorias(
 	id integer auto_increment,
 	descripcion varchar(500),
 	estatus boolean default 1,
@@ -55,19 +56,19 @@ create table if not exists elementos(
 	descripcion varchar(2500),
 	precio double,
 	idColor integer,
-	idDeporte integer,
+	idCategoria integer,
 	idMaterial integer,
 	estatus boolean default 1,
 	primary key(id),
 	foreign key (idColor) references colores(id),
-	foreign key (idDeporte) references deportes(id),
+	foreign key (idCategoria) references categorias(id),
 	foreign key (idMaterial) references materiales(id)
 );
 
 create table if not exists medidas(
 	id integer auto_increment,
 	idTipoMedida integer,
-	medida double,
+	medida varchar(50),
 	idElemento integer,
 	estatus boolean default 1,
 	primary key(id),
@@ -87,13 +88,8 @@ create table if not exists TrofeosElementos(
 create TABLE if not exists vistas(
 	id int AUTO_INCREMENT,
     descripcion varchar(255),
-    estatus boolean,
+    estatus boolean DEFAULT 1,
+    `isDropDown` bit(1) DEFAULT 0,
+    `subMenus` varchar(1000) DEFAULT NULL,
     PRIMARY KEY (id)
 );
-
-insert into vistas
-values
-(null, 'main', 1),
-(null, 'usuarios', 1),
-(null, 'trofeos', 1),
-(null, 'materiales', 1);

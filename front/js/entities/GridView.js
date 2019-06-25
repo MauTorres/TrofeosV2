@@ -15,6 +15,7 @@ function GridView(){
 					});
 				}
 			}catch(err){
+				console.error(err);
 				alert("Ha ocurrido un error en el servidor\n" + err);
 				return;
 			}

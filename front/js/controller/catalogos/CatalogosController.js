@@ -27,6 +27,7 @@ function CatalogosController(){
 					self.cleanForm();
 					alert(responce.message);
 				}catch(err){
+					console.error(err);
 					alert("Ha ocurrido un error en el servidor");
 					return;
 				}		
@@ -54,6 +55,7 @@ function CatalogosController(){
 						alert(responce.message);
 					}
 				}catch(err){
+					console.error(err);
 					alert("Ha ocurrido un error en el servidor");
 					return;
 				}

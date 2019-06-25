@@ -1,28 +1,21 @@
 <div class="modal-dialog" role="document">
 	<div class="modal-content">
 		<div class="modal-header">
-			<h5 class="modal-title" id="elementos-label-modal">Elemento</h5>
+			<h5 class="modal-title" id="elementos-label-modal">Cliente</h5>
 		</div>
 		<div class="modal-body">
 			<form id="form-update-user">
 				<div class="form-group">
-					<label for="nm-elemento">Nombre del elemento</label>
-					<input type="text" class="form-control" id="nm-elemento" placeholder="Nombre del elemento">
-					<label for="descripcion">Descripcion</label>
-					<input type="text" class="form-control" id="descripcion" placeholder="Descripcion del elemento">
-					<label for="precio">Precio</label>
-					<input type="text" class="form-control" id="precio" placeholder="Precio del elemento">
-					<label for="color">Color</label>
-					<select class="form-control" id="color">
-						<option value="">Seleccione el color</option>
-					</select>
-					<label for="material">Material</label>
-					<select class="form-control" id="material">
-						<option value="">Seleccione material</option>
-					</select>
-					<label for="categoria">Categoría</label>
-					<select class="form-control" id="categoria">
-						<option value="">Seleccione categoria</option>
+					<label for="nombre">Nombre del cliente</label>
+					<input type="text" class="form-control" id="nombre" placeholder="Nombre del Cliente">
+					<label for="direccion">Direccion</label>
+					<input type="text" class="form-control" id="direccion" placeholder="Direccion">
+					<label for="vendedorInt">Fecha de Entrega</label>
+					<input type="text" class="form-control" id="vendedorInt" placeholder="¿Es vendedor intermedio?">
+					<select class="form-control" id="vendedorInt">
+						<option value="">Seleccione una opción</option>
+						<option value="1">Sí</option>
+						<option value="0">No</option>
 					</select>
 					<input type="hidden" class="form-control" id="row-index">
 				</div>

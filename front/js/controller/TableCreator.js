@@ -35,8 +35,9 @@ TableCreator = {
 				displayCount++;
 				row.append('<td>' + columns[columnCount] + '</td>');
 			}
-			if(data.actions != undefined)
+			if(data.actions != undefined){
 				TableCreator.createActions(data.actions, row);
+			}
 		}
 	},
 	updateTable: function(data, table, elementsToDisplay){

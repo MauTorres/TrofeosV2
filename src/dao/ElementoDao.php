@@ -74,7 +74,7 @@ class ElementoDao extends DAO
 			    IF(M.descripcion is null, '', M.descripcion) AS material,
 			    IF(Cat.descripcion is null, '', Cat.descripcion) AS categoria,
 			    (SELECT 
-			    	GROUP_CONCAT(Meds.medida SEPARATOR '|')
+			    	GROUP_CONCAT(Meds.medida SEPARATOR '; ')
 			   	FROM medidas Meds
 			   	WHERE Meds.idElemento = E.id
 			   	GROUP BY Meds.idElemento) AS medidas
@@ -95,10 +95,11 @@ class ElementoDao extends DAO
 	public function setMeasure($elemento, $medida){
 		try {
 			$this->execute(
-				'INSERT INTO medidas(idElemento, idTipoMedida) VALUES(:idElemento, :idTipoMedida)', 
+				'INSERT INTO medidas(idElemento, idTipoMedida, medida) VALUES(:idElemento, :idTipoMedida, :medidaDesc)', 
 				array(
 					":idElemento"=>$elemento->id, 
-					":idTipoMedida"=>$medida->id
+					":idTipoMedida"=>$medida->id,
+					":medidaDesc" => $medida->descripcion
 				)
 			);
 		} catch (Exception $e) {
@@ -117,7 +118,7 @@ class ElementoDao extends DAO
 			    IF(M.descripcion is null, '', M.descripcion) AS material,
 			    IF(Cat.descripcion is null, '', Cat.descripcion) AS categoria,
 			    (SELECT 
-			    	GROUP_CONCAT(Meds.medida SEPARATOR '|')
+			    	GROUP_CONCAT(Meds.medida SEPARATOR '; ')
 			   	FROM medidas Meds
 			   	WHERE Meds.idElemento = E.id
 			   	GROUP BY Meds.idElemento) AS medidas
@@ -145,7 +146,7 @@ class ElementoDao extends DAO
 			    IF(M.descripcion is null, '', M.descripcion) AS material,
 			    IF(Cat.descripcion is null, '', Cat.descripcion) AS categoria,
 			    (SELECT 
-			    	GROUP_CONCAT(Meds.medida SEPARATOR '|')
+			    	GROUP_CONCAT(Meds.medida SEPARATOR '; ')
 			   	FROM medidas Meds
 			   	WHERE Meds.idElemento = E.id
 			   	GROUP BY Meds.idElemento) AS medidas
@@ -156,7 +157,7 @@ class ElementoDao extends DAO
 				ON E.idMaterial = M.id
 			LEFT JOIN categorias Cat
 				ON E.idCategoria = Cat.id
-			JOIN trofeoselementos TE
+			JOIN TrofeosElementos TE
 				ON TE.idElemento = E.id
 			WHERE 
 				E.estatus = 1
@@ -180,10 +181,10 @@ class ElementoDao extends DAO
 		if ($row == null) {
 			return null;
 		}
-		$color = $this->colorDao->getColorByID($row['idColor']);
-		$categoria = $this->categoriaDao->getCategoryByID($row['idCategoria']);
-		$material = $this->materialDao->getMaterialByID($row['idMaterial']);
-		$medida = $this->medidaDao->getMeasureByID($row['idMedida']);
+		$color = $this->colorDao->getColorByID( new Color($row['idColor'], NULL) );
+		$categoria = $this->categoriaDao->getCategoryByID( new Categoria($row['idCategoria'], NULL ));
+		$material = $this->materialDao->getMaterialByID(new Material($row['idMaterial'], NULL));
+		$medida = $this->medidaDao->getMeasureByID(new Measure($row['idMedida'], NULL ));
 		return new Elemento($row);
 	}
 

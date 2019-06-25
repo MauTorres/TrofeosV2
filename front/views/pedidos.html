@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Elementos</title>
+	<title>Pedidos</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,9 +19,8 @@
 	<script src="../js/controller/ActionCheck.js"></script>
 	<script src="../js/controller/TableCreator.js"></script>
 	<script src="../js/entities/GridView.js"></script>
-	<script src="../js/entities/Elemento.js"></script>
-	<script src="../js/entities/Medida.js"></script>
-	<script src="../js/controller/elementos/elementosController.js"></script>
+	<script src="../js/entities/Pedido.js"></script>
+	<script src="../js/controller/pedidos/pedidosController.js"></script>
 	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -44,7 +43,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-8">
-				<h2>Elementos</h2>
+				<h2>Pedidos</h2>
 			</div>
 			<div class="col-sm-4">
 				<button type="button" class="btn btn-success" onclick="openUpdateModal(null)"><span class="fa fa-plus-square" aria-hidden="true"></span></button>
@@ -61,26 +60,30 @@
 							<form id="form-search-element">
 								<div class="row">
 									<div class="col">
-										<input type="text" id="id-elemento" class="form-control" placeholder="ID elemento">
+										<input type="text" id="folio-pedido" class="form-control" placeholder="Folio del Pedido">
 									</div>
 									<div class="col">
-										<input type="text" id="nombre-elemento" class="form-control" placeholder="Nombre del elemento">
+										<input type="text" id="nombre-cliente" class="form-control" placeholder="Nombre del Cliente">
 									</div>
 									<div class="col">
-										<input type="text" id="descripcion-elemento" class="form-control" placeholder="Descripción del Elemento">
+										<input type="text" id="fecha-pedido" class="form-control" placeholder="Fecha del Pedido">
 									</div>
-									
 								</div>
 								<div class="row">
 									<div class="col-sm-4">
-									</div>
-									<div class="col-sm-4">
-									</div>
-									<div class="col-sm-4">
-										<button class="btn btn-dark search-btn" type="button" id="btn-search-user" onclick="searchElement();">
-											Buscar
+										<button class="btn btn-dark search-btn" type="button" id="btn-search-user" onclick="searchOrderByFolio();">
+											Buscar folio
 										</button>
-									</div>	
+									</div><div class="col-sm-4">
+										<button class="btn btn-dark search-btn" type="button" id="btn-search-user" onclick="searchClient();">
+											Buscar cliente
+										</button>
+									</div>
+									<div class="col-sm-4">
+										<button class="btn btn-dark search-btn" type="button" id="btn-search-user" onclick="searchOrderbyDate();">
+											Buscar fecha
+										</button>
+									</div>
 								</div>
 							</form>
 						</div>
@@ -95,17 +98,7 @@
 	</div>
 	<div class="modal fade" id="update-element-modal" tabindex="-1" role="dialog" aria-labelledby="elementos-label-modal" aria-hidden="true">
 		<script type="text/javascript">
-			$('#update-element-modal').load("modals/updateCreateModalElemento.html" );
-		</script>
-	</div>
-	<div class="modal fade bd-example-modal-lg" id="search-measure-modal" tabindex="-1" role="dialog" aria-labelledby="elementos-label-modal" aria-hidden="true">
-		<script type="text/javascript">
-			$('#search-measure-modal').load("modals/searchMedidaModal.html" );
-		</script>
-	</div>
-	<div class="modal fade bd-example-modal-lg" id="add-measure-modal" tabindex="-1" role="dialog" aria-labelledby="elementos-label-modal" aria-hidden="true">
-		<script type="text/javascript">
-			$('#add-measure-modal').load("modals/addMeasuresModal.html" );
+			$('#update-element-modal').load("modals/updateCreateModalPedido.html" );
 		</script>
 	</div>
 </body>

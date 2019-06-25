@@ -57,7 +57,7 @@ class MedidaDao extends DAO
 	public function getMeasureByID($measure){
 		$result = $this->query("SELECT * FROM tiposMedidas WHERE id = ?", array($measure->id));
 		$row = $result->getResultSet()[0];
-		return new Medida($row['id'], $row['descripcion']);
+		return new Measure($row['id'], $row['descripcion']);
 	}
 
 	public function createOrUpdateMeasure($measure){
@@ -81,6 +81,27 @@ class MedidaDao extends DAO
 			Loger::log($e->getMessage(), null);
 			throw $e;
 		}	
+	}
+
+	public function getMeasureByElement($element) {
+		$elemId = $element->id;
+		$params = "";
+		$query = sprintf("SELECT 
+				Meds.id,
+				Meds.medida
+			FROM medidas Meds
+			WHERE
+				idElemento = $elemId AND 
+				estatus = 1
+				%s", $params);
+		return $this->query($query, null);
+		/*$measure = array();
+		$result = $this->query("SELECT `id`,`medida` FROM `medidas` WHERE `idElemento` = ? AND `estatus` = 1", array($element->id));
+		$result = $result->getResultSet();
+		foreach ($result as $measure) {
+			array_push($measure, new Measure($measure['id'], $measure['medida']));
+		}
+		return $measure;*/
 	}
 }
 ?>
