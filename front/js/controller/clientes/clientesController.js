@@ -12,7 +12,7 @@ UsersView = {
 					var responce = jQuery.parseJSON(data);
 					clientes = responce.data.resultSet;
 					responce.data.actions = UsersView.actions;
-					var table = $('#user-table');
+					var table = $('#client-table');
 					if(responce.success){
 						TableCreator.fillTable(responce.data, table, [0, 1, 2, 3]);
 					}

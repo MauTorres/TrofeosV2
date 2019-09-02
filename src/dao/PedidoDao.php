@@ -55,25 +55,23 @@ class PedidoDao extends DAO
 	}
 
 	public function getOrdersGrid($params){
-		$query = sprintf("
-			SELECT 
-				P.id,
-	   			P.Folio,
-			    P.fElaboracion,
-			    P.fEntrega,
-		    	P.subtotal,
-	   			P.total,
-			    IF(Cl.nombre is null, '', Cl.nombre) AS cliente,
-			    IF(U.usuario is null, '', U.usuario) AS usuario,
-			FROM Pedidos P
-			LEFT JOIN Clientes Cl
-				ON P.idCliente = Cl.id
-			LEFT JOIN usuarios U
-				ON P.IdUsuario = U.id
-			WHERE 
-				P.estatus = 1
-				%s", $params);
-		
+		$query = sprintf("SELECT 
+							P.id,
+							P.Folio,
+							P.fElaboracion,
+							P.fEntrega,
+							P.subtotal,
+							P.total,
+							IF(Cl.nombre is null, '', Cl.nombre) AS cliente,
+							IF(U.usuario is null, '', U.usuario) AS usuario
+						FROM Pedidos P
+						LEFT JOIN Clientes Cl
+							ON P.idCliente = Cl.id
+						LEFT JOIN usuarios U
+							ON P.idUsuario = U.id
+						WHERE 
+							P.estatus = 1
+							%s", $params);
 		return $this->query($query, null);
 	}
 

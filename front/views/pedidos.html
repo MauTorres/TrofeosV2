@@ -21,6 +21,8 @@
 	<script src="../js/entities/GridView.js"></script>
 	<script src="../js/entities/Pedido.js"></script>
 	<script src="../js/controller/pedidos/pedidosController.js"></script>
+	<script src="../js/controller/reporte/ReporteController.js"></script>
+	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../css/main.css">
@@ -50,6 +52,10 @@
 					<a class="nav-link" href="./elementos.html">Elementos</a>
 				</li>
 			</ul>
+		</div>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+			</div>
 		</div>
 	</nav>
 	<div class="container">
@@ -83,7 +89,7 @@
 								</div>
 								<div class="row">
 									<div class="col-sm-4">
-										<button class="btn btn-dark search-btn" type="button" id="btn-search-user" onclick="searchOrderByFolio();">
+										<button class="btn btn-dark search-btn" type="button" id="btn-search-user" onclick="searchElement();">
 											Buscar folio
 										</button>
 									</div><div class="col-sm-4">
