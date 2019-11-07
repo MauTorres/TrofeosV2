@@ -3,7 +3,7 @@
 * 
 */
 require_once __DIR__."/Business.php";
-require_once dirname(__DIR__)."/dao/ClienteDAO.php";
+require_once dirname(__DIR__)."/dao/ClienteDao.php";
 
 class ClienteBusiness extends Business
 {

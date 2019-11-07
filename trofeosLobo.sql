@@ -54,7 +54,6 @@ create table if not exists elementos(
 	id integer auto_increment,
 	nombre varchar(500),
 	descripcion varchar(2500),
-	precio double,
 	idColor integer,
 	idCategoria integer,
 	idMaterial integer,

@@ -2,7 +2,7 @@ var actions =
 	[new ActionEdit('', '', ''),
 	new ActionDelete('', '', '')];
 var elemtsGridActions = [{_class: '', value: 1, component: 'check', functionECute: 'addMeasure($(this))'}];
-var medidasElementosGridActions = [new Action('danger', '', 'fa fa-close', '', 'btn-sm', 'deleteElementTrofeo($(this).parent().parent());')];
+var medidasElementosGridActions = [new Action('danger', '', 'fa fa-close', '', 'btn-sm', 'deleteElementMeasure($(this).parent().parent());')];
 var elementosGridView = new GridView();
 var medidasGridView = new GridView();
 var isCollapseUp = true;
@@ -11,6 +11,7 @@ var materialCatalogCreator = new CatalogCreator('../../src/controller/MaterialCo
 var categoriaCatalogCreator = new CatalogCreator('../../src/controller/CategoryController.php');
 var medidaCatalogCreator = new CatalogCreator('../../src/controller/MeasureController.php');
 var currentElement = null;
+var rowElement = null;
 
 function deleteElement(row){
 	var elementDelete = elementosGridView.elements[row.index()];
@@ -45,6 +46,55 @@ function deleteElement(row){
 		}
 	});
 	elementDelete.method = undefined;
+}
+
+function deleteElementMeasure(row){
+	var measureDelete = medidasGridView.elements[row.index()];
+	//var elementUpdate = elementosGridView.elements[row.index()];
+	var elemento = new Elemento(
+		rowElement.id,
+		rowElement.nombre,
+		rowElement.descripcion
+	);
+	//measureDelete.method = 'deleteElementMeasure';
+	//measureDelete.elemento = rowElement.id;
+	$.ajax({
+		type:'POST',
+		url: '../../src/controller/ElementoController.php',
+		data: {method: 'deleteElementMeasure', 'measureDelete': measureDelete, 'elementoUpdate': elemento},
+		//data: measureDelete,
+		success: function(data){
+			try{
+				var responce = jQuery.parseJSON(data);
+				if(responce.success){
+					medidasGridView.getGrid({method: 'getMedidasElemento', filters: elemento},
+					'../../src/controller/MeasureController.php',
+					medidasElementosGridActions,
+					$('#grid-element-measures-table'),
+					[0, 1]
+					);
+					alert(responce.message);
+					elementosGridView.getGrid(
+						{method: 'getElementosTrofeos'},
+						'../../src/controller/ElementoController.php', 
+						actions, 
+						$('#grid-element-table'), 
+						[0, 1, 2, 3, 4, 5, 6]
+					);
+				}
+			}catch(err){
+				console.error( err);
+				alert("Ha ocurrido un error en el servidor");
+				return;
+			}
+			//Despliegue de información en la vista				
+		},
+		//En caso de error se informa al usuario
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log("Error contactando con el servidor");
+		}
+	});
+	measureDelete.method = undefined;
 }
 
 function createOrUpdateElement(){
@@ -117,27 +167,16 @@ function openUpdateModal(row){
 	categoriaCatalogCreator.fillCatalog($('#categoria'));
 	if(row != undefined){
 		var elementUpdate = elementosGridView.elements[row.index()];
-		var elemento = new Elemento(
-			elementUpdate.id,
-			elementUpdate.nombre,
-			elementUpdate.descripcion
-		);
+		rowElement = elementUpdate;
+		
 		$('#nm-elemento').val(elementUpdate.nombre);
 		$('#descripcion').val(elementUpdate.descripcion);
 		$('#idColor').val(elementUpdate.idColor);
 		$('#idCategoria').val(elementUpdate.idCategoria);
-		debugger;
 		$('#idMaterial').val(elementUpdate.idMaterial);
-		elementosGridView.getGrid({method: 'getMedidasElemento', filters: elemento},
-		'../../src/controller/MeasureController.php',
-		actions,
-		$('#grid-element-measures-table'),
-		[6]
-		);
-		debugger;
-		$('#grid-element-measures-table').val(elementUpdate.medidas);
 		$('#row-index').val(row.index());
 	}
+
 	$('#update-element-modal').modal('show');
 }
 
@@ -154,6 +193,26 @@ function cleanElementForm(){
 function openMeasureModal(){
 	$('#update-element-modal').modal('hide');
 	$('#search-measure-modal').modal('show');
+}
+
+function openEditElementMeasureModal() {
+	$('#update-element-modal').modal('hide');
+	var elemento = new Elemento(
+		rowElement.id,
+		rowElement.nombre,
+		rowElement.descripcion
+	);
+	medidasGridView.getGrid({method: 'getMedidasElemento', filters: elemento},
+		'../../src/controller/MeasureController.php',
+		medidasElementosGridActions,
+		$('#grid-element-measures-table'),
+		[0, 1]
+		);
+	$('#edit-element-measure-modal').modal('show');
+}
+
+function cleanElementMeasure() {
+	$('#edit-element-measure-modal').modal('hide');
 }
 
 function toggleCollapse(element){
@@ -245,11 +304,3 @@ $(document).ready(function(){
 	SessionController.checkSession('elementos');
 	elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/ElementoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5, 6]);
 });
-debugger;
-
-//Obtener las medidas del elemento
-/*$(document).ready(function(){
-	SessionController.checkSession('elementos');
-	elementosGridView.getGrid({method: 'getMedidasElemento'}, '../../src/controller/MeasureController.php', actions, $('#grid-element-measures-table'),[0, 1, 2, 3, 4]);
-	debugger;
-});*/

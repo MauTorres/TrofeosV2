@@ -1,0 +1,272 @@
+
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        
+      </head>
+      <body> <div class="report-sidebar"><p>Pedido #7012</p></div><div class="ui grid"><div class="four wide column"><img class="ui small image" src="./img/logolobovertical.png" alt=""/></div><div class="twelve wide column"><h1 id="title">Trofeos Lobo, S.A de C.V</h1><h6 id="subtitle">R.F.C TLO-051202-N21</h6><h6 id="address">Calz. México-Tacuba Nº 128 Col. Anahuac, México, Distrito Federal C.P. 11320</h6><div class="row"><div class="column ui basic image label"><i class="phone icon"></i>5396-3357 / 5396-4344</div><div class="column ui basic image label"><i class="fax icon"></i>Fax: 5816-1703</div><div class="column ui basic image label"><i class="envelope icon"></i>ventas@trofeoslobo.com.mx</div></div></div><div class="row"><div class="sixteen wide column mb-1"><h3>Datos del cliente</h3></div><div class="eight wide column form-mp"><div class="ui basic image label"><i class="calendar alternate icon"></i>Fecha de elaboración</div><div class="client-data"></div></div><div class="eight wide column form-mp"><div class="ui basic image label"><i class="calendar alternate outline icon"></i>Fecha de entrega</div><div class="client-data"></div></div><div class="eleven wide column form-mp"><div class="ui basic image label"><i class="user icon"></i>Nombre del cliente</div><div class="client-data"></div></div><div class="five wide column form-mp"><div class="ui basic image label"><i class="phone icon"></i>Teléfono</div><div class="client-data"></div></div><div class="sixteen wide column form-mp"><div class="ui basic image label"><i class="id card icon"></i>Datos de facturación</div><div class="client-data"></div></div><div class="eight wide column form-mp"><div class="ui basic image label"><i class="smile outline icon"></i>Atendió</div><div class="client-data"></div></div></div><div class="row"><div class="sixteen wide column"><table class="ui celled table"><thead><tr class="row"><th>Cantidad</th><th>Descripción</th><th>Precio unitario</th><th>Importe</th></tr></thead><tbody><tr><td> </td><td> </td><td></td><td></td></tr><tr><td> </td><td> </td><td></td><td> </td></tr><tr><td> </td><td> </td><td></td><td> </td></tr><tr><td> </td><td> </td><td></td><td> </td></tr><tr><td> </td><td> </td><td></td><td> </td></tr><tr><td> </td><td> </td><td></td><td> </td></tr><tr><td> </td><td> </td><td></td><td> </td></tr><tr><td> </td><td> </td><td></td><td> </td></tr><tr><td> </td><td> </td><td></td><td> </td></tr><tr><td> </td><td> </td><td></td><td></td></tr></tbody></table></div></div><div class="row"><div class="nine wide column"><table class="ui celled table"><thead><tr class="row"><th>Observaciones</th></tr></thead><tbody><tr><td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed arcu quis urna lobortis dignissim. Pellentesque neque nisi, ullamcorper sit amet tincidunt vitae, efficitur id est. Aliquam finibus ac ex dignissim ultrices. Proin nunc felis, tempus ac sapien id, vestibulum interdum mauris. Phasellus facilisis enim ex, porta pellentesque ipsum eleifend a. Sed a gravida augue. Sed vitae lacinia libero.</td></tr></tbody></table></div><div class="seven wide column"><table class="ui celled table" id="totales"><thead></thead><tbody><tr><td>Subtotal $</td></tr><tr><td>IVA $</td></tr><tr><td>Total $</td></tr><tr><td>Cheque No. / Efectivo / a/c $</td></tr><tr><td>Resta $</td></tr></tbody></table></div></div></div><template id="page-footer"><style type="text/css">.pdfheader {
+  font-size: 10px;
+  color: #aaa;
+  font-family: Helvetica;
+  font-weight: bold;
+  width: 1000px;
+  border-top: 1px solid #aaa;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding-top: 1mm;
+  margin-bottom: -1mm;
+  text-align: center;
+}
+</style><div class="pdfheader">Página <span class="pageNumber"></span> / <span class="totalPages"></span></div></template><style>@import 'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css';
+@import 'https://afeld.github.io/emoji-css/emoji.css';
+@page {
+  margin: 1cm 1cm 2cm 0cm; }
+
+html {
+  padding-top: 0.7cm;
+  padding-left: 1cm;
+  padding-right: 1cm;
+  font-family: 'Lato';
+  font-size: 14px !important; }
+
+body {
+  margin-left: 1cm; }
+
+#title {
+  font-weight: bold;
+  font-size: 2.0em;
+  margin-top: 0.4em; }
+
+#subtitle {
+  font-weight: bold;
+  font-size: 1.0em;
+  margin: 0 auto; }
+
+#address {
+  font-size: 0.9em;
+  margin: 0 auto;
+  font-weight: normal !important; }
+
+table#totales > tbody > td {
+  font-size: 0.8em; }
+
+.gold-background {
+  background-color: #fcd031 !important; }
+
+.summary {
+  background-color: #feeaa5; }
+
+h2 {
+  font-size: 1.8em; }
+
+.client-data {
+  border-bottom: 1px solid;
+  border-color: rgba(34, 36, 38, 0.15); }
+
+.form-mp {
+  margin-bottom: 0.5em !important;
+  padding-right: 0 !important; }
+
+.mb-1 {
+  margin-bottom: 1.0em !important; }
+
+p {
+  line-height: 1.5em;
+  font-size: 1.1em !important;
+  text-align: justify; }
+
+a {
+  text-decoration: underline;
+  color: inherit; }
+
+.report-sidebar {
+  position: fixed;
+  left: -0.25in;
+  top: 0;
+  width: 0.25in;
+  height: 943px;
+  writing-mode: vertical-rl;
+  border-top: 0.25in solid transparent;
+  border-left: 0.25in solid #fcd031;
+  border-bottom: 0.25in solid transparent; }
+  .report-sidebar p {
+    text-align: center;
+    color: #FFFFFF;
+    margin-top: -1.55em; }
+
+.block-center {
+  display: block;
+  margin: 0 auto; }
+
+.mermaid-svg {
+  max-width: 100%;
+  height: auto;
+  display: block; }
+  .mermaid-svg .node rect {
+    fill: none;
+    rx: 5px;
+    ry: 5px;
+    stroke: black; }
+  .mermaid-svg .edgelabel {
+    background: white;
+    color: #444; }
+
+.message, figure {
+  page-break-inside: avoid; }
+
+.message {
+  margin-bottom: 1em !important; }
+
+figure {
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  padding: 0.5em; }
+  figure > .panel {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 100%; }
+    figure > .panel > .label {
+      font-weight: bold;
+      position: absolute;
+      top: 0;
+      left: 0; }
+  figure.float-left {
+    margin-left: -1em !important;
+    margin-right: 2em !important;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    float: left; }
+  figure figcaption {
+    font-size: 0.75em;
+    text-align: justify;
+    width: 100%;
+    margin-top: 1em; }
+    figure figcaption > .reference, figure figcaption .title {
+      font-weight: bold;
+      display: inline;
+      margin-right: 0.5em; }
+    figure figcaption > .reference {
+      color: black; }
+      figure figcaption > .reference::after {
+        content: ': '; }
+    figure figcaption > .title {
+      color: #2d2401; }
+    figure figcaption > .caption {
+      display: inline; }
+
+.width-1cm {
+  width: 10mm !important; }
+
+.width-2cm {
+  width: 20mm !important; }
+
+.width-3cm {
+  width: 30mm !important; }
+
+.width-4cm {
+  width: 40mm !important; }
+
+.width-5cm {
+  width: 50mm !important; }
+
+.width-6cm {
+  width: 60mm !important; }
+
+.width-7cm {
+  width: 70mm !important; }
+
+.width-8cm {
+  width: 80mm !important; }
+
+.width-9cm {
+  width: 90mm !important; }
+
+.width-10cm {
+  width: 100mm !important; }
+
+.width-11cm {
+  width: 110mm !important; }
+
+.width-12cm {
+  width: 120mm !important; }
+
+.width-13cm {
+  width: 130mm !important; }
+
+.width-14cm {
+  width: 140mm !important; }
+
+.width-15cm {
+  width: 150mm !important; }
+
+.width-16cm {
+  width: 160mm !important; }
+
+.width-17cm {
+  width: 170mm !important; }
+
+.width-18cm {
+  width: 180mm !important; }
+
+.width-19cm {
+  width: 190mm !important; }
+
+.top-1mm {
+  margin-top: 1mm; }
+
+.top-2mm {
+  margin-top: 2mm; }
+
+.top-3mm {
+  margin-top: 3mm; }
+
+.top-4mm {
+  margin-top: 4mm; }
+
+.top-5mm {
+  margin-top: 5mm; }
+
+.top-6mm {
+  margin-top: 6mm; }
+
+.top-7mm {
+  margin-top: 7mm; }
+
+.top-8mm {
+  margin-top: 8mm; }
+
+.top-9mm {
+  margin-top: 9mm; }
+
+.top-10mm {
+  margin-top: 10mm; }
+
+.top-11mm {
+  margin-top: 11mm; }
+
+.top-12mm {
+  margin-top: 12mm; }
+
+.top-13mm {
+  margin-top: 13mm; }
+
+.top-14mm {
+  margin-top: 14mm; }
+
+.top-15mm {
+  margin-top: 15mm; }
+
+.top-16mm {
+  margin-top: 16mm; }
+
+.top-17mm {
+  margin-top: 17mm; }
+
+.top-18mm {
+  margin-top: 18mm; }
+
+.top-19mm {
+  margin-top: 19mm; }
+</style> </body>
+    </html>

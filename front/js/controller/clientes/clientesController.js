@@ -74,7 +74,6 @@ function createOrUpdateUser(){
 	userUpdate.method = 'createOrUpdateUser';
 	userUpdate.nombre = $('#nombre').val();
 	userUpdate.direccion = $('#direccion').val();
-	userUpdate.vendedorInt = $('#vendedorInt').val();
 
 	$.ajax({
 		type:'POST',
@@ -106,8 +105,7 @@ function searchUser(){
 	var cliente = new Cliente(
 		null,
 		$('#nombre-cliente').val(),
-		$('#direccion-cliente').val(),
-		$('#vend-int').val()
+		$('#direccion-cliente').val()
 		);
 	UsersView.getUsersGrid(cliente);
 }
@@ -117,7 +115,6 @@ function openUpdateModal(row){
 		var userUpdate = usuarios[row.index()];
 		$('#nombre').val(userUpdate.nombre);
 		$('#direccion').val(userUpdate.direccion);
-		$('#vendedorInt').val(userUpdate.vendedorInt);
 		$('#row-index').val(row.index());
 	}
 	$('#update-client-modal').modal('show');
@@ -126,7 +123,6 @@ function openUpdateModal(row){
 function cleanUserForm(){
 	$('#nombre').val('');
 	$('#direccion').val('');
-	$('#vendedorInt').val('');
 	$('#row-index').val('');
 	$('#update-client-modal').modal('hide');
 }

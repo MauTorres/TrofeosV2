@@ -91,8 +91,13 @@ class MedidaDao extends DAO
 				Meds.medida
 			FROM medidas Meds
 			WHERE
+<<<<<<< HEAD
 				idElemento = $elemId AND 
 				estatus = 1
+=======
+				Meds.idElemento = $elemId AND 
+				Meds.estatus = 1
+>>>>>>> 2979e661916fb59aa3b0e0be2d42e6321fea9f56
 				%s", $params);
 		return $this->query($query, null);
 		/*$measure = array();

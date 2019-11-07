@@ -3,6 +3,7 @@
 * 
 */
 require_once __DIR__."/DAO.php";
+require_once __DIR__."/ClienteDao.php";
 require_once __DIR__."/entities/Cliente.php";
 require_once __DIR__."/entities/Pedido.php";
 require_once __DIR__."/entities/Usuario.php";

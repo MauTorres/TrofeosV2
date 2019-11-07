@@ -49,14 +49,14 @@ INSERT INTO `trofeos`(`nombre`, `descripcion`, `precio`, `fotoPath`) VALUES
 ('TT-31','trofeo tradicional',180,'/img/TT31.png'),
 ('TT-25A','Figura 3D con base para cualquier deporte',130,'/img/TT25.png');
 
-INSERT INTO `elementos`( `nombre`, `descripcion`, `precio`, `idColor`, `idCategoria`, `idMaterial`) VALUES 
-('Copa Globo Alumino','Copa Globo Aluminio',200,1,3,2),
-('Figura','Figura Metalica',200,2,4,3),
-('Copa Aro Alumino','Copa Metalica',100,3,5,4),
-('Columna Gringa','Columna de Aluminio moldeado',50,4,6,5),
-('Figura 3D','Figura de Resina',NULL,5,7,6),
-('Madera','Base de madera de 15cm x 8cm',NULL,6,8,1),
-('Madera','Base de madera de 28 cm',NULL,7,9,2);
+INSERT INTO `elementos`( `nombre`, `descripcion`, `idColor`, `idCategoria`, `idMaterial`) VALUES 
+('Copa Globo Alumino','Copa Globo Aluminio',1,3,2),
+('Figura','Figura Metalica',2,4,3),
+('Copa Aro Alumino','Copa Metalica',3,5,4),
+('Columna Gringa','Columna de Aluminio moldeado',4,6,5),
+('Figura 3D','Figura de Resina',5,7,6),
+('Madera','Base de madera de 15cm x 8cm',6,8,1),
+('Madera','Base de madera de 28 cm',7,9,2);
 
 INSERT INTO `vistas`(`descripcion`, `isDropDown`, `subMenus`) VALUES
 ('main', 0 ,NULL),

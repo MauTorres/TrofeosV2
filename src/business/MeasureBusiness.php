@@ -72,7 +72,7 @@ class MeasureBusiness extends Business
 			if($measure->id != null)
 				$params .= "AND Md.id = ".$measure->id;
 			if($measure->descripcion != null)
-				$params .= "AND Md.descripcion like '%".$measure->descripcion."%'";
+				$params .= "AND Md.medida like '%".$measure->descripcion."%'";
 		}
 		$result = $this->measureDAO->getMeasureByElement($measure);
 		$this->responce->success = true;
