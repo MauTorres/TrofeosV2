@@ -139,19 +139,58 @@ function openUpdateModal(row){
 	}
 	$('#update-element-modal').modal('show');
 	if(!_hasBeenOpened){
+		//Disable the input for delivery day
+		$("#fech-Ent").prop("disabled", true);
+		/**
+		 * To call when the user has entered some text in the elaboration input text
+		 */
+		var _enableDeliveryDate = function(date, context){
+			if($("#fech-Ent").prop("disabled")){
+				//If the input is disabled, enabled it
+				$("#fech-Ent").prop("disabled", false);
+			} else {
+				//Otherwise, check the dates
+				_checkDeliveryDate();
+			}
+		};
+		/**
+		 * To call when the user picks a delivery date
+		 * @param {moment} date 
+		 * @param {object} context 
+		 */
+		var _checkDeliveryDate = function(date, context){
+			var _elabDate = moment($("#fech-El").val());
+			var _deliveryDate = moment($("#fech-Ent").val());
+
+			if(!_deliveryDate.isAfter(_elabDate)){
+				Lobibox.notify('error', {
+					pauseDelayOnHover: true,
+					continueDelayOnInactiveTab: false,
+					msg: 'La fecha de entrega debe ser posterior a la de elaboración',
+					delay: 5000,
+					sound: false,
+					position: "top right",
+					rounded: true
+				});
+				$("#fech-Ent").val("")
+			}
+		};
+		//Configure the calendar
 		$("#fech-El").pignoseCalendar({
 			lang: 'es',
 			disabledWeekdays: [0, 6],
 			//toggle: true
 			minDate: moment(),
 			//maxDate: null,
+			select: _enableDeliveryDate
 		});
 		$("#fech-Ent").pignoseCalendar({
 			lang: 'es',
 			disabledWeekdays: [0, 6],
 			//toggle: true
-			minDate: moment(),
 			//maxDate: null,
+			minDate: moment(),
+			select: _checkDeliveryDate
 		});
 		_hasBeenOpened = true;
 	}
