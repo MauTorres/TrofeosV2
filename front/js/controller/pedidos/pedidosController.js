@@ -11,6 +11,11 @@ var materialCatalogCreator = new CatalogCreator('../../src/controller/MaterialCo
 var categoriaCatalogCreator = new CatalogCreator('../../src/controller/CategoryController.php');
 var medidaCatalogCreator = new CatalogCreator('../../src/controller/MeasureController.php');*/
 var currentElement = null;
+/**
+ * Para saber si el modal ha sido abierto antes, o es la primera vez
+ * @type {boolean}
+ */
+var _hasBeenOpened = false;
 
 function deleteElement(row){
 	var elementDelete = elementosGridView.elements[row.index()];
@@ -133,6 +138,23 @@ function openUpdateModal(row){
 		$('#row-index').val(row.index());
 	}
 	$('#update-element-modal').modal('show');
+	if(!_hasBeenOpened){
+		$("#fech-El").pignoseCalendar({
+			lang: 'es',
+			disabledWeekdays: [0, 6],
+			//toggle: true
+			minDate: moment(),
+			//maxDate: null,
+		});
+		$("#fech-Ent").pignoseCalendar({
+			lang: 'es',
+			disabledWeekdays: [0, 6],
+			//toggle: true
+			minDate: moment(),
+			//maxDate: null,
+		});
+		_hasBeenOpened = true;
+	}
 }
 
 function cleanElementForm(){
