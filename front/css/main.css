@@ -16,3 +16,12 @@
 .pignose-calendar .pignose-calendar-unit a{
 	color: #30828a;
 }
+
+.pignose-calendar .pignose-calendar-unit.pignose-calendar-unit-disabled a:hover{
+	background-color: #efefef;
+}
+
+.pignose-calendar .pignose-calendar-unit a:hover{
+	background-color: black;
+	color: white;
+}
