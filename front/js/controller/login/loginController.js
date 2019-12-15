@@ -38,7 +38,7 @@ function logginPOST(){
 		},
 		//En caso de error se informa al usuario
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("Error contactando con el servidor");
+			console.error(textStatus + ": " + errorThrown);
 		}
 	});
 }
@@ -47,7 +47,6 @@ $(document).ready(function(){
 	$('form').submit(function(event){
 		//if($(this).isValid()){
 			event.preventDefault();
-			console.log("Loggin");
 			logginPOST();
 		//}
 	});
