@@ -24,20 +24,20 @@ function logginPOST(){
 				var responce = jQuery.parseJSON(data);
 				if(responce.success){
 					window.location.replace("./front/views/main.html");
-					debugger
 				}else{
-					alert("El usuario o contraseña no son correctos");
+					notifyWarning('El usuario o contraseña son incorrectos');
 					return;
 				}
 			}catch(err){
 				console.error(err);
-				alert("Ha ocurrido un error en el servidor");
+				notifyError("Ha ocurrido un error con el servidor. Por favor, vuelva a intentar", "Error con el servidor")
 				return;
 			}
 			//Despliegue de información en la vista				
 		},
 		//En caso de error se informa al usuario
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			notifyError("Ha ocurrido un error con el servidor. Por favor, vuelva a intentar", "Error con el servidor")
 			console.error(textStatus + ": " + errorThrown);
 		}
 	});
