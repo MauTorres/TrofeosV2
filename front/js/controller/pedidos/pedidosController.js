@@ -163,15 +163,7 @@ function openUpdateModal(row){
 			var _deliveryDate = moment($("#fech-Ent").val());
 
 			if(!_deliveryDate.isAfter(_elabDate)){
-				Lobibox.notify('error', {
-					pauseDelayOnHover: true,
-					continueDelayOnInactiveTab: false,
-					msg: 'La fecha de entrega debe ser posterior a la de elaboración',
-					delay: 5000,
-					sound: false,
-					position: "top right",
-					rounded: true
-				});
+				notifyError('La fecha de entrega debe ser posterior a la de elaboración');
 				$("#fech-Ent").val("")
 			}
 		};
