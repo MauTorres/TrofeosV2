@@ -121,7 +121,7 @@ function openUpdateModal(row){
 	/*colorCatalogCreator.fillCatalog($('#color'));
 	materialCatalogCreator.fillCatalog($('#material'));
 	categoriaCatalogCreator.fillCatalog($('#categoria'));*/
-	if(row != undefined){
+	if(row != undefined && row != null){
 		var elementUpdate = elementosGridView.elements[row.index()];
 		var pedido = new Pedido(
 			elementUpdate.Folio,
@@ -136,6 +136,18 @@ function openUpdateModal(row){
 		$('#cliente').val(elementUpdate.idCliente);
 		$('#usuario').val(elementUpdate.IdUsuario);
 		$('#row-index').val(row.index());
+	} else {
+		$.ajax({
+			type:'GET',
+			url: '../../src/controller/SessionController.php',
+			data: {method:'getSession'},
+			success: function(data){
+				$('#usuario').val($.parseJSON(data).data);
+			},
+			error: function(xhr, textStatus, errorThrown){
+				notifyError("Ha habido un error desconocido")
+			}
+		});
 	}
 	$('#update-element-modal').modal('show');
 	if(!_hasBeenOpened){
