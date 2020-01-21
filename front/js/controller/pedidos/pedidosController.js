@@ -6,8 +6,8 @@ var elemtsGridActions = [{_class: '', value: 1, component: 'check', functionECut
 var elementosGridView = new GridView();
 //var medidasGridView = new GridView();
 var isCollapseUp = true;
-/*var colorCatalogCreator = new CatalogCreator('../../src/controller/ColorController.php');
-var materialCatalogCreator = new CatalogCreator('../../src/controller/MaterialController.php');
+var trofeoCatalogCreator = new CatalogCreator('../../src/controller/TrofeoController.php');
+/*var materialCatalogCreator = new CatalogCreator('../../src/controller/MaterialController.php');
 var categoriaCatalogCreator = new CatalogCreator('../../src/controller/CategoryController.php');
 var medidaCatalogCreator = new CatalogCreator('../../src/controller/MeasureController.php');*/
 var currentElement = null;
@@ -145,7 +145,8 @@ function openUpdateModal(row){
 				$('#usuario').val($.parseJSON(data).data);
 			},
 			error: function(xhr, textStatus, errorThrown){
-				notifyError("Ha habido un error desconocido")
+				notifyError("Ha habido un error desconocido");
+				console.error(textStatus + ": " + errorThrown);
 			}
 		});
 	}
@@ -212,10 +213,11 @@ function cleanElementForm(){
 	$('#update-element-modal').modal('hide');
 }
 
-/*function openMeasureModal(){
+function openMeasureModal(){
+	trofeoCatalogCreator.fillCatalog($("#id-trofeo"));
 	$('#update-element-modal').modal('hide');
 	$('#search-measure-modal').modal('show');
-}*/
+}
 
 function toggleCollapse(element){
 	if(isCollapseUp){
@@ -229,13 +231,11 @@ function toggleCollapse(element){
 	}
 }
 
-/*function cleanMeasureModal(){
-	$('#id-medida').val('');
-	$('#descripcion-medida').val('');
+function cleanMeasureModal(){
 	$('#search-measure-modal').modal('hide');
 }
 
-function searchMeasure(){
+/*function searchMeasure(){
 	$('#search-measure-modal').modal('hide');
 	$('#add-measure-modal').modal('show');
 	var medida = new Measure(

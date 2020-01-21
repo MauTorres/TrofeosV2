@@ -1,0 +1,22 @@
+<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="medidas-label-modal">Buscar medidas</h5>
+		</div>
+		<div class="modal-body">
+			<form id="form-update-user">
+				<div class="form-group">
+					<label for="id-trofeo">Trofeo</label>
+					<select class="form-control" id="id-trofeo">
+						<option value="">Seleccione trofeo</option>
+					</select>
+					<input type="hidden" class="form-control" id="row-index">
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" onclick="cleanMeasureModal();" id="btn-update-user-cancel">Cerrar</button>
+			<button type="button" class="btn btn-primary" onclick="searchMeasure();" id="btn-update-user">Seleccionar</button>
+		</div>
+	</div>
+</div>
