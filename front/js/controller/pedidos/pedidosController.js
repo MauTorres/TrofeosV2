@@ -214,7 +214,7 @@ function cleanElementForm(){
 }
 
 function openMeasureModal(){
-	trofeoCatalogCreator.fillCatalog($("#id-trofeo"));
+	trofeoCatalogCreator.fillIfNeeded($("#id-trofeo"));
 	$('#update-element-modal').modal('hide');
 	$('#search-measure-modal').modal('show');
 }
@@ -231,14 +231,15 @@ function toggleCollapse(element){
 	}
 }
 
-function cleanMeasureModal(){
+function closeTrophyModal(){
+	$("#id-trofeo").val([]);
 	$('#search-measure-modal').modal('hide');
+	$('#update-element-modal').modal('show');
 }
 
-/*function searchMeasure(){
-	$('#search-measure-modal').modal('hide');
-	$('#add-measure-modal').modal('show');
-	var medida = new Measure(
+function addTrophy(){
+	closeTrophyModal();
+	/* var medida = new Measure(
 		$('#id-medida').val(),
 		$('#descripcion-medida').val()
 	);
@@ -247,10 +248,10 @@ function cleanMeasureModal(){
 		'../../src/controller/MeasureController.php',
 		elemtsGridActions,
 		$('#grid-measure-table'),
-		[0, 1]);
+		[0, 1]); */
 }
 
-function backSearchMeasures(){
+/*function backSearchMeasures(){
 	cleanMeasureModal();
 	$('#add-measure-modal').modal('hide');
 	$('#search-measure-modal').modal('show');
