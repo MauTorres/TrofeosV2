@@ -1,6 +1,10 @@
 function CatalogCreator(catalogURL){
 	this.catalogURL = catalogURL;
 	var self = this;
+	/**
+	 * The data retrieved from the server
+	 * @type array
+	 */
 	var _catalogData = null;
 
 	var _fillGrid = function(result, catalog){
@@ -44,6 +48,13 @@ function CatalogCreator(catalogURL){
 		});
 	};
 
+	var _findElement = function(elementId){
+		return _catalogData.find(element => {
+			return element.id === elementId
+		});
+	}
+
 	this.fillCatalog = _fillCatalog;
 	this.fillIfNeeded = _fillIfNeeded;
+	this.findElement = _findElement;
 }
