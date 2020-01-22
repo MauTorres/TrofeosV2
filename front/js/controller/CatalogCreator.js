@@ -1,22 +1,19 @@
 function CatalogCreator(catalogURL){
-	var self = this;
-	this.catalogData
 	this.catalogURL = catalogURL;
-	var _alreadyFilled = false;
+	var self = this;
+	var _catalogData = null;
 
-	var _fillGrid = function(result, catalog, context){
+	var _fillGrid = function(result, catalog){
 		if( result === null || result === undefined || result.length < 1 ){
 			notifyError("Ocurrió un error en el servidor. Por favor, inténtelo de nuevo");
 			console.warn("No se obtuvo respuesta del servidor");
 			return false;
 		}
 		try{
-			context.catalogData = jQuery.parseJSON(result);
-			context.catalogData = context.catalogData.data.resultSet;
-			for(var elementCount = 0; elementCount < context.catalogData.length; elementCount++){
-				var element = context.catalogData[elementCount];
-				catalog.append('<option value="' + element.id + '">' + element.descripcion + '</option>');
-			}
+			_catalogData = result.data.resultSet;
+			_catalogData.forEach(element => {
+				catalog.append('<option value="' + element.id + '">' + element.nombre + '</option>');
+			});
 		}catch(err){
 			console.error(err);
 			notifyError("Ha habido un error inesperado");
@@ -26,17 +23,17 @@ function CatalogCreator(catalogURL){
 	};
 
 	var _fillIfNeeded = function(catalog){
-		if(!_alreadyFilled){
+		if(_catalogData === null){
 			_fillCatalog(catalog);
 		}
 	};
-
 
 	var _fillCatalog = function(catalog){
 		$.ajax({
 			method: 'GET',
 			url: self.catalogURL,
 			data: {method: 'getElementsGrid'},
+			dataType: 'json',
 			success: function(result){
 				_alreadyFilled = _fillGrid(result, catalog, self);
 			},
