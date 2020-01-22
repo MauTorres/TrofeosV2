@@ -6,3 +6,4 @@ bdtrofeos.sql
 old-db-scripts/
 node_modules
 /report/report.pdf
+.vscode/settings.json
