@@ -14,7 +14,7 @@
 					<input type="text" class="form-control" id="fech-Ent" placeholder="Fecha de Entrega">
 					<label for="cliente">Cliente</label><!--ṔOR BUSQUEDA COMO EN EL CASO DE MEDIDAS-->
 					<input type="text" class="form-control" id="cliente" placeholder="Nombre del Cliente">
-					<label for="usuario">USUARIO</label><!--LO MISMO-->
+					<label for="usuario">Usuario</label><!--LO MISMO-->
 					<input type="text" class="form-control" id="usuario" disabled="true">
 					<input type="hidden" class="form-control" id="row-index">
 				</div>
@@ -24,9 +24,8 @@
 					<button type="button" class="btn btn-success" onclick="openMeasureModal();"><span class="fa fa-plus-square" aria-hidden="true"></span></button>
 				</div>
 			</div>
-			<div class="row hide-on-new">
-				<table class="table table-striped table-hover" id="grid-element-measures-table">
-				</table>
+			<div class="row scroll-table" id="modal-pedido-table" >
+				<table class="table table-striped table-hover" id="pedido-trofeos-table"></table>
 			</div>
 		</div>
 		<div class="modal-footer">
