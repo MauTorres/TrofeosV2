@@ -24,6 +24,7 @@ class DAO
 				$statement->execute($variablesArr);
 			return new DBResponce($statement);
 		}catch(Exception $exception){
+			Loger::log("[DAO] Ha ocurrido un error: ".$exception, null);
 			throw $exception;
 		}
 	}
