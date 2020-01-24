@@ -3,9 +3,15 @@ function CatalogCreator(catalogURL){
 	var self = this;
 	/**
 	 * The data retrieved from the server
-	 * @type array
+	 * @type {object[]}
 	 */
 	var _catalogData = null;
+
+	/**
+	 * The actions of the grid
+	 * @type {object[]}
+	 */
+	var _actions = null;
 
 	/**
 	 * Fills the options of the combo box with the data obtained from the server
@@ -70,6 +76,18 @@ function CatalogCreator(catalogURL){
 		return _catalogData.find(element => {
 			return element.id === elementId
 		});
+	}
+
+	this.getCatalogCollection = function(){
+		return _catalogData;
+	}
+
+	this.setActions = function(actions){
+		_actions = actions;
+	}
+
+	this.getActions = function(){
+		return _actions;
 	}
 
 

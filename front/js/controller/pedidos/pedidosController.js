@@ -1,15 +1,11 @@
 var actions = 
 	[new ActionEdit('', '', ''),
 	new ActionDelete('', '', '')];
-var elemtsGridActions = [{_class: '', value: 1, component: 'check', functionECute: 'addMeasure($(this))'}];
-//var medidasElementosGridActions = [new Action('danger', '', 'fa fa-close', '', 'btn-sm', 'deleteElementTrofeo($(this).parent().parent());')];
-var elementosGridView = new GridView();
-//var medidasGridView = new GridView();
+var trophiesTableActions = [new Action('danger', '', 'fa fa-close', '', 'btn-sm', 'deleteElementMeasure($(this).parent().parent());')];
+var ordersGridView = new GridView();
+var trophiesGridView = new GridView();
 var isCollapseUp = true;
 var trofeoCatalogCreator = new CatalogCreator('../../src/controller/TrofeoController.php');
-/*var materialCatalogCreator = new CatalogCreator('../../src/controller/MaterialController.php');
-var categoriaCatalogCreator = new CatalogCreator('../../src/controller/CategoryController.php');
-var medidaCatalogCreator = new CatalogCreator('../../src/controller/MeasureController.php');*/
 var currentElement = null;
 /**
  * Para saber si el modal ha sido abierto antes, o es la primera vez
@@ -18,7 +14,7 @@ var currentElement = null;
 var _hasBeenOpened = false;
 
 function deleteElement(row){
-	var elementDelete = elementosGridView.elements[row.index()];
+	var elementDelete = ordersGridView.elements[row.index()];
 	elementDelete.method = 'deleteElement';
 	$.ajax({
 		type:'POST',
@@ -28,7 +24,7 @@ function deleteElement(row){
 			try{
 				var responce = jQuery.parseJSON(data);
 				if(responce.success){
-					elementosGridView.getGrid(
+					ordersGridView.getGrid(
 						{method: 'getElementosTrofeos'}, 
 						'../../src/controller/PedidoController.php', 
 						actions, 
@@ -55,7 +51,7 @@ function deleteElement(row){
 function createOrUpdateElement(){
 	var elementUpdate = {};
 	if($('#row-index').val() != null && $('#row-index').val() != ''){
-		elementUpdate = elementosGridView.elements[parseInt($('#row-index').val())];	
+		elementUpdate = ordersGridView.elements[parseInt($('#row-index').val())];	
 	}else{
 		elementUpdate.id = null;
 	}
@@ -78,7 +74,7 @@ function createOrUpdateElement(){
 				var responce = jQuery.parseJSON(data);
 				if(responce.success){
 
-					elementosGridView.getGrid(
+					ordersGridView.getGrid(
 						{method: 'getElementosTrofeos'},
 						'../../src/controller/PedidoController.php', 
 						actions, 
@@ -107,7 +103,7 @@ function searchElement(){
 		$('#nombre-cliente').val(),
 		$('#fecha-pedido').val()
 	);
-	elementosGridView.getGrid(
+	ordersGridView.getGrid(
 		{method: 'getElementosTrofeos',filters:elemento}, 
 		'../../src/controller/PedidoController.php', 
 		actions, 
@@ -117,98 +113,115 @@ function searchElement(){
 
 }
 
+var _handleCalendarActions = function(){
+	//Disable the input for delivery day
+	$("#fech-Ent").prop("disabled", true);
+	/**
+	 * To call when the user has entered some text in the elaboration input text
+	 */
+	var _enableDeliveryDate = function(date, context){
+		if($("#fech-Ent").prop("disabled")){
+			//If the input is disabled, enabled it
+			$("#fech-Ent").prop("disabled", false);
+		} else {
+			//Otherwise, check the dates
+			_checkDeliveryDate();
+		}
+	};
+	/**
+	 * To call when the user picks a delivery date
+	 * @param {moment} date 
+	 * @param {object} context 
+	 */
+	var _checkDeliveryDate = function(date, context){
+		var _elabDate = moment($("#fech-El").val());
+		var _deliveryDate = moment($("#fech-Ent").val());
+
+		if(!_deliveryDate.isAfter(_elabDate)){
+			notifyError('La fecha de entrega debe ser posterior a la de elaboración');
+			$("#fech-Ent").val("")
+		}
+	};
+	//Configure the calendar
+	$("#fech-El").pignoseCalendar({
+		lang: 'es',
+		disabledWeekdays: [0, 6],
+		//toggle: true
+		minDate: moment(),
+		//maxDate: null,
+		select: _enableDeliveryDate
+	});
+	$("#fech-Ent").pignoseCalendar({
+		lang: 'es',
+		disabledWeekdays: [0, 6],
+		//toggle: true
+		//maxDate: null,
+		minDate: moment(),
+		select: _checkDeliveryDate
+	});
+	_hasBeenOpened = true;
+}
+
+var _handleEdit = function(row){
+	var elementUpdate = ordersGridView.elements[row.index()];
+	var pedido = new Pedido(
+		elementUpdate.Folio,
+		elementUpdate.idCliente,
+		elementUpdate.IdUsuario
+	);
+	$('#Folio').val(elementUpdate.Folio);
+	$('#fech-El').val(elementUpdate.fElaboracion);
+	$('#fech-Ent').val(elementUpdate.fEntrega);
+	$('#subtotal').val(elementUpdate.subtotal);
+	$('#total').val(elementUpdate.total);
+	$('#cliente').val(elementUpdate.idCliente);
+	$('#usuario').val(elementUpdate.IdUsuario);
+	$('#row-index').val(row.index());
+}
+
+var _handleAdd = function(){
+	$.ajax({
+		type:'GET',
+		url: '../../src/controller/SessionController.php',
+		data: {method:'getSession'},
+		success: function(username){
+			$('#usuario').val($.parseJSON(username).data);
+		},
+		error: function(xhr, textStatus, errorThrown){
+			notifyError("Ha habido un error desconocido");
+			console.error(textStatus + ": " + errorThrown);
+		}
+	});
+}
+
 function openUpdateModal(row){
-	/*colorCatalogCreator.fillCatalog($('#color'));
-	materialCatalogCreator.fillCatalog($('#material'));
-	categoriaCatalogCreator.fillCatalog($('#categoria'));*/
 	if(row != undefined && row != null){
-		var elementUpdate = elementosGridView.elements[row.index()];
-		var pedido = new Pedido(
-			elementUpdate.Folio,
-			elementUpdate.idCliente,
-			elementUpdate.IdUsuario
-		);
-		$('#Folio').val(elementUpdate.Folio);
-		$('#fech-El').val(elementUpdate.fElaboracion);
-		$('#fech-Ent').val(elementUpdate.fEntrega);
-		$('#subtotal').val(elementUpdate.subtotal);
-		$('#total').val(elementUpdate.total);
-		$('#cliente').val(elementUpdate.idCliente);
-		$('#usuario').val(elementUpdate.IdUsuario);
-		$('#row-index').val(row.index());
+		_handleEdit();
 	} else {
-		$.ajax({
-			type:'GET',
-			url: '../../src/controller/SessionController.php',
-			data: {method:'getSession'},
-			success: function(data){
-				$('#usuario').val($.parseJSON(data).data);
-			},
-			error: function(xhr, textStatus, errorThrown){
-				notifyError("Ha habido un error desconocido");
-				console.error(textStatus + ": " + errorThrown);
-			}
-		});
+		_handleAdd();
 	}
+	//$("#grid-element-trophy-table").html("");
+	trofeoCatalogCreator.setActions(trophiesTableActions);
+	trophiesGridView.fillGridFromCatalog(
+		trofeoCatalogCreator,
+		'TrofeoController.php',
+		$("#pedido-trofeos-table"),
+		[1, 2, 3]
+	);
 	$('#update-element-modal').modal('show');
 	if(!_hasBeenOpened){
-		//Disable the input for delivery day
-		$("#fech-Ent").prop("disabled", true);
-		/**
-		 * To call when the user has entered some text in the elaboration input text
-		 */
-		var _enableDeliveryDate = function(date, context){
-			if($("#fech-Ent").prop("disabled")){
-				//If the input is disabled, enabled it
-				$("#fech-Ent").prop("disabled", false);
-			} else {
-				//Otherwise, check the dates
-				_checkDeliveryDate();
-			}
-		};
-		/**
-		 * To call when the user picks a delivery date
-		 * @param {moment} date 
-		 * @param {object} context 
-		 */
-		var _checkDeliveryDate = function(date, context){
-			var _elabDate = moment($("#fech-El").val());
-			var _deliveryDate = moment($("#fech-Ent").val());
-
-			if(!_deliveryDate.isAfter(_elabDate)){
-				notifyError('La fecha de entrega debe ser posterior a la de elaboración');
-				$("#fech-Ent").val("")
-			}
-		};
-		//Configure the calendar
-		$("#fech-El").pignoseCalendar({
-			lang: 'es',
-			disabledWeekdays: [0, 6],
-			//toggle: true
-			minDate: moment(),
-			//maxDate: null,
-			select: _enableDeliveryDate
-		});
-		$("#fech-Ent").pignoseCalendar({
-			lang: 'es',
-			disabledWeekdays: [0, 6],
-			//toggle: true
-			//maxDate: null,
-			minDate: moment(),
-			select: _checkDeliveryDate
-		});
-		_hasBeenOpened = true;
+		_handleCalendarActions();
 	}
 }
 
 function cleanElementForm(){
 	$('#Folio').val('');
-		$('#fech-El').val('');
-		$('#fech-Ent').val('');
-		$('#subtotal').val('');
-		$('#total').val('');
-		$('#cliente').val('');
-		$('#usuario').val('');
+	$('#fech-El').val('');
+	$('#fech-Ent').val('');
+	$('#subtotal').val('');
+	$('#total').val('');
+	$('#cliente').val('');
+	$('#usuario').val('');
 	$('#row-index').val('');
 	$('#update-element-modal').modal('hide');
 }
@@ -216,7 +229,7 @@ function cleanElementForm(){
 function openMeasureModal(){
 	trofeoCatalogCreator.fillIfNeeded($("#id-trofeo"));
 	$('#update-element-modal').modal('hide');
-	$('#search-measure-modal').modal('show');
+	$('#pedido-trofeos-modal').modal('show');
 }
 
 function toggleCollapse(element){
@@ -233,11 +246,12 @@ function toggleCollapse(element){
 
 function closeTrophyModal(){
 	$("#id-trofeo").val([]);
-	$('#search-measure-modal').modal('hide');
+	$('#pedido-trofeos-modal').modal('hide');
 	$('#update-element-modal').modal('show');
 }
 
 function addTrophy(){
+	console.log(trofeoCatalogCreator.findElement($("#id-trofeo").val()));
 	closeTrophyModal();
 	/* var medida = new Measure(
 		$('#id-medida').val(),
@@ -254,7 +268,7 @@ function addTrophy(){
 /*function backSearchMeasures(){
 	cleanMeasureModal();
 	$('#add-measure-modal').modal('hide');
-	$('#search-measure-modal').modal('show');
+	$('#pedido-trofeos-modal').modal('show');
 }
 
 function addMeasure(row){
@@ -305,12 +319,5 @@ function addMeasures(){
 
 $(document).ready(function(){
 	SessionController.checkSession('pedidos');
-	elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/PedidoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5, 6, 7]);
+	ordersGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/PedidoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5, 6, 7]);
 });
-
-//Obtener las medidas del elemento
-/*$(document).ready(function(){
-	SessionController.checkSession('elementos');
-	elementosGridView.getGrid({method: 'getMedidasElemento'}, '../../src/controller/MeasureController.php', actions, $('#grid-element-measures-table'),[0, 1, 2, 3, 4]);
-	debugger;
-});*/
