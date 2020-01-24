@@ -57,6 +57,9 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 				$trofeo = new Trofeo($_GET['filters']);
 			$trofeoBusiness->getTrofeosGrid($trofeo);
 			break;
+		case 'request_fields':
+			$trofeoBusiness->getColumnNames();
+			break;
 		default:
 
 			break;
