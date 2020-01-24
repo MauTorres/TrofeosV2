@@ -14,9 +14,9 @@ function openUpdateModal(row){
 	materialCatalogCreator.fillCatalog($('#material'));
 	categoriaCatalogCreator.fillCatalog($('#categoria'));
 	var trofeoUpdate = null;
-	currentRow = row.index();
 	$('#photo-body').html('');
-	if(row != undefined){
+	if(row !== undefined && row !== null){
+		currentRow = row.index();
 		$("#modal-trofeo-table-extra").show();
 		$("#modal-trofeo-option").show();
 		currentRow = row.index();
