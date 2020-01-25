@@ -51,10 +51,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
 	switch ($_GET['method']) {
 		case 'getTrofeosGrid':
+		case 'getElementsGrid':
 			$trofeo = null;
 			if(isset($_GET['filters']) && $_GET['filters'] != null)
 				$trofeo = new Trofeo($_GET['filters']);
 			$trofeoBusiness->getTrofeosGrid($trofeo);
+			break;
+		case 'request_fields':
+			$trofeoBusiness->getColumnNames();
 			break;
 		default:
 

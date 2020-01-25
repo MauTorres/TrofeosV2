@@ -11,9 +11,9 @@ class Loger
 		$todayDate = date("Y.m.d");
 		$logMessage = date("Y-m-d H:i:s").": ";
 		if($data instanceof LogerData){
-			$logMessage .= $data->class." ".$data->method." \n".$message;
+			$logMessage .= $data->class." ".$data->method." \n".$message."\n";
 		}else{
-			$logMessage .= " \n".$message;
+			$logMessage .= " \n".$message."\n";
 		}
 
 		error_log($logMessage, 3, dirname(__DIR__)."/log/".$todayDate.".log");

@@ -16,6 +16,15 @@ class TrofeoBusiness extends Business
 		$this->trofeoDAO = new TrofeoDao();
 	}
 
+	public function getColumnNames(){
+		$this->responce = new Responce();
+		$result = $this->trofeoDAO->getColumnNames();
+		$this->responce->success = true;
+		$this->responce->data->columns = $result;
+		$this->responce->data->resultSet = array();
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
+	}
+
 	public function saveTrophy($trofeo){
 		$this->responce = new Responce();
 		try{

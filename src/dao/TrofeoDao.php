@@ -11,7 +11,7 @@ class TrofeoDao extends DAO
 
 	function __construct()
 	{
-		parent::__construct();
+		parent::__construct("trofeos");
 	}
 
 	public function getTrophyById($trofeo){
