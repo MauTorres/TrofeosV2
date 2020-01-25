@@ -8,12 +8,6 @@ function CatalogCreator(catalogURL){
 	var _catalogData = null;
 
 	/**
-	 * The actions of the grid
-	 * @type {object[]}
-	 */
-	var _actions = null;
-
-	/**
 	 * Fills the options of the combo box with the data obtained from the server
 	 * @param {object} result The response got from the server
 	 * @param {object} catalog The jQuery object of the <option> target
@@ -80,14 +74,6 @@ function CatalogCreator(catalogURL){
 
 	this.getCatalogCollection = function(){
 		return _catalogData;
-	}
-
-	this.setActions = function(actions){
-		_actions = actions;
-	}
-
-	this.getActions = function(){
-		return _actions;
 	}
 
 

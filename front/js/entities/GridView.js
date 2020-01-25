@@ -1,15 +1,26 @@
 function GridView(){
 	this.elements = null;
 	this.headers = null;
+	/**
+	 * The actions of the grid
+	 * @type {object[]}
+	 */
+	var _actions = null;
 	var self = this;
 
 	var _fillTable = function(data, table, elementsToDisplay){
-		console.log(data);
 		TableCreator.fillTable(data, table, elementsToDisplay);
 		self.elements = data.resultSet;
 		self.elements.forEach(function(element){
 			element.selected = false;
 		});
+	};
+
+	var _addElement = function(elementId, catalogCreator, table, elementsToDisplay){
+		var element = catalogCreator.findElement(elementId);
+		element = [element];
+		element.actions = _actions;
+		TableCreator.updateTable(element, table, elementsToDisplay);
 	};
 
 	var _fillGridFromCatalog = function(catalogCreator, rootURL, table, elementsToDisplay){
@@ -24,7 +35,7 @@ function GridView(){
 			dataType: 'json',
 			success: function(response){
 				if(response.success){
-					response.data.actions = catalogCreator.getActions();
+					response.data.actions = _actions;
 					_fillTable(response.data, table, elementsToDisplay);
 				}
 			},
@@ -54,7 +65,12 @@ function GridView(){
 		});
 	};
 
+	this.setActions = function(actions){
+		_actions = actions;
+	}
+
 	this.fillTable = _fillTable;
 	this.getGrid = _getGrid;
 	this.fillGridFromCatalog = _fillGridFromCatalog;
+	this.addElement = _addElement;
 }

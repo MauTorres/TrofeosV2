@@ -1,9 +1,11 @@
 var actions = 
 	[new ActionEdit('', '', ''),
 	new ActionDelete('', '', '')];
-var trophiesTableActions = [new Action('danger', '', 'fa fa-close', '', 'btn-sm', 'deleteElementMeasure($(this).parent().parent());')];
 var ordersGridView = new GridView();
 var trophiesGridView = new GridView();
+trophiesGridView.setActions(
+	[new Action('danger', '', 'fa fa-close', '', 'btn-sm', 'deleteElementMeasure($(this).parent().parent());')]
+);
 var isCollapseUp = true;
 var trofeoCatalogCreator = new CatalogCreator('../../src/controller/TrofeoController.php');
 var currentElement = null;
@@ -200,14 +202,11 @@ function openUpdateModal(row){
 	} else {
 		_handleAdd();
 	}
-	//$("#grid-element-trophy-table").html("");
-	trofeoCatalogCreator.setActions(trophiesTableActions);
 	trophiesGridView.fillGridFromCatalog(
 		trofeoCatalogCreator,
 		'TrofeoController.php',
 		$("#pedido-trofeos-table"),
-		[1, 2, 3]
-	);
+		[1, 2, 3] );
 	$('#update-element-modal').modal('show');
 	if(!_hasBeenOpened){
 		_handleCalendarActions();
@@ -226,9 +225,8 @@ function cleanElementForm(){
 	$('#update-element-modal').modal('hide');
 }
 
-function openMeasureModal(){
+function openTrophyModal(){
 	trofeoCatalogCreator.fillIfNeeded($("#id-trofeo"));
-	$('#update-element-modal').modal('hide');
 	$('#pedido-trofeos-modal').modal('show');
 }
 
@@ -251,18 +249,12 @@ function closeTrophyModal(){
 }
 
 function addTrophy(){
-	console.log(trofeoCatalogCreator.findElement($("#id-trofeo").val()));
+	trophiesGridView.addElement(
+		$("#id-trofeo").val(),
+		trofeoCatalogCreator,
+		$("#pedido-trofeos-table"),
+		[1, 2, 3] );
 	closeTrophyModal();
-	/* var medida = new Measure(
-		$('#id-medida').val(),
-		$('#descripcion-medida').val()
-	);
-	medidasGridView.getGrid(
-		{method: 'getElementsGrid', filters: medida},
-		'../../src/controller/MeasureController.php',
-		elemtsGridActions,
-		$('#grid-measure-table'),
-		[0, 1]); */
 }
 
 /*function backSearchMeasures(){
