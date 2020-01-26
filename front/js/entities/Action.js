@@ -7,6 +7,18 @@ function Action(type, label, icon, _class, size, functionECute){
 	this.functionECute = functionECute;
 	this.component = 'button';
 
+	if( label === undefined ){
+		this.label = '';
+	}
+
+	if(_class === undefined){
+		this._class = '';
+	}
+
+	if(size === undefined){
+		this.size = '';
+	}
+
 	this.setType = function(type){
 		this.type = type;
 	}
