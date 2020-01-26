@@ -49,7 +49,6 @@ TableCreator = {
 	 */
 	addRow: function(data, table, elementsToDisplay, actions){
 		var tableBody = table.find('tbody');
-		console.log(data);
 		var displayCount = 0;
 		tableBody.append('<tr></tr>');
 		var row = tableBody.find('tr').last();
