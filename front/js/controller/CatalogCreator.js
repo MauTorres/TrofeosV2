@@ -21,7 +21,7 @@ function CatalogCreator(catalogURL){
 		try{
 			_catalogData = result.data.resultSet;
 			_catalogData.forEach(element => {
-				catalog.append('<option value="' + element.id + '">' + element.nombre + '</option>');
+				catalog.append('<option value="' + element.id + '">' + element.descripcion + '</option>');
 			});
 		}catch(err){
 			console.error(err);
