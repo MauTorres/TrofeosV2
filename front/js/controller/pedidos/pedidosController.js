@@ -1,13 +1,18 @@
-var actions = 
-	[new ActionEdit('', '', ''),
-	new ActionDelete('', '', '')];
 var ordersGridView = new GridView();
-var trophiesGridView = new GridView();
-trophiesGridView.setActions(
-	[new Action('danger', '', 'fa fa-close', '', 'btn-sm', 'deleteElementMeasure($(this).parent().parent());')]
-);
-var isCollapseUp = true;
+ordersGridView.setActions([
+    new ActionEdit('', '', ''),
+    new ActionDelete('', '', '')]);
+ordersGridView.setTable('#grid-element-table');
+ordersGridView.setElementsToDisplay([0, 1, 2, 3, 4, 5, 6, 7]);
+
 var trofeoCatalogCreator = new CatalogCreator('../../src/controller/TrofeoController.php');
+var trophiesGridView = new GridView();
+trophiesGridView.setActions([new ActionDeleteModal()]);
+trophiesGridView.setElementsToDisplay([0, 1, 2, 3]);
+trophiesGridView.setTable("#pedido-trofeos-table");
+trophiesGridView.setCatalogCreator(trofeoCatalogCreator);
+
+var isCollapseUp = true;
 var currentElement = null;
 /**
  * Para saber si el modal ha sido abierto antes, o es la primera vez
@@ -202,11 +207,7 @@ function openUpdateModal(row){
 	} else {
 		_handleAdd();
 	}
-	trophiesGridView.fillGridFromCatalog(
-		trofeoCatalogCreator,
-		'TrofeoController.php',
-		$("#pedido-trofeos-table"),
-		[1, 2, 3] );
+	trophiesGridView.fillGridFromCatalog('TrofeoController.php');
 	$('#update-element-modal').modal('show');
 	if(!_hasBeenOpened){
 		_handleCalendarActions();
@@ -249,12 +250,12 @@ function closeTrophyModal(){
 }
 
 function addTrophy(){
-	trophiesGridView.addElement(
-		$("#id-trofeo").val(),
-		trofeoCatalogCreator,
-		$("#pedido-trofeos-table"),
-		[1, 2, 3] );
+	trophiesGridView.addElement($("#id-trofeo").val());
 	closeTrophyModal();
+}
+
+function removeFromTable(trophy){
+	console.log(trophy);
 }
 
 /*function backSearchMeasures(){
@@ -311,5 +312,5 @@ function addMeasures(){
 
 $(document).ready(function(){
 	SessionController.checkSession('pedidos');
-	ordersGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/PedidoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5, 6, 7]);
+	ordersGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/PedidoController.php');
 });

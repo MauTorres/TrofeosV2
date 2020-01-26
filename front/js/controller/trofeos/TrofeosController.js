@@ -1,18 +1,34 @@
-var actions =
-	[new ActionEdit('', '', ''),
-	new ActionDelete('', '', '')];
-var elemtsGridActions = [{_class: '', value: 1, component: 'check', functionECute: 'addElement($(this))'}];
-var elementosTrofeoGridActions = [new Action('danger', '', 'fa fa-close', '', 'btn-sm', 'deleteElementTrofeo($(this).parent().parent());')];
 var trofeosGridView = new GridView();
+trofeosGridView.setActions([new ActionEdit(), new ActionDelete()]);
+trofeosGridView.setTable('#grid-table');
+trofeosGridView.setElementsToDisplay([0, 1, 2, 3]);
+
+//Para los elementos que se muestran en el 2do modal
 var elementosGridView = new GridView();
+var elementAction = new Action();
+elementAction.setComponent('check');
+elementAction.setFunctionECute('addElement($(this))');
+elementAction.value = 1;
+elementosGridView.setActions([elementAction]);
+elementosGridView.setTable('#grid-element-table');
+elementosGridView.setElementsToDisplay([0, 1, 2, 3, 4, 5]);
+
+var addedElementsGridView = new GridView();
+var deleteElementAction = new ActionDelete();
+deleteElementAction.setFunctionECute('deleteElementTrofeo($(this).parent().parent());');
+addedElementsGridView.setActions([deleteElementAction]);
+addedElementsGridView.setTable('#grid-elementtrophy-table');
+addedElementsGridView.setElementsToDisplay([1, 2, 3, 4, 5]);
+
+
 var colorCatalogCreator = new CatalogCreator('../../src/controller/ColorController.php');
 var materialCatalogCreator = new CatalogCreator('../../src/controller/MaterialController.php');
 var categoriaCatalogCreator = new CatalogCreator('../../src/controller/CategoryController.php');
 
 function openUpdateModal(row){
-	colorCatalogCreator.fillCatalog($('#color'));
-	materialCatalogCreator.fillCatalog($('#material'));
-	categoriaCatalogCreator.fillCatalog($('#categoria'));
+	colorCatalogCreator.fillIfNeeded($('#color'));
+	materialCatalogCreator.fillIfNeeded($('#material'));
+	categoriaCatalogCreator.fillIfNeeded($('#categoria'));
 	var trofeoUpdate = null;
 	$('#photo-body').html('');
 	if(row !== undefined && row !== null){
@@ -34,12 +50,9 @@ function openUpdateModal(row){
 		$('#grid-elementtrophy-table').html('');
 	}
 
-	elementosGridView.getGrid(
+	addedElementsGridView.getGrid(
 		{method: 'getElementosTrofeo', trophy:trofeoUpdate == null ? {id:0} : trofeoUpdate},
-		'../../src/controller/ElementoController.php',
-		elementosTrofeoGridActions,
-		$('#grid-elementtrophy-table'),
-		[1, 2, 3, 4, 5]
+		'../../src/controller/ElementoController.php'
 	);
 
 	$('#update-trophy-modal').modal('show');
@@ -68,10 +81,7 @@ function searchElement(){
 	);
 	elementosGridView.getGrid(
 		{method: 'getElementosTrofeos', filters: elemento},
-		'../../src/controller/ElementoController.php',
-		elemtsGridActions,
-		$('#grid-element-table'),
-		[0, 1, 2, 3, 4, 5]);
+		'../../src/controller/ElementoController.php');
 }
 
 function searchTrophy(){
@@ -82,12 +92,8 @@ function searchTrophy(){
 		$('#precio').val(),
 		null,
 		null);
-	trofeosGridView.getGrid(
-		{method: 'getTrofeosGrid', filters: trofeo},
-		'../../src/controller/TrofeoController.php',
-		actions,
-		$('#grid-table'),
-		[0, 1, 2, 3]);
+	trofeosGridView.getGrid( {method: 'getTrofeosGrid', filters: trofeo},
+		'../../src/controller/TrofeoController.php');
 }
 
 function addElement(row){
@@ -199,12 +205,8 @@ function cleanElementModal(){
 }
 
 function loadTrofeoGrid(){
-	trofeosGridView.getGrid(
-		{method: 'getTrofeosGrid'},
-		'../../src/controller/TrofeoController.php',
-		actions,
-		$('#grid-table'),
-		[0, 1, 2, 3]);
+	trofeosGridView.getGrid({method: 'getTrofeosGrid'},
+		'../../src/controller/TrofeoController.php');
 }
 
 function deleteElementTrofeo(row){
@@ -220,12 +222,9 @@ function deleteElementTrofeo(row){
 				var res = jQuery.parseJSON(respoce);
 				if(res.success){
 					alert(res.message);
-					elementosGridView.getGrid(
+					addedElementsGridView.getGrid(
 						{method: 'getElementosTrofeo', trophy: trofeo},
-						'../../src/controller/ElementoController.php',
-						elementosTrofeoGridActions,
-						$('#grid-elementtrophy-table'),
-						[1, 2, 3, 4, 5]
+						'../../src/controller/ElementoController.php'
 					);
 				}
 			}catch(exeption){
