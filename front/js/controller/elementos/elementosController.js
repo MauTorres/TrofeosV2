@@ -10,7 +10,15 @@ medidasGridView.setActions([medidasDeleteAction]);
 medidasGridView.setTable('#grid-element-measures-table');
 medidasGridView.setElementsToDisplay([0, 1]);
 
-var elemtsGridActions = [{_class: '', value: 1, component: 'check', functionECute: 'addMeasure($(this))'}];
+var medidasResultsGridView = new GridView();
+var medidasResultsAction = new Action();
+medidasResultsAction.value = 1;
+medidasResultsAction.setComponent('check');
+medidasResultsAction.setFunctionECute('addMeasure($(this))');
+medidasResultsGridView.setActions([medidasResultsAction]);
+medidasResultsGridView.setTable('#grid-measure-table');
+medidasResultsGridView.setElementsToDisplay([0, 1]);
+
 var isCollapseUp = true;
 var colorCatalogCreator = new CatalogCreator('../../src/controller/ColorController.php');
 var materialCatalogCreator = new CatalogCreator('../../src/controller/MaterialController.php');
@@ -219,7 +227,7 @@ function searchMeasure(){
 		$('#id-medida').val(),
 		$('#descripcion-medida').val()
 	);
-	medidasGridView.getGrid(
+	medidasResultsGridView.getGrid(
 		{method: 'getElementsGrid', filters: medida},
 		'../../src/controller/MeasureController.php');
 }
@@ -232,7 +240,7 @@ function backSearchMeasures(){
 
 function addMeasure(row){
 	var index = row.parent().parent().index();
-	medidasGridView.elements[index].selected = !medidasGridView.elements[index].selected;
+	medidasResultsGridView.elements[index].selected = !medidasResultsGridView.elements[index].selected;
 }
 
 function addMeasures(){
@@ -247,7 +255,7 @@ function addMeasures(){
 		return;
 	}
 	var medidas = [];
-	medidasGridView.elements.forEach(function(medida){
+	medidasResultsGridView.elements.forEach(function(medida){
 		if(medida.selected){
 			medidas.push(medida);
 		}

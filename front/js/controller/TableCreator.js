@@ -76,7 +76,7 @@ TableCreator = {
 					actions[actionsCount].functionECute);
 				buttons += button.mold;
 			}
-			if(actions[actionsCount].component == 'check'){
+			else if(actions[actionsCount].component == 'check'){
 				var check = new ActionCheck(actions[actionsCount]._class, actions[actionsCount].value, actions[actionsCount].functionECute);
 				buttons += check.mold;
 			}
