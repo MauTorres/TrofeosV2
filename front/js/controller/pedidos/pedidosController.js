@@ -255,7 +255,7 @@ function addTrophy(){
 }
 
 function removeFromTable(trophy){
-	console.log(trophy);
+	trophiesGridView.removeElement(trophy);
 }
 
 /*function backSearchMeasures(){

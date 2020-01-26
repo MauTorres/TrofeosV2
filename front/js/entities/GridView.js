@@ -67,6 +67,11 @@ function GridView(){
 		TableCreator.addRow(element, _getTableObject(), _elementsToDisplay, _actions);
 	};
 
+	var _removeElement = function(jQueryRow){
+        _tempCollection.splice(jQueryRow.index(), 1);
+        jQueryRow.remove();
+	}
+
 	var _fillGridFromCatalog = function(rootURL){
 		var catalog = _catalogCreator.getCatalogCollection();
 		if( catalog === null ){
@@ -145,5 +150,6 @@ function GridView(){
 	 * @param {jQuery} table The jQuery object pointing to the <table> to modify
 	 * @param {number[]} elementsToDisplay Array with the indices display in the table
 	 */
-	this.addElement = _addElement;
+    this.addElement = _addElement;
+    this.removeElement = _removeElement;
 }
