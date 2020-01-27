@@ -34,25 +34,19 @@ class PedidoDao extends DAO
     }
 
     public function saveElement($pedido){
-        try{
-            Loger::log("Pedido a guardar: ".print_r($pedido, 1), null);
-            $this->execute(
-                "INSERT INTO Pedidos(Folio, fElaboracion, fEntrega, subtotal, total, idCliente, IdUsuario) 
-                VALUES(:Folio, :fElaboracion, :fEntrega, :subtotal, :total, :idCliente, :IdUsuario)", 
-                array(
-                    ":Folio"=>$pedido->Folio, 
-                    ":fElaboracion"=>$pedido->fElaboracion, 
-                    ":fEntrega"=>$pedido->fEntrega, 
-                    ":subtotal"=>$pedido->subtotal, 
-                    ":total"=>$pedido->total, 
-                    ":idCliente"=>$pedido->idCliente,
-                    ":IdUsuario"=>$pedido->IdUsuario
-                )
-            );
-        }catch(Exception $e){
-            throw $e;
-        }
-        
+        $query = "INSERT INTO Pedido(folio, fecha_elaboracion, fecha_entrega, subtotal, total, cliente, id_usuario)
+            VALUES(:folio, :fecha_elaboracion, :fecha_entrega, :subtotal, :total, :cliente,
+            (SELECT id FROM usuarios WHERE usuario = :id_usuario) )";
+        $values = array(
+            ":folio"=>$pedido->folio,
+            ":fecha_elaboracion"=>$pedido->fElaboracion,
+            ":fecha_entrega"=>$pedido->fEntrega,
+            ":subtotal"=>$pedido->subtotal,
+            ":total"=>$pedido->total,
+            ":cliente"=>$pedido->idCliente,
+            ":id_usuario"=>$pedido->IdUsuario
+        );
+        return $this->execute($query, $values);
     }
 
     public function getElementsGrid($params){

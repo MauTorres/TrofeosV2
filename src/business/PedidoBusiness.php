@@ -18,17 +18,15 @@ class PedidoBusiness extends Business
 
 	public function saveElement($pedido){
 		$this->responce = new Responce();
-		try{
-			$this->pedidoDAO->saveElement($pedido);
+		if($this->pedidoDAO->saveElement($pedido)){
 			$this->responce->success = true;
 			$this->responce->message = "El pedido se guardó correctamente";
-		}catch(Exception $e){	
-			Loger::log("Error al guardar el pedido ".$pedido->folio."\n".$e->getMessage(), null);
+		} else {
+			Loger::log("Error al guardar el pedido con folio ".$pedido->folio, null);
 			$this->responce->success = false;
 			$this->responce->message = "Error al agregar el nuevo pedido ".$pedido->folio;
 		}
 		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
-		
 	}
 
 	public function getElementsGrid($pedido){
@@ -116,9 +114,7 @@ class PedidoBusiness extends Business
 		$this->responce = new Responce();
 		Loger::log(print_r($pedido, 1), null);
 		try{
-
 			if($pedido->id == null){
-				Loger::log("Guardando pedido", null);
 				$this->saveElement($pedido);
 				return;
 			}

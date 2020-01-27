@@ -70,7 +70,7 @@ function GridView(){
 	var _removeElement = function(jQueryRow){
         _tempCollection.splice(jQueryRow.index(), 1);
         jQueryRow.remove();
-	}
+    }
 
 	var _fillGridFromCatalog = function(rootURL){
 		var catalog = _catalogCreator.getCatalogCollection();
@@ -137,7 +137,11 @@ function GridView(){
 	 */
 	this.setCatalogCreator = function(creator){
 		_catalogCreator = creator;
-	}
+    }
+    
+    this.getCollection = function(){
+        return _tempCollection;
+    }
 	
 
 	this.getGrid = _getGrid;

@@ -71,15 +71,19 @@ class DAO
 	public function execute($query, $variablesArr){
 		try{
 			$statement = $this->connection->getConnection()->prepare($query);
-			
 			if($variablesArr != null){
 				foreach ($variablesArr as $key => $value) {
 					$statement->bindValue($key, $value, $this->getDataType($value));
 				}
 			}
-
-			$statement->execute();
+			if($statement->execute()){
+				return true;
+			} else {
+				Loger::log("[DAO] Ha ocurrido un error. Errno: $statement->errno. $statement->error", null);
+				return false;
+			}
 		}catch(Exception $exception){
+			Loger::log("[DAO] Ha ocurrido un error: ".$exception, null);
 			throw $exception;
 		}	
 	}

@@ -18,8 +18,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			$pedidoBusiness->deleteElement($pedido);
 			break;
 		case 'createOrUpdateElement':
-			#Loger::log(print_r($_POST, 1), null);
-			$pedido = new Pedido($_POST);
+			$pedido = new Pedido();
+			$pedido->folio = $_POST['Folio'];
+			$pedido->fElaboracion = $_POST['fElaboracion'];
+			$pedido->fEntrega = $_POST['fEntrega'];
+			$pedido->idCliente = $_POST['idCliente'];
+			$pedido->IdUsuario = $_POST['IdUsuario'];
+			$pedido->trophies = array();
+			foreach ($_POST['trophies'] as $trophy => $val) {
+				array_push($pedido->trophies, $val['catalog']['id']);
+			}
 			$pedidoBusiness->createOrUpdateElement($pedido);
 			break;
 		case 'setMeasure':

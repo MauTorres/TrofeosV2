@@ -71,34 +71,24 @@ function createOrUpdateElement(){
 	elementUpdate.total = $('#total').val();
 	elementUpdate.idCliente = $('#cliente').val();
 	elementUpdate.IdUsuario = $('#usuario').val();
+	elementUpdate.trophies = trophiesGridView.getCollection();
 	
 	$.ajax({
 		type:'POST',
 		url: '../../src/controller/PedidoController.php',
 		data: elementUpdate,
-		success: function(data){
-			try{
-				var responce = jQuery.parseJSON(data);
-				if(responce.success){
-
-					ordersGridView.getGrid(
-						{method: 'getElementosTrofeos'},
-						'../../src/controller/PedidoController.php', 
-						actions, 
-						$('#grid-element-table'), 
-						[0, 1, 2, 3, 4, 5, 6, 7]
-					);
-					$('#update-element-modal').modal('hide');
-				}
-				alert(responce.message);
-			}catch(err){
-				console.error(err);
-				alert("Ha ocurrido un error en el servidor");
-				return;
-			}		
+		dataType: 'json',
+		success: function(response){
+			if(response.success){
+				ordersGridView.getGrid( {method: 'getElementosTrofeos'},
+					'../../src/controller/PedidoController.php');
+				cleanElementForm();
+			}
+			notifySuccess(response.message);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("Error contactando con el servidor");
+			notifyError("Error contactando con el servidor");
+			console.error("Error al agregar pedido: " + textStatus + ": " + errorThrown)
 		}
 	});
 	elementUpdate.method = undefined;
@@ -257,58 +247,6 @@ function addTrophy(){
 function removeFromTable(trophy){
 	trophiesGridView.removeElement(trophy);
 }
-
-/*function backSearchMeasures(){
-	cleanMeasureModal();
-	$('#add-measure-modal').modal('hide');
-	$('#pedido-trofeos-modal').modal('show');
-}
-
-function addMeasure(row){
-	var index = row.parent().parent().index();
-	medidasGridView.elements[index].selected = !medidasGridView.elements[index].selected;
-}
-
-function addMeasures(){
-	var elementoUpdate = null
-	if($('#row-index').val() != null && $('#row-index').val() != ''){
-		elementoUpdate = new Object();
-		elementoUpdate.id = elementosGridView.elements[$('#row-index').val()].id;
-	}else{
-		alert("Primero cree el elemento antes de agregar medidas");
-		$('#add-element-modal').modal('hide');
-		openUpdateModal(null);
-		return;
-	}
-	var medidas = [];
-	medidasGridView.elements.forEach(function(medida){
-		if(medida.selected){
-			medidas.push(medida);
-		}
-	});
-	elementoUpdate.medidas = medidas;
-	$.ajax({
-		type: 'POST',
-		url: '../../src/controller/PedidoController.php',
-		data: {method: 'setMeasures', 'elementoUpdate': elementoUpdate},
-		success: function(result){
-			try{
-				var res = jQuery.parseJSON(result);
-				if(res.success){
-					$('#add-measure-modal').modal('hide');
-					elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/PedidoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5, 6]);
-					alert("Se han agregado las medidas");
-				}
-			}catch(exeption){
-				alert("Ocurrió un error en el servidor");
-			}
-		},
-		error: function( jqhqr, textStatus, errorThrown ){
-			console.error( textStatus + ": " + errorThrown );
-		}
-	});
-	cleanMeasureModal();
-}*/
 
 $(document).ready(function(){
 	SessionController.checkSession('pedidos');
