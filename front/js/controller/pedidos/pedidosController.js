@@ -27,29 +27,22 @@ function deleteElement(row){
 		type:'POST',
 		url: '../../src/controller/PedidoController.php',
 		data: elementDelete,
-		success: function(data){
-			try{
-				var responce = jQuery.parseJSON(data);
-				if(responce.success){
-					ordersGridView.getGrid(
-						{method: 'getElementosTrofeos'}, 
-						'../../src/controller/PedidoController.php', 
-						actions, 
-						$('#grid-element-table'), 
-						[0, 1, 2, 3, 4, 5, 6, 7]
-					);
-					alert(responce.message);
-				}
-			}catch(err){
-				console.error( err);
-				alert("Ha ocurrido un error en el servidor");
-				return;
+		dataType: 'json',
+		success: function(response){
+			if(response.success){
+				ordersGridView.getGrid(
+					{method: 'getElementosTrofeos'}, 
+					'../../src/controller/PedidoController.php'
+				);
+				notifySuccess(response.message);
+			} else {
+				notifyError(response.message);
 			}
-			//Despliegue de información en la vista				
 		},
 		//En caso de error se informa al usuario
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("Error contactando con el servidor");
+		error: function(xhq, textStatus, errorThrown) {
+			console.error(textStatus + ": " + errorThrown);
+			notifyError("Ha habido un error desconocido en el servidor");
 		}
 	});
 	elementDelete.method = undefined;
@@ -64,13 +57,13 @@ function createOrUpdateElement(){
 	}
 	
 	elementUpdate.method = 'createOrUpdateElement';
-	elementUpdate.Folio = $('#Folio').val();
-	elementUpdate.fElaboracion = $('#fech-El').val();
-	elementUpdate.fEntrega = $('#fech-Ent').val();
+	elementUpdate.folio = $('#Folio').val();
+	elementUpdate.fecha_elaboracion = $('#fech-El').val();
+	elementUpdate.fecha_entrega = $('#fech-Ent').val();
 	elementUpdate.subtotal = $('#subtotal').val();
 	elementUpdate.total = $('#total').val();
-	elementUpdate.idCliente = $('#cliente').val();
-	elementUpdate.IdUsuario = $('#usuario').val();
+	elementUpdate.cliente = $('#cliente').val();
+	elementUpdate.usuario = $('#usuario').val();
 	elementUpdate.trophies = trophiesGridView.getCollection();
 	
 	$.ajax({

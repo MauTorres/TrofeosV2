@@ -138,12 +138,7 @@ WHERE
     }
 
     public function deleteElement($pedido){
-        try{
-            $this->execute("UPDATE Pedidos SET estatus = 0 WHERE id = :id", array(":id"=>$pedido->id));
-        }catch(Exception $e){
-            Loger::log($e->getMessage(),null);
-            throw $e;
-        }
+        return $this->execute("UPDATE Pedido SET estatus = 0 WHERE id = :id", array(":id"=>$pedido->id));
     }
 
     public function getElementByID($pedido){

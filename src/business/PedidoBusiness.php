@@ -4,6 +4,7 @@
 */
 require_once __DIR__."/Business.php";
 require_once dirname(__DIR__)."/dao/PedidoDao.php";
+require_once dirname(__DIR__)."/dao/PedidoTrofeosDao.php";
 
 class PedidoBusiness extends Business
 {
@@ -106,12 +107,11 @@ class PedidoBusiness extends Business
 
 	public function deleteElement($pedido){
 		$this->responce = new Responce();
-		try{
-			$this->pedidoDAO->deleteElement($pedido);
+		if($this->pedidoDAO->deleteElement($pedido)){
 			$this->responce->success = true;
 			$this->responce->message = "El pedido se eliminó correctamente";
-		}catch(Exception $e){
-			Loger::log("Error, no se pudo eliminar el pedido ".$pedido->folio."\n".$e->getMessage(), null);
+		} else {
+			Loger::log("Error, no se pudo eliminar el pedido ".$pedido->folio, null);
 			$this->responce->success = false;
 			$this->responce->message = "Error al eliminar el pedido ".$pedido->folio;
 		}
