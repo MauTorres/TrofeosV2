@@ -59,7 +59,7 @@ function GridView(){
 	 * @param {number} elementId The ID of the item to add
 	 */
 	var _addElement = function(elementId){
-		var element = _catalogCreator.findElement(elementId);
+		var element = _catalogCreator.findElement(Number(elementId));
 		if(_tempCollection == null){
 			_tempCollection = [];
 		}
