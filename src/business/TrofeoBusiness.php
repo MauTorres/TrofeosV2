@@ -4,6 +4,7 @@
  */
 require_once __DIR__."/Business.php";
 require_once dirname(__DIR__)."/dao/TrofeoDao.php";
+require_once dirname(__DIR__)."/dao/PedidoTrofeosDao.php";
 
 class TrofeoBusiness extends Business
 {
@@ -86,6 +87,14 @@ class TrofeoBusiness extends Business
 			$this->responce->success = false;
 			$this->responce->message = "Ocurrió un erorr al alacenar el trofeo: ".$e->getMessage();
 		}
+		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
+	}
+
+	public function getTrophiesByPedido($pedidoId){
+		$pedidoTrofeosDao = new PedidoTrofeosDao();
+		$result = $pedidoTrofeosDao->getTrophiesById($pedidoId);
+		$this->responce->success = true;
+		$this->responce->data = $result;
 		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
 	}
 

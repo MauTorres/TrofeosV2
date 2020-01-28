@@ -24,6 +24,14 @@ class PedidoTrofeosDao extends DAO{
             $this->pedidoDao->execute($query, $values);
         }
     }
+
+    public function getTrophiesById($pedidoId){
+        $query = "SELECT t.* FROM `Pedido_Trofeos` AS pt
+            INNER JOIN trofeos t ON t.id = pt.id_trofeo
+            WHERE `id_pedido` = :id_pedido";
+        $values = array(":id_pedido" => $pedidoId);
+        return $this->query($query, $values);
+    }
 }
 
 ?>

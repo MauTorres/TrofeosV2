@@ -1,9 +1,7 @@
 var ordersGridView = new GridView();
-ordersGridView.setActions([
-    new ActionEdit('', '', ''),
-    new ActionDelete('', '', '')]);
+ordersGridView.setActions([new ActionEdit(), new ActionDelete()]);
 ordersGridView.setTable('#grid-element-table');
-ordersGridView.setElementsToDisplay([0, 1, 2, 3, 4, 5, 6, 7]);
+ordersGridView.setElementsToDisplay([0, 1, 2, 3, 6, 7]);
 
 var trofeoCatalogCreator = new CatalogCreator('../../src/controller/TrofeoController.php');
 var trophiesGridView = new GridView();
@@ -50,12 +48,12 @@ function deleteElement(row){
 
 function createOrUpdateElement(){
 	var elementUpdate = {};
-	if($('#row-index').val() != null && $('#row-index').val() != ''){
-		elementUpdate = ordersGridView.elements[parseInt($('#row-index').val())];	
+	var index = $('#row-index').val();
+	if(index != null && index != ''){
+		elementUpdate = ordersGridView.elements[parseInt(index)];
 	}else{
 		elementUpdate.id = null;
 	}
-	
 	elementUpdate.method = 'createOrUpdateElement';
 	elementUpdate.folio = $('#Folio').val();
 	elementUpdate.fecha_elaboracion = $('#fech-El').val();
@@ -154,19 +152,15 @@ var _handleCalendarActions = function(){
 
 var _handleEdit = function(row){
 	var elementUpdate = ordersGridView.elements[row.index()];
-	var pedido = new Pedido(
-		elementUpdate.Folio,
-		elementUpdate.idCliente,
-		elementUpdate.IdUsuario
-	);
-	$('#Folio').val(elementUpdate.Folio);
-	$('#fech-El').val(elementUpdate.fElaboracion);
-	$('#fech-Ent').val(elementUpdate.fEntrega);
+	$('#Folio').val(elementUpdate.folio);
+	$('#fech-El').val(elementUpdate.fecha_elaboracion);
+	$('#fech-Ent').val(elementUpdate.fecha_entrega);
 	$('#subtotal').val(elementUpdate.subtotal);
 	$('#total').val(elementUpdate.total);
-	$('#cliente').val(elementUpdate.idCliente);
-	$('#usuario').val(elementUpdate.IdUsuario);
+	$('#cliente').val(elementUpdate.cliente);
+	$('#usuario').val(elementUpdate.usuario);
 	$('#row-index').val(row.index());
+	return elementUpdate.id;
 }
 
 var _handleAdd = function(){
@@ -186,11 +180,12 @@ var _handleAdd = function(){
 
 function openUpdateModal(row){
 	if(row != undefined && row != null){
-		_handleEdit(row);
+		var id = _handleEdit(row);
+		trophiesGridView.fillGridFromCatalog('TrofeoController.php', id);
 	} else {
 		_handleAdd();
+		trophiesGridView.fillGridFromCatalog('TrofeoController.php');
 	}
-	trophiesGridView.fillGridFromCatalog('TrofeoController.php');
 	$('#update-element-modal').modal('show');
 	if(!_hasBeenOpened){
 		_handleCalendarActions();

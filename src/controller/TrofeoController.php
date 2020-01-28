@@ -60,6 +60,9 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 		case 'request_fields':
 			$trofeoBusiness->getColumnNames();
 			break;
+		case 'get_trophies_by_order':
+			$trofeoBusiness->getTrophiesByPedido($_GET['id']);
+			break;
 		default:
 
 			break;

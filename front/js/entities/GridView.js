@@ -72,15 +72,18 @@ function GridView(){
         jQueryRow.remove();
     }
 
-	var _fillGridFromCatalog = function(rootURL){
-		var catalog = _catalogCreator.getCatalogCollection();
-		if( catalog === null ){
-			catalog = new Object();
+	var _fillGridFromCatalog = function(rootURL, catalogId){
+		var data = {};
+		if(catalogId === undefined){
+			data.method = 'request_fields';
+		} else {
+			data.method = 'get_trophies_by_order';
+			data.id = catalogId;
 		}
 		$.ajax({
 			method: 'get',
 			url: '../../src/controller/' + rootURL,
-			data: {method: 'request_fields'},
+			data: data,
 			dataType: 'json',
 			success: function(response){
 				if(response.success){
