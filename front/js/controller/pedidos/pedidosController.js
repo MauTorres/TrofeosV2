@@ -186,7 +186,7 @@ var _handleAdd = function(){
 
 function openUpdateModal(row){
 	if(row != undefined && row != null){
-		_handleEdit();
+		_handleEdit(row);
 	} else {
 		_handleAdd();
 	}
