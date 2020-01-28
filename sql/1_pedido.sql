@@ -1,6 +1,6 @@
 CREATE TABLE Pedido(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    folio VARCHAR(20) NOT NULL,
+    folio VARCHAR(20) NOT NULL UNIQUE,
     fecha_elaboracion DATE NOT NULL,
     fecha_entrega DATE NOT NULL,
     subtotal DECIMAL NULL,
