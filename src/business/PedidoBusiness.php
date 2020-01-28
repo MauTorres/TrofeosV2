@@ -18,10 +18,18 @@ class PedidoBusiness extends Business
 
 	public function saveElement($pedido){
 		$this->responce = new Responce();
-		if($this->pedidoDAO->saveElement($pedido)){
+		$dao = new PedidoTrofeosDao();
+		
+		$this->pedidoDAO->beginTransaction();
+		$id = $this->pedidoDAO->saveElement($pedido);
+		if($id){
+			$pedido->id = $id;
+			$dao->createRelationship($pedido);
+			$this->pedidoDAO->commit();
 			$this->responce->success = true;
 			$this->responce->message = "El pedido se guardó correctamente";
 		} else {
+			$this->pedidoDAO->rollback();
 			Loger::log("Error al guardar el pedido con folio ".$pedido->folio, null);
 			$this->responce->success = false;
 			$this->responce->message = "Error al agregar el nuevo pedido ".$pedido->folio;
@@ -112,7 +120,6 @@ class PedidoBusiness extends Business
 
 	public function createOrUpdateElement($pedido){
 		$this->responce = new Responce();
-		Loger::log(print_r($pedido, 1), null);
 		try{
 			if($pedido->id == null){
 				$this->saveElement($pedido);
