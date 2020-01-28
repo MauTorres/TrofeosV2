@@ -18,6 +18,18 @@ class DAO
 		$this->tableName = $tableName;
 	}
 
+	function beginTransaction(){
+		$this->connection->getConnection()->beginTransaction();
+	}
+
+	function commit(){
+		$this->connection->getConnection()->commit();
+	}
+
+	function rollback(){
+		$this->connection->getConnection()->rollback();
+	}
+
 	public function query($query, $variablesArr){
 		try{
 			$statement = $this->connection->getConnection()->prepare($query);
@@ -69,23 +81,25 @@ class DAO
 	}
 
 	public function execute($query, $variablesArr){
+		$lastId = null;
 		try{
 			$statement = $this->connection->getConnection()->prepare($query);
+			//If elements are given (as in an INSERT statement), include them
 			if($variablesArr != null){
 				foreach ($variablesArr as $key => $value) {
 					$statement->bindValue($key, $value, $this->getDataType($value));
 				}
 			}
-			if($statement->execute()){
-				return true;
-			} else {
-				Loger::log("[DAO] Ha ocurrido un error. Errno: $statement->errno. $statement->error", null);
-				return false;
+			$statement->execute();
+			$lastId = $this->connection->getConnection()->lastInsertId();
+			if($lastId != null && $lastId > 0){
+				return $lastId;
 			}
+			return true;
 		}catch(Exception $exception){
 			Loger::log("[DAO] Ha ocurrido un error: ".$exception, null);
-			throw $exception;
-		}	
+		}
+		return false;
 	}
 
 	private function getDataType($data){
