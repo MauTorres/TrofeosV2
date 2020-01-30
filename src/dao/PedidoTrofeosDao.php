@@ -14,15 +14,19 @@ class PedidoTrofeosDao extends DAO{
     }
 
     public function createRelationship($pedido){
+        foreach($pedido->trophies as $val => $trophy){
+            $this->createSimpleRelationship($pedido->id, $trophy['id']);
+        }
+    }
+
+    public function createSimpleRelationship($pedidoId, $trophyId){
         $query = "INSERT INTO `trofeoslobo`.`Pedido_Trofeos`(`id_pedido`, `id_trofeo`)
             VALUES(:id_pedido, :id_trofeo)";
-        foreach($pedido->trophies as $val => $trophy){
-            $values = array(
-                ":id_pedido" => $pedido->id,
-                ":id_trofeo" => $trophy
-            );
-            $this->pedidoDao->execute($query, $values);
-        }
+        $values = array(
+            ":id_pedido" => $pedidoId,
+            ":id_trofeo" => $trophyId
+        );
+        return $this->pedidoDao->execute($query, $values);
     }
 
     public function getTrophiesById($pedidoId){

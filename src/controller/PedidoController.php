@@ -25,7 +25,8 @@ function paramsToObject($params){
 	$pedido->trophies = array();
 	if(isset($params['trophies']) && !empty($params['trophies']))
 		foreach ($params['trophies'] as $key => $val) {
-			array_push($pedido->trophies, $val['catalog']['id']);
+			array_push($pedido->trophies, array(
+				"id" => $val['catalog']['id'], "action" => $val['action']));
 		}
 	return $pedido;
 }

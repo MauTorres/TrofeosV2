@@ -36,13 +36,28 @@ class PedidoBusiness extends Business
 		}
 	}
 
+	private function printError(){
+		$this->pedidoDAO->rollback();
+		$this->responce->success = false;
+		$this->responce->message = "Hubo un error al guardar el pedido";
+	}
+
 	public function updateElement($pedido){
+		$this->pedidoDAO->beginTransaction();
+		$dao = new PedidoTrofeosDao();
 		if($this->pedidoDAO->createOrUpdateElement($pedido)){
+			foreach($pedido->trophies as $key => $val){
+				if($val['action'] === 'add'){
+					if(!$dao->createSimpleRelationship($pedido->id, $val['id'])){
+						$this->printError();
+					}
+				}
+			}
+			$this->pedidoDAO->commit();
 			$this->responce->success = true;
 			$this->responce->message = "El pedido se guardó correctamente";
 		} else {
-			$this->responce->success = false;
-			$this->responce->message = "Hubo un error al guardar el pedido";
+			$this->printError();
 		}
 	}
 
