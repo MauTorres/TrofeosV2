@@ -29,6 +29,16 @@ class PedidoTrofeosDao extends DAO{
         return $this->pedidoDao->execute($query, $values);
     }
 
+    public function removeSimpleRelationship($pedidoId, $trophyId){
+        $query = "DELETE FROM `trofeoslobo`.`Pedido_Trofeos`
+            WHERE id_pedido = :id_pedido AND id_trofeo = :id_trofeo";
+        $values = array(
+            ":id_pedido" => $pedidoId,
+            ":id_trofeo" => $trophyId
+        );
+        return $this->pedidoDao->execute($query, $values);
+    }
+
     public function getTrophiesById($pedidoId){
         $query = "SELECT t.* FROM `Pedido_Trofeos` AS pt
             INNER JOIN trofeos t ON t.id = pt.id_trofeo

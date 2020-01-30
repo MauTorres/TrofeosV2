@@ -6,6 +6,7 @@ ordersGridView.setElementsToDisplay([0, 1, 2, 3, 6, 7]);
 var trofeoCatalogCreator = new CatalogCreator('../../src/controller/TrofeoController.php');
 var trophiesGridView = new GridView();
 trophiesGridView.setActions([new ActionDeleteModal()]);
+//WARN: DO NOT REMOVE ZERO (0) INDEX as it's used to the remove function
 trophiesGridView.setElementsToDisplay([0, 1, 2, 3]);
 trophiesGridView.setTable("#pedido-trofeos-table");
 trophiesGridView.setCatalogCreator(trofeoCatalogCreator);

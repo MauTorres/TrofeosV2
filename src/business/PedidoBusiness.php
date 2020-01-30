@@ -51,6 +51,10 @@ class PedidoBusiness extends Business
 					if(!$dao->createSimpleRelationship($pedido->id, $val['id'])){
 						$this->printError();
 					}
+				}else if($val['action'] === 'delete'){
+					if(!$dao->removeSimpleRelationship($pedido->id, $val['id'])){
+						$this->printError();
+					}
 				}
 			}
 			$this->pedidoDAO->commit();

@@ -101,20 +101,21 @@ function GridView(){
 	var _removeElement = function(jQueryRow){
 		var elementId = Number(jQueryRow.find("td").first().text());
 		if(_tempCollection === null){
-			console.warn("null temp collection");
-			return;
+			//The element exists in the DB, not in temporal memory
+			_tempCollection = [];
+			_tempCollection.push({'catalog': {id: elementId}, 'action': 'delete'});
+		} else {
+			var index = _tempCollection.findIndex(element => {
+				return element.catalog.id === elementId;
+			});
+	
+			if(index === -1){
+				//The element exists in the DB, not in temporal memory
+				_tempCollection.push({'catalog': {id: elementId}, 'action': 'delete'});
+			} else {
+				_tempCollection.splice(index, 1);
+			}
 		}
-
-		var index = _tempCollection.findIndex(element => {
-			return element.catalog.id === elementId;
-		});
-
-		if(index === -1){
-			console.warn('Index not found');
-			return;
-		}
-		console.log(index);
-        _tempCollection.splice(jQueryRow.index(), 1);
         jQueryRow.remove();
     }
 
