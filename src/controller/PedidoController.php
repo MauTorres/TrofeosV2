@@ -23,9 +23,10 @@ function paramsToObject($params){
 	$pedido->idCliente = $params['cliente'];
 	$pedido->IdUsuario = $params['usuario'];
 	$pedido->trophies = array();
-	foreach ($params['trophies'] as $key => $val) {
-		array_push($pedido->trophies, $val['catalog']['id']);
-	}
+	if(isset($params['trophies']) && !empty($params['trophies']))
+		foreach ($params['trophies'] as $key => $val) {
+			array_push($pedido->trophies, $val['catalog']['id']);
+		}
 	return $pedido;
 }
 

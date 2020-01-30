@@ -72,22 +72,6 @@ class PedidoDao extends DAO
         return $this->query($query, null);
     }
 
-    /*public function setMeasure($pedido, $medida){
-        try {
-            $this->execute(
-                'INSERT INTO medidas(idElemento, idTipoMedida, medida) VALUES(:idElemento, :idTipoMedida, :medidaDesc)', 
-                array(
-                    ":idElemento"=>$pedido->id, 
-                    ":idTipoMedida"=>$medida->id,
-                    ":medidaDesc" => $medida->descripcion
-                )
-            );
-        } catch (Exception $e) {
-            Loger::log($e->getMessage(), null);
-            throw $e;
-        }
-    }
-*/
     public function getElementosTrofeos($params){
         //IF(Cl.nombre is null, '', Cl.nombre) AS cliente,
         /*LEFT JOIN Clientes Cl
@@ -153,49 +137,52 @@ WHERE
     }
 
     public function createOrUpdateElement($pedido){
-        try{
-            $pedidoNew = $this->getElementByElementFolio($pedido);
-            if($pedido->Folio != null && $pedido->Folio != '')
-                $pedidoNew->Folio = $pedido->Folio;
-            if($pedido->fElaboracion != null && $pedido->fElaboracion != '')
-                $pedidoNew->fElaboracion = $pedido->fElaboracion;
-            if($pedido->fEntrega != null && $pedido->fEntrega != '')
-                $pedidoNew->fEntrega = $pedido->fEntrega;
-            if($pedido->subtotal != null && $pedido->subtotal != '')
-                $pedidoNew->subtotal = $pedido->subtotal;
-            if($pedido->total != null && $pedido->total != '')
-                $pedidoNew->total = $pedido->total;
-            if($pedido->idCliente != null && $pedido->idCliente != '')
-                $pedidoNew->idCliente = $pedido->idCliente;
-            if($pedido->IdUsuario != null && $pedido->IdUsuario != '')
-                $pedidoNew->IdUsuario = $pedido->IdUsuario;
+        $query = "UPDATE Pedido SET fecha_creacion = NOW()";
+        $values = array();
+        if(!empty($pedido->folio)){
+            $query = $query.", folio = :folio";
+            $values[':folio'] = $pedido->folio;
+        }
 
-            $this->execute(
-                "UPDATE Pedidos 
-                SET 
-                    Folio = :Folio,
-                    fElaboracion = :fElaboracion,
-                    fEntrega = :fEntrega,
-                    subtotal = :subtotal,
-                    total = :total,
-                    idCliente = :idCliente,
-                    IdUsuario = :IdUsuario
-                WHERE id = :id", 
-                array(
-                    ":Folio"=>$pedidoNew->Folio, 
-                    ":fElaboracion"=>$pedidoNew->fElaboracion, 
-                    ":fEntrega"=>$pedidoNew->fEntrega, 
-                    ":subtotal"=>$pedidoNew->subtotal, 
-                    ":total"=>$pedidoNew->total, 
-                    ":idCliente"=>$pedidoNew->idCliente, 
-                    ":IdUsuario"=>$pedidoNew->IdUsuario, 
-                    ":id"=>$pedidoNew->id
-                )
-            );
-        }catch(Exception $e){
-            Loger::log($e->getMessage(),null);
-            throw $e;
-        }    
+        if(!empty($pedido->fElaboracion)){
+            $query = $query.", fecha_elaboracion = :fecha_elaboracion";
+            $values[':fecha_elaboracion'] = $pedido->fElaboracion;
+        }
+
+        if(!empty($pedido->fEntrega)){
+            $query = $query.", fecha_entrega = :fecha_entrega";
+            $values[':fecha_entrega'] = $pedido->fEntrega;
+        }
+
+        if(!empty($pedido->subtotal)){
+            $query = $query.", subtotal = :subtotal";
+            $values[':subtotal'] = $pedido->subtotal;
+        }
+
+        if(!empty($pedido->total)){
+            $query = $query.", total = :total";
+            $values[':total'] = $pedido->total;
+        }
+
+        if(!empty($pedido->idCliente)){
+            $query = $query.", cliente = :cliente";
+            $values[':cliente'] = $pedido->idCliente;
+        }
+
+        if(!empty($pedido->IdUsuario)){
+            $query = $query.", id_usuario = (SELECT id FROM usuarios WHERE usuario = :id_usuario)";
+            $values[':id_usuario'] = $pedido->IdUsuario;
+        }
+
+        if(!empty($pedido->estatus)){
+            $query = $query.", estatus = :estatus";
+            $values[':estatus'] = $pedido->IdUsuario;
+        }
+
+        $query = $query." WHERE id = :id";
+        $values[":id"] = $pedido->id;
+
+        return $this->execute($query, $values);
     }
 }
 ?>

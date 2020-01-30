@@ -92,6 +92,7 @@ class TrofeoBusiness extends Business
 
 	public function getTrophiesByPedido($pedidoId){
 		$pedidoTrofeosDao = new PedidoTrofeosDao();
+		$this->responce = new Responce();
 		$result = $pedidoTrofeosDao->getTrophiesById($pedidoId);
 		$this->responce->success = true;
 		$this->responce->data = $result;

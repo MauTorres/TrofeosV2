@@ -18,7 +18,6 @@ class PedidoBusiness extends Business
 	}
 
 	public function saveElement($pedido){
-		$this->responce = new Responce();
 		$dao = new PedidoTrofeosDao();
 		
 		$this->pedidoDAO->beginTransaction();
@@ -35,7 +34,16 @@ class PedidoBusiness extends Business
 			$this->responce->success = false;
 			$this->responce->message = "Error al agregar el nuevo pedido ".$pedido->folio;
 		}
-		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
+	}
+
+	public function updateElement($pedido){
+		if($this->pedidoDAO->createOrUpdateElement($pedido)){
+			$this->responce->success = true;
+			$this->responce->message = "El pedido se guardó correctamente";
+		} else {
+			$this->responce->success = false;
+			$this->responce->message = "Hubo un error al guardar el pedido";
+		}
 	}
 
 	public function getElementsGrid($pedido){
@@ -123,13 +131,9 @@ class PedidoBusiness extends Business
 		try{
 			if($pedido->id == null){
 				$this->saveElement($pedido);
-				return;
+			} else {
+				$this->updateElement($pedido);
 			}
-			$result = $this->pedidoDAO->getElementByID($pedido);
-
-			$this->pedidoDAO->createOrUpdateElement($pedido);
-			$this->responce->success = true;
-			$this->responce->message = "El pedido se guardó correctamente";
 		}catch(Exception $e){
 			Loger::log("Error al actualizar el pedido ".$pedido->folio."\n".$e->getMessage(), null);
 			$this->responce->success = false;

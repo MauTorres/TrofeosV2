@@ -8,6 +8,7 @@ CREATE TABLE Pedido(
     cliente VARCHAR(30) NOT NULL,
     id_usuario INTEGER NOT NULL,
     estatus BIT NOT NULL DEFAULT 1,
+    fecha_creacion DATE NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );

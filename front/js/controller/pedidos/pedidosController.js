@@ -74,8 +74,10 @@ function createOrUpdateElement(){
 				ordersGridView.getGrid( {method: 'getElementosTrofeos'},
 					'../../src/controller/PedidoController.php');
 				cleanElementForm();
+				notifySuccess(response.message);
+			} else {
+				notifyError(response.message);
 			}
-			notifySuccess(response.message);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			notifyError("Error contactando con el servidor");

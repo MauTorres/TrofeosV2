@@ -14,7 +14,7 @@ class Pedido extends Entity
 	public $total;
 	public $idCliente;
 	public $IdUsuario;
-	public $trofeos;
+	public $estatus;
 
 	function __construct($id = null){
 		parent::__construct($id);
