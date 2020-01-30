@@ -1,4 +1,8 @@
 function GridView(){
+	/**
+	 * Stores the currently available items in the DB
+	 * @type {array}
+	 */
 	this.elements = null;
 	this.headers = null;
 	/**
@@ -59,15 +63,57 @@ function GridView(){
 	 * @param {number} elementId The ID of the item to add
 	 */
 	var _addElement = function(elementId){
-		var element = _catalogCreator.findElement(Number(elementId));
+		elementId = Number(elementId);
+		var existingElement = this.elements.findIndex(element => {
+			return element.id === elementId;
+		});
+		if(existingElement !== -1){
+			notifyWarning("El elemento \"" + 
+				this.elements[existingElement].descripcion +
+				"\" ya había sido agregado");
+			return;
+		}
+
 		if(_tempCollection == null){
 			_tempCollection = [];
+		} else {
+			existingElement = _tempCollection.findIndex(element => {
+				return element.catalog.id === elementId;
+			});
+			if(existingElement !== -1){
+				notifyWarning("El elemento \"" + 
+					_tempCollection[existingElement].catalog.descripcion +
+					"\" ya había sido agregado");
+				return;
+			}
 		}
+
+		var element = _catalogCreator.findElement(elementId);
 		_tempCollection.push({'catalog': element, 'action': 'add'});
 		TableCreator.addRow(element, _getTableObject(), _elementsToDisplay, _actions);
 	};
 
+	/**
+	 * Removes an element from the table. This method assumes the element's ID column
+	 * exists and it's the first column in the table
+	 * @param {jQuery} jQueryRow The jQuery object representing the entire row
+	 */
 	var _removeElement = function(jQueryRow){
+		var elementId = Number(jQueryRow.find("td").first().text());
+		if(_tempCollection === null){
+			console.warn("null temp collection");
+			return;
+		}
+
+		var index = _tempCollection.findIndex(element => {
+			return element.catalog.id === elementId;
+		});
+
+		if(index === -1){
+			console.warn('Index not found');
+			return;
+		}
+		console.log(index);
         _tempCollection.splice(jQueryRow.index(), 1);
         jQueryRow.remove();
     }
@@ -153,10 +199,12 @@ function GridView(){
 	 * Adds an element to the grid's table, and marks the item to be updated
 	 * when calling the server
 	 * @param {number} elementId The ID of the item to add
-	 * @param {object} catalogCreator The CatalogCreator instance of the items
-	 * @param {jQuery} table The jQuery object pointing to the <table> to modify
-	 * @param {number[]} elementsToDisplay Array with the indices display in the table
 	 */
-    this.addElement = _addElement;
-    this.removeElement = _removeElement;
+	this.addElement = _addElement;
+	/**
+	 * Removes an element from the table. This method assumes the element's ID column
+	 * exists and it's the first column in the table
+	 * @param {jQuery} jQueryRow The jQuery object representing the entire row
+	 */
+	this.removeElement = _removeElement;
 }
