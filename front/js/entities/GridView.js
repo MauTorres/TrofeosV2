@@ -64,14 +64,36 @@ function GridView(){
 	 */
 	var _addElement = function(elementId){
 		elementId = Number(elementId);
+		//Tests whether the element to add is already in the table
 		var existingElement = this.elements.findIndex(element => {
 			return element.id === elementId;
 		});
 		if(existingElement !== -1){
-			notifyWarning("El elemento \"" + 
-				this.elements[existingElement].descripcion +
-				"\" ya había sido agregado");
-			return;
+			//Check if the element were deleted temporarily
+			if(_tempCollection !== null ){
+				var delIndex = _tempCollection.findIndex(element =>{
+					return element.catalog.id === elementId;
+				});
+				if(delIndex !== -1 && _tempCollection[delIndex].action === "delete"){
+					//if so, the element exists in the stored collection
+					var storedElement = this.elements.find(element => {
+						return element.id === elementId;
+					});
+					TableCreator.addRow(storedElement, _getTableObject(), _elementsToDisplay, _actions);
+					_tempCollection.splice(delIndex, 1);
+				} else {
+					notifyWarning("El elemento \"" + 
+						this.elements[existingElement].descripcion +
+						"\" ya había sido agregado");
+				}
+				return;
+			} else {
+				//If there are no queued elements
+				notifyWarning("El elemento \"" + 
+						this.elements[existingElement].descripcion +
+						"\" ya había sido agregado");
+				return;
+			}
 		}
 
 		if(_tempCollection == null){
@@ -113,6 +135,7 @@ function GridView(){
 				//The element exists in the DB, not in temporal memory
 				_tempCollection.push({'catalog': {id: elementId}, 'action': 'delete'});
 			} else {
+				//the element exists only in temporal memory
 				_tempCollection.splice(index, 1);
 			}
 		}

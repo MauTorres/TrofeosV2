@@ -2,7 +2,6 @@
 
 require_once __DIR__."/DAO.php";
 require_once __DIR__."/PedidoDao.php";
-require_once __DIR__."/entities/PedidoTrofeos.php";
 require_once dirname(__DIR__)."/utils/Loger.php";
 
 class PedidoTrofeosDao extends DAO{
