@@ -187,6 +187,15 @@ function GridView(){
 		});
 	};
 
+	/**
+	 * Removes the temporal elements and restart the controller
+	 */
+	var _clean = function(){
+		this.elements = null;
+		_tempCollection = null;
+		_catalogCreator
+	}
+
 	this.setActions = function(actions){
 		_actions = actions;
 	}
@@ -231,4 +240,8 @@ function GridView(){
 	 * @param {jQuery} jQueryRow The jQuery object representing the entire row
 	 */
 	this.removeElement = _removeElement;
+	/**
+	 * Removes the temporal elements and restart the controller
+	 */
+	this.clean = _clean;
 }

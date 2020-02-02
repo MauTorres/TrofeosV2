@@ -104,7 +104,11 @@ function searchElement(){
 
 }
 
-var _handleCalendarActions = function(){
+var _handleCalendarActions = function(isNew){
+	if(!isNew){
+		//Disable the input for elaboration day
+		$("#fech-El").prop("disabled", true);
+	}
 	//Disable the input for delivery day
 	$("#fech-Ent").prop("disabled", true);
 	/**
@@ -182,20 +186,24 @@ var _handleAdd = function(){
 }
 
 function openUpdateModal(row){
+	var isNew = null;
 	if(row != undefined && row != null){
+		isNew = false;
 		var id = _handleEdit(row);
 		trophiesGridView.fillGridFromCatalog('TrofeoController.php', id);
 	} else {
+		isNew = true;
 		_handleAdd();
 		trophiesGridView.fillGridFromCatalog('TrofeoController.php');
 	}
 	$('#update-element-modal').modal('show');
 	if(!_hasBeenOpened){
-		_handleCalendarActions();
+		_handleCalendarActions(isNew);
+		$("#update-element-modal").on("hide.bs.modal", _cleanData);
 	}
 }
 
-function cleanElementForm(){
+var _cleanData = function(){
 	$('#Folio').val('');
 	$('#fech-El').val('');
 	$('#fech-Ent').val('');
@@ -204,6 +212,11 @@ function cleanElementForm(){
 	$('#cliente').val('');
 	$('#usuario').val('');
 	$('#row-index').val('');
+	trophiesGridView.clean();
+}
+
+function cleanElementForm(){
+	_cleanData();
 	$('#update-element-modal').modal('hide');
 }
 
