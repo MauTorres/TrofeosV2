@@ -14,21 +14,13 @@ class Pedido extends Entity
 	public $total;
 	public $idCliente;
 	public $IdUsuario;
+	public $estatus;
 
-	function __construct($id, $folio, $fElaboracion, $fEntrega, $subtotal, $total, $idCliente, $IdUsuario)
-	{
+	function __construct($id = null){
 		parent::__construct($id);
-		$this->folio = $folio;
-		$this->fElaboracion = $fElaboracion;
-		$this->fEntrega = $fEntrega;
-		$this->subtotal = $subtotal;
-		$this->total = $total;
-		$this->idCliente = $idCliente;
-		$this->IdUsuario = $IdUsuario;
 	}
 
 	function equals($folio){
-
 		return $folio != null && 
 				($folio instanceof Pedido) && 
 				$this->Folio == $folio->Folio &&

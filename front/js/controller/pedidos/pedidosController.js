@@ -1,47 +1,47 @@
-var actions = 
-	[new ActionEdit('', '', ''),
-	new ActionDelete('', '', '')];
-var elemtsGridActions = [{_class: '', value: 1, component: 'check', functionECute: 'addMeasure($(this))'}];
-//var medidasElementosGridActions = [new Action('danger', '', 'fa fa-close', '', 'btn-sm', 'deleteElementTrofeo($(this).parent().parent());')];
 var ordersGridView = new GridView();
-//var medidasGridView = new GridView();
+ordersGridView.setActions([new ActionEdit(), new ActionDelete()]);
+ordersGridView.setTable('#grid-element-table');
+ordersGridView.setElementsToDisplay([0, 1, 2, 3, 6, 7]);
+
+var trofeoCatalogCreator = new CatalogCreator('../../src/controller/TrofeoController.php');
+var trophiesGridView = new GridView();
+trophiesGridView.setActions([new ActionDeleteModal()]);
+//WARN: DO NOT REMOVE ZERO (0) INDEX as it's used to the remove function
+trophiesGridView.setElementsToDisplay([0, 1, 2, 3]);
+trophiesGridView.setTable("#pedido-trofeos-table");
+trophiesGridView.setCatalogCreator(trofeoCatalogCreator);
+
 var isCollapseUp = true;
-/*var colorCatalogCreator = new CatalogCreator('../../src/controller/ColorController.php');
-var materialCatalogCreator = new CatalogCreator('../../src/controller/MaterialController.php');
-var categoriaCatalogCreator = new CatalogCreator('../../src/controller/CategoryController.php');
-var medidaCatalogCreator = new CatalogCreator('../../src/controller/MeasureController.php');*/
 var currentElement = null;
+/**
+ * Para saber si el modal ha sido abierto antes, o es la primera vez
+ * @type {boolean}
+ */
+var _hasBeenOpened = false;
 
 function deleteElement(row){
-	var elementDelete = elementosGridView.elements[row.index()];
+	var elementDelete = ordersGridView.elements[row.index()];
 	elementDelete.method = 'deleteElement';
 	$.ajax({
 		type:'POST',
 		url: '../../src/controller/PedidoController.php',
 		data: elementDelete,
-		success: function(data){
-			try{
-				var responce = jQuery.parseJSON(data);
-				if(responce.success){
-					elementosGridView.getGrid(
-						{method: 'getElementosTrofeos'}, 
-						'../../src/controller/PedidoController.php', 
-						actions, 
-						$('#grid-element-table'), 
-						[0, 1, 2, 3, 4, 5, 6, 7]
-					);
-					alert(responce.message);
-				}
-			}catch(err){
-				console.error( err);
-				alert("Ha ocurrido un error en el servidor");
-				return;
+		dataType: 'json',
+		success: function(response){
+			if(response.success){
+				ordersGridView.getGrid(
+					{method: 'getElementosTrofeos'}, 
+					'../../src/controller/PedidoController.php'
+				);
+				notifySuccess(response.message);
+			} else {
+				notifyError(response.message);
 			}
-			//Despliegue de información en la vista				
 		},
 		//En caso de error se informa al usuario
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("Error contactando con el servidor");
+		error: function(xhq, textStatus, errorThrown) {
+			console.error(textStatus + ": " + errorThrown);
+			notifyError("Ha habido un error desconocido en el servidor");
 		}
 	});
 	elementDelete.method = undefined;
@@ -49,48 +49,40 @@ function deleteElement(row){
 
 function createOrUpdateElement(){
 	var elementUpdate = {};
-	if($('#row-index').val() != null && $('#row-index').val() != ''){
-		elementUpdate = elementosGridView.elements[parseInt($('#row-index').val())];	
+	var index = $('#row-index').val();
+	if(index != null && index != ''){
+		elementUpdate = ordersGridView.elements[parseInt(index)];
 	}else{
 		elementUpdate.id = null;
 	}
-	
 	elementUpdate.method = 'createOrUpdateElement';
-	elementUpdate.Folio = $('#Folio').val();
-	elementUpdate.fElaboracion = $('#fech-El').val();
-	elementUpdate.fEntrega = $('#fech-Ent').val();
+	elementUpdate.folio = $('#Folio').val();
+	elementUpdate.fecha_elaboracion = $('#fech-El').val();
+	elementUpdate.fecha_entrega = $('#fech-Ent').val();
 	elementUpdate.subtotal = $('#subtotal').val();
 	elementUpdate.total = $('#total').val();
-	elementUpdate.idCliente = $('#cliente').val();
-	elementUpdate.IdUsuario = $('#usuario').val();
+	elementUpdate.cliente = $('#cliente').val();
+	elementUpdate.usuario = $('#usuario').val();
+	elementUpdate.trophies = trophiesGridView.getCollection();
 	
 	$.ajax({
 		type:'POST',
 		url: '../../src/controller/PedidoController.php',
 		data: elementUpdate,
-		success: function(data){
-			try{
-				var responce = jQuery.parseJSON(data);
-				if(responce.success){
-
-					elementosGridView.getGrid(
-						{method: 'getElementosTrofeos'},
-						'../../src/controller/PedidoController.php', 
-						actions, 
-						$('#grid-element-table'), 
-						[0, 1, 2, 3, 4, 5, 6, 7]
-					);
-					$('#update-element-modal').modal('hide');
-				}
-				alert(responce.message);
-			}catch(err){
-				console.error(err);
-				alert("Ha ocurrido un error en el servidor");
-				return;
-			}		
+		dataType: 'json',
+		success: function(response){
+			if(response.success){
+				ordersGridView.getGrid( {method: 'getElementosTrofeos'},
+					'../../src/controller/PedidoController.php');
+				cleanElementForm();
+				notifySuccess(response.message);
+			} else {
+				notifyError(response.message);
+			}
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("Error contactando con el servidor");
+			notifyError("Error contactando con el servidor");
+			console.error("Error al agregar pedido: " + textStatus + ": " + errorThrown)
 		}
 	});
 	elementUpdate.method = undefined;
@@ -103,7 +95,7 @@ function searchElement(){
 		$('#fecha-pedido').val()
 	);
 	ordersGridView.getGrid(
-		{method: 'getOrdersGrid',filters:pedido}, 
+		{method: 'getElementosTrofeos',filters:elemento}, 
 		'../../src/controller/PedidoController.php', 
 		actions, 
 		$('#grid-order-table'), 
@@ -112,45 +104,126 @@ function searchElement(){
 
 }
 
+var _handleCalendarActions = function(isNew){
+	if(!isNew){
+		//Disable the input for elaboration day
+		$("#fech-El").prop("disabled", true);
+	}
+	//Disable the input for delivery day
+	$("#fech-Ent").prop("disabled", true);
+	/**
+	 * To call when the user has entered some text in the elaboration input text
+	 */
+	var _enableDeliveryDate = function(date, context){
+		if($("#fech-Ent").prop("disabled")){
+			//If the input is disabled, enabled it
+			$("#fech-Ent").prop("disabled", false);
+		} else {
+			//Otherwise, check the dates
+			_checkDeliveryDate();
+		}
+	};
+	/**
+	 * To call when the user picks a delivery date
+	 * @param {moment} date 
+	 * @param {object} context 
+	 */
+	var _checkDeliveryDate = function(date, context){
+		var _elabDate = moment($("#fech-El").val());
+		var _deliveryDate = moment($("#fech-Ent").val());
+
+		if(!_deliveryDate.isAfter(_elabDate)){
+			notifyError('La fecha de entrega debe ser posterior a la de elaboración');
+			$("#fech-Ent").val("")
+		}
+	};
+	//Configure the calendar
+	$("#fech-El").pignoseCalendar({
+		lang: 'es',
+		disabledWeekdays: [0, 6],
+		//toggle: true
+		minDate: moment(),
+		//maxDate: null,
+		select: _enableDeliveryDate
+	});
+	$("#fech-Ent").pignoseCalendar({
+		lang: 'es',
+		disabledWeekdays: [0, 6],
+		//toggle: true
+		//maxDate: null,
+		minDate: moment(),
+		select: _checkDeliveryDate
+	});
+	_hasBeenOpened = true;
+}
+
+var _handleEdit = function(row){
+	var elementUpdate = ordersGridView.elements[row.index()];
+	$('#Folio').val(elementUpdate.folio);
+	$('#fech-El').val(elementUpdate.fecha_elaboracion);
+	$('#fech-Ent').val(elementUpdate.fecha_entrega);
+	$('#subtotal').val(elementUpdate.subtotal);
+	$('#total').val(elementUpdate.total);
+	$('#cliente').val(elementUpdate.cliente);
+	$('#usuario').val(elementUpdate.usuario);
+	$('#row-index').val(row.index());
+	return elementUpdate.id;
+}
+
+var _handleAdd = function(){
+	$.ajax({
+		type:'GET',
+		url: '../../src/controller/SessionController.php',
+		data: {method:'getSession'},
+		success: function(username){
+			$('#usuario').val($.parseJSON(username).data);
+		},
+		error: function(xhr, textStatus, errorThrown){
+			notifyError("Ha habido un error desconocido");
+			console.error(textStatus + ": " + errorThrown);
+		}
+	});
+}
+
 function openUpdateModal(row){
-	/*colorCatalogCreator.fillCatalog($('#color'));
-	materialCatalogCreator.fillCatalog($('#material'));
-	categoriaCatalogCreator.fillCatalog($('#categoria'));*/
-	if(row != undefined){
-		var elementUpdate = elementosGridView.elements[row.index()];
-		var pedido = new Pedido(
-			elementUpdate.Folio,
-			elementUpdate.idCliente,
-			elementUpdate.IdUsuario
-		);
-		$('#Folio').val(elementUpdate.Folio);
-		$('#fech-El').val(elementUpdate.fElaboracion);
-		$('#fech-Ent').val(elementUpdate.fEntrega);
-		$('#subtotal').val(elementUpdate.subtotal);
-		$('#total').val(elementUpdate.total);
-		$('#cliente').val(elementUpdate.idCliente);
-		$('#usuario').val(elementUpdate.IdUsuario);
-		$('#row-index').val(row.index());
+	var isNew = null;
+	if(row != undefined && row != null){
+		isNew = false;
+		var id = _handleEdit(row);
+		trophiesGridView.fillGridFromCatalog('TrofeoController.php', id);
+	} else {
+		isNew = true;
+		_handleAdd();
+		trophiesGridView.fillGridFromCatalog('TrofeoController.php');
 	}
 	$('#update-element-modal').modal('show');
+	if(!_hasBeenOpened){
+		_handleCalendarActions(isNew);
+		$("#update-element-modal").on("hide.bs.modal", _cleanData);
+	}
+}
+
+var _cleanData = function(){
+	$('#Folio').val('');
+	$('#fech-El').val('');
+	$('#fech-Ent').val('');
+	$('#subtotal').val('');
+	$('#total').val('');
+	$('#cliente').val('');
+	$('#usuario').val('');
+	$('#row-index').val('');
+	trophiesGridView.clean();
 }
 
 function cleanElementForm(){
-	$('#Folio').val('');
-		$('#fech-El').val('');
-		$('#fech-Ent').val('');
-		$('#subtotal').val('');
-		$('#total').val('');
-		$('#cliente').val('');
-		$('#usuario').val('');
-	$('#row-index').val('');
+	_cleanData();
 	$('#update-element-modal').modal('hide');
 }
 
-/*function openMeasureModal(){
-	$('#update-element-modal').modal('hide');
-	$('#search-measure-modal').modal('show');
-}*/
+function openTrophyModal(){
+	trofeoCatalogCreator.fillIfNeeded($("#id-trofeo"));
+	$('#pedido-trofeos-modal').modal('show');
+}
 
 function toggleCollapse(element){
 	if(isCollapseUp){
@@ -164,88 +237,23 @@ function toggleCollapse(element){
 	}
 }
 
-/*function cleanMeasureModal(){
-	$('#id-medida').val('');
-	$('#descripcion-medida').val('');
-	$('#search-measure-modal').modal('hide');
+function closeTrophyModal(){
+	$("#id-trofeo").val([]);
+	$('#pedido-trofeos-modal').modal('hide');
+	$('#update-element-modal').modal('show');
 }
 
-function searchMeasure(){
-	$('#search-measure-modal').modal('hide');
-	$('#add-measure-modal').modal('show');
-	var medida = new Measure(
-		$('#id-medida').val(),
-		$('#descripcion-medida').val()
-	);
-	medidasGridView.getGrid(
-		{method: 'getElementsGrid', filters: medida},
-		'../../src/controller/MeasureController.php',
-		elemtsGridActions,
-		$('#grid-measure-table'),
-		[0, 1]);
+function addTrophy(){
+	trophiesGridView.addElement($("#id-trofeo").val());
+	closeTrophyModal();
 }
 
-function backSearchMeasures(){
-	cleanMeasureModal();
-	$('#add-measure-modal').modal('hide');
-	$('#search-measure-modal').modal('show');
+function removeFromTable(trophy){
+	trophiesGridView.removeElement(trophy);
 }
-
-function addMeasure(row){
-	var index = row.parent().parent().index();
-	medidasGridView.elements[index].selected = !medidasGridView.elements[index].selected;
-}
-
-function addMeasures(){
-	var elementoUpdate = null
-	if($('#row-index').val() != null && $('#row-index').val() != ''){
-		elementoUpdate = new Object();
-		elementoUpdate.id = elementosGridView.elements[$('#row-index').val()].id;
-	}else{
-		alert("Primero cree el elemento antes de agregar medidas");
-		$('#add-element-modal').modal('hide');
-		openUpdateModal(null);
-		return;
-	}
-	var medidas = [];
-	medidasGridView.elements.forEach(function(medida){
-		if(medida.selected){
-			medidas.push(medida);
-		}
-	});
-	elementoUpdate.medidas = medidas;
-	$.ajax({
-		type: 'POST',
-		url: '../../src/controller/PedidoController.php',
-		data: {method: 'setMeasures', 'elementoUpdate': elementoUpdate},
-		success: function(result){
-			try{
-				var res = jQuery.parseJSON(result);
-				if(res.success){
-					$('#add-measure-modal').modal('hide');
-					elementosGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/PedidoController.php', actions, $('#grid-element-table'),[0, 1, 2, 3, 4, 5, 6]);
-					alert("Se han agregado las medidas");
-				}
-			}catch(exeption){
-				alert("Ocurrió un error en el servidor");
-			}
-		},
-		error: function( jqhqr, textStatus, errorThrown ){
-			console.error( textStatus + ": " + errorThrown );
-		}
-	});
-	cleanMeasureModal();
-}*/
 
 $(document).ready(function(){
 	ordersGridView.rootURL = '../../src/controller/PedidoController.php';
 	SessionController.checkSession('pedidos');
-	ordersGridView.getGrid({method: 'getOrdersGrid'}, '../../src/controller/PedidoController.php', actions, $('#grid-order-table'),[0, 1, 2, 3, 4, 5, 6, 7]);
+	ordersGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/PedidoController.php');
 });
-
-//Obtener las medidas del elemento
-/*$(document).ready(function(){
-	SessionController.checkSession('elementos');
-	elementosGridView.getGrid({method: 'getMedidasElemento'}, '../../src/controller/MeasureController.php', actions, $('#grid-element-measures-table'),[0, 1, 2, 3, 4]);
-	debugger;
-});*/

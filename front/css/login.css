@@ -1,14 +1,15 @@
+body{
+    background-color: #FAC600;
+}
 #login-back {
 	height: 100%;
 }
 
 #login-floatbox {
 	background-color: #FAC600;
-    border-top-width: 3em;
-    border-right-width: 3em;
-    border-bottom-width: 3em;
-    border-left-width: 3em;
+
     border-color: #000000;
+    border-style: solid;
 }
 
 .floatbox {

@@ -4,6 +4,7 @@
 */
 require_once __DIR__."/Business.php";
 require_once dirname(__DIR__)."/dao/PedidoDao.php";
+require_once dirname(__DIR__)."/dao/PedidoTrofeosDao.php";
 
 class PedidoBusiness extends Business
 {
@@ -16,19 +17,52 @@ class PedidoBusiness extends Business
 		$this->pedidoDAO = new PedidoDao();
 	}
 
-	public function saveOrder($pedido){
-		$this->responce = new Responce();
-		try{
-			$this->pedidoDAO->saveOrder($pedido);
+	public function saveElement($pedido){
+		$dao = new PedidoTrofeosDao();
+		
+		$this->pedidoDAO->beginTransaction();
+		$id = $this->pedidoDAO->saveElement($pedido);
+		if($id){
+			$pedido->id = $id;
+			$dao->createRelationship($pedido);
+			$this->pedidoDAO->commit();
 			$this->responce->success = true;
 			$this->responce->message = "El pedido se guardó correctamente";
-		}catch(Exception $e){	
-			Loger::log("Error al guardar el pedido ".$pedido->folio."\n".$e->getMessage(), null);
+		} else {
+			$this->pedidoDAO->rollback();
+			Loger::log("Error al guardar el pedido con folio ".$pedido->folio, null);
 			$this->responce->success = false;
 			$this->responce->message = "Error al agregar el nuevo pedido ".$pedido->folio;
 		}
-		echo json_encode($this->responce, JSON_UNESCAPED_UNICODE);
-		
+	}
+
+	private function printError(){
+		$this->pedidoDAO->rollback();
+		$this->responce->success = false;
+		$this->responce->message = "Hubo un error al guardar el pedido";
+	}
+
+	public function updateElement($pedido){
+		$this->pedidoDAO->beginTransaction();
+		$dao = new PedidoTrofeosDao();
+		if($this->pedidoDAO->createOrUpdateElement($pedido)){
+			foreach($pedido->trophies as $key => $val){
+				if($val['action'] === 'add'){
+					if(!$dao->createSimpleRelationship($pedido->id, $val['id'])){
+						$this->printError();
+					}
+				}else if($val['action'] === 'delete'){
+					if(!$dao->removeSimpleRelationship($pedido->id, $val['id'])){
+						$this->printError();
+					}
+				}
+			}
+			$this->pedidoDAO->commit();
+			$this->responce->success = true;
+			$this->responce->message = "El pedido se guardó correctamente";
+		} else {
+			$this->printError();
+		}
 	}
 
 	public function getOrdersGrid($pedido){
@@ -101,12 +135,11 @@ class PedidoBusiness extends Business
 
 	public function deleteElement($pedido){
 		$this->responce = new Responce();
-		try{
-			$this->pedidoDAO->deleteElement($pedido);
+		if($this->pedidoDAO->deleteElement($pedido)){
 			$this->responce->success = true;
 			$this->responce->message = "El pedido se eliminó correctamente";
-		}catch(Exception $e){
-			Loger::log("Error, no se pudo eliminar el pedido ".$pedido->folio."\n".$e->getMessage(), null);
+		} else {
+			Loger::log("Error, no se pudo eliminar el pedido ".$pedido->folio, null);
 			$this->responce->success = false;
 			$this->responce->message = "Error al eliminar el pedido ".$pedido->folio;
 		}
@@ -115,19 +148,12 @@ class PedidoBusiness extends Business
 
 	public function createOrUpdateElement($pedido){
 		$this->responce = new Responce();
-		Loger::log(print_r($pedido, 1), null);
 		try{
-
 			if($pedido->id == null){
-				Loger::log("Guardando pedido", null);
 				$this->saveElement($pedido);
-				return;
+			} else {
+				$this->updateElement($pedido);
 			}
-			$result = $this->pedidoDAO->getElementByID($pedido);
-
-			$this->pedidoDAO->createOrUpdateElement($pedido);
-			$this->responce->success = true;
-			$this->responce->message = "El pedido se guardó correctamente";
 		}catch(Exception $e){
 			Loger::log("Error al actualizar el pedido ".$pedido->folio."\n".$e->getMessage(), null);
 			$this->responce->success = false;

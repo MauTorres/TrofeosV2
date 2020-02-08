@@ -11,15 +11,34 @@ $pedidoBusiness = new pedidoBusiness();
 $sessionBusiness = new SessionBusiness();
 $sessionBusiness->checkSession();
 
+
+function paramsToObject($params){
+	$pedido = new Pedido();
+	if(isset($params['id'])){
+		$pedido->id = $params['id'];
+	}
+	$pedido->folio = $params['folio'];
+	$pedido->fElaboracion = $params['fecha_elaboracion'];
+	$pedido->fEntrega = $params['fecha_entrega'];
+	$pedido->idCliente = $params['cliente'];
+	$pedido->IdUsuario = $params['usuario'];
+	$pedido->trophies = array();
+	if(isset($params['trophies']) && !empty($params['trophies']))
+		foreach ($params['trophies'] as $key => $val) {
+			array_push($pedido->trophies, array(
+				"id" => $val['catalog']['id'], "action" => $val['action']));
+		}
+	return $pedido;
+}
+
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	switch ($_POST['method']) {
 		case 'deleteElement':
-			$pedido = new Pedido($_POST);
+			$pedido = paramsToObject($_POST);
 			$pedidoBusiness->deleteElement($pedido);
 			break;
 		case 'createOrUpdateElement':
-			#Loger::log(print_r($_POST, 1), null);
-			$pedido = new Pedido($_POST);
+			$pedido = paramsToObject($_POST);
 			$pedidoBusiness->createOrUpdateElement($pedido);
 			break;
 		case 'setMeasure':

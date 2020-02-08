@@ -40,24 +40,28 @@ TableCreator = {
 			}
 		}
 	},
-	updateTable: function(data, table, elementsToDisplay){
+	/**
+	 * Add a row to the specified table
+	 * @param {object} data The element with the information to add to the table
+	 * @param {jQuery} table The jQuery object that reference the <table> tag to update
+	 * @param {int[]} elementsToDisplay Array with the indexes of the columns to print
+	 * @param {Array} actions Array with the actions for the row
+	 */
+	addRow: function(data, table, elementsToDisplay, actions){
 		var tableBody = table.find('tbody');
-		for(var rowsCount = 0; rowsCount < data.length; rowsCount++){
-			var displayCount = 0;
-			tableBody.append('<tr></tr>');
-			var tableRow = tableBody.find('tr');
-			var columns = Object.values(data[rowsCount]);
-			var row = $(tableRow[rowsCount]);
-			for(var columnCount = 0; columnCount < columns.length; columnCount++){
-				if(columnCount != elementsToDisplay[displayCount]){
-					continue;
-				}
-				displayCount++;
-				row.append('<td>' + columns[columnCount] + '</td>');
+		var displayCount = 0;
+		tableBody.append('<tr></tr>');
+		var row = tableBody.find('tr').last();
+		var columns = Object.values(data);
+		for(var columnCount = 0; columnCount < columns.length; columnCount++){
+			if(columnCount != elementsToDisplay[displayCount]){
+				continue;
 			}
-			if(data.actions != undefined)
-				TableCreator.createActions(data.actions, row);
+			displayCount++;
+			row.append('<td>' + columns[columnCount] + '</td>');
 		}
+		if(actions != undefined)
+			TableCreator.createActions(actions, row);
 	},
 	createActions: function(actions, tableRow){
 		var buttons = '';
@@ -72,7 +76,7 @@ TableCreator = {
 					actions[actionsCount].functionECute);
 				buttons += button.mold;
 			}
-			if(actions[actionsCount].component == 'check'){
+			else if(actions[actionsCount].component == 'check'){
 				var check = new ActionCheck(actions[actionsCount]._class, actions[actionsCount].value, actions[actionsCount].functionECute);
 				buttons += check.mold;
 			}

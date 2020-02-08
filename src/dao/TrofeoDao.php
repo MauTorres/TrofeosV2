@@ -11,7 +11,7 @@ class TrofeoDao extends DAO
 
 	function __construct()
 	{
-		parent::__construct();
+		parent::__construct("trofeos");
 	}
 
 	public function getTrophyById($trofeo){
@@ -58,7 +58,7 @@ class TrofeoDao extends DAO
 
 	public function setElement($trofeo, $elemento){
 		try {
-			$this->execute('INSERT INTO TrofeosElementos(idTrofeo, idElemento) VALUES(:idTrofeo, :idElemento)', 
+			$this->execute('INSERT INTO trofeoselementos(idTrofeo, idElemento) VALUES(:idTrofeo, :idElemento)', 
 				array(
 					":idTrofeo"=>$trofeo->id,
 					":idElemento"=>$elemento->id
@@ -89,9 +89,9 @@ class TrofeoDao extends DAO
 		}
 	}
 
-	public function deleteElementoTrofeo($trofeo, $elemento){
+		public function deleteElementoTrofeo($trofeo, $elemento){
 		try {
-			$this->execute('DELETE FROM TrofeosElementos WHERE idTrofeo = :idTrofeo AND idElemento = :idElemento', 
+			$this->execute('DELETE FROM trofeoselementos WHERE idTrofeo = :idTrofeo AND idElemento = :idElemento', 
 				array(
 					":idTrofeo" => $trofeo->id, 
 					":idElemento" => $elemento->id
@@ -123,7 +123,7 @@ class TrofeoDao extends DAO
 			if($trofeo->estatus != null && $trofeo->estatus != '')
 				$trofeoNew->estatus = $trofeo->estatus;
 
-			$this->execute(
+						$this->execute(
 				'UPDATE trofeos
 				SET
 					nombre = :nombre,
@@ -133,12 +133,12 @@ class TrofeoDao extends DAO
 					estatus = :estatus
 				WHERE id = :id',
 				array(
-					":nombre"=>$trofeoNew->nombre,
-					":descripcion"=>$trofeoNew->descripcion,
-					":precio"=>$trofeoNew->precio,
-					":fotoPath"=>$trofeoNew->foto,
-					":estatus"=>$trofeoNew->estatus,
-					":id"=>$trofeoNew->id
+					":nombre"=>$trofeo->nombre,
+					":descripcion"=>$trofeo->descripcion,
+					":precio"=>$trofeo->precio,
+					":foto"=>$trofeo->foto,
+					":estatus"=>$trofeo->estatus,
+					":id"=>$trofeo->id
 				)
 			);
 		}catch (Exception $e) {
