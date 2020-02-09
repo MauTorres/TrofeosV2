@@ -65,7 +65,7 @@ class PedidoBusiness extends Business
 		}
 	}
 
-	public function getOrdersGrid($pedido){
+	public function getElementsGrid($pedido){
 		$this->responce = new Responce();
 		$params = "";
 		if($pedido != null){
@@ -87,7 +87,7 @@ class PedidoBusiness extends Business
 				$params .= "AND U.usuario like '%".$pedido->IdUsuario."%'";
 		}
 		
-		$result = $this->pedidoDAO->getOrdersGrid($params);
+		$result = $this->pedidoDAO->getElementsGrid($params);
 		$this->responce->success = true;
 		$this->responce->data = $result;
 
@@ -117,7 +117,6 @@ class PedidoBusiness extends Business
 		}
 		
 		$result = $this->pedidoDAO->getElementosTrofeos($params);
-		echo($result);
 		$this->responce->success = true;
 		$this->responce->data = $result;
 

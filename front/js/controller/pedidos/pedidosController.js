@@ -98,7 +98,7 @@ function searchElement(){
 		{method: 'getElementosTrofeos',filters:elemento}, 
 		'../../src/controller/PedidoController.php', 
 		actions, 
-		$('#grid-order-table'), 
+		$('#grid-element-table'), 
 		[0, 1, 2, 3, 4, 5, 6]
 	);
 
@@ -253,7 +253,6 @@ function removeFromTable(trophy){
 }
 
 $(document).ready(function(){
-	ordersGridView.rootURL = '../../src/controller/PedidoController.php';
 	SessionController.checkSession('pedidos');
 	ordersGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/PedidoController.php');
 });

@@ -71,15 +71,15 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 			if(isset($_GET['filters']) && $_GET['filters'] != null){
 				$pedido = new Pedido($_GET['filters']);
 			}
-			$pedidoBusiness->getOrdersGrid($pedido);
+			$pedidoBusiness->getElementsGrid($pedido);
 			break;
-		/* case 'getElemenTrofeos':
+		case 'getElementosTrofeos':
 			$pedido = null;
 			if(isset($_GET['filters']) && $_GET['filters'] != null){
 				$pedido = new Pedido($_GET['filters']);
 			}
 			$pedidoBusiness->getElementosTrofeos($pedido);
-			break; */
+			break;
 		default:
 			break;
 	}
