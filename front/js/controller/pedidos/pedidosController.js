@@ -13,6 +13,9 @@ trophiesGridView.setCatalogCreator(trofeoCatalogCreator);
 
 var isCollapseUp = true;
 var currentElement = null;
+const pugpdf = require('html-pdf'),
+   fs = require('fs');
+
 /**
  * Para saber si el modal ha sido abierto antes, o es la primera vez
  * @type {boolean}
@@ -256,3 +259,10 @@ $(document).ready(function(){
 	SessionController.checkSession('pedidos');
 	ordersGridView.getGrid({method: 'getElementosTrofeos'}, '../../src/controller/PedidoController.php');
 });
+
+function startprocess() {
+	console.log('Hola');
+	fs.createReadStream('../../../../report/report.pug')
+  		.pipe(pugpdf())
+  		.pipe(fs.createWriteStream('./document.pdf'));
+}
